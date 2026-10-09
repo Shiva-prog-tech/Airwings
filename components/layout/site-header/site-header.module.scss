@@ -1,0 +1,83 @@
+@use "abstracts" as *;
+
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: $z-header;
+  border-bottom: 1px solid transparent;
+  transition:
+    transform 0.5s $ease-out,
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+
+  &[data-scrolled] {
+    background: rgba(232, 234, 237, 0.82);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom-color: $line;
+  }
+
+  &[data-hidden] {
+    transform: translateY(-100%);
+  }
+
+  // Above the open menu, with only the toggle left visible.
+  &[data-menu-open] {
+    z-index: $z-menu + 1;
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom-color: transparent;
+
+    .logo,
+    .nav,
+    .cta {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  height: var(--header-h);
+}
+
+.logo,
+.nav,
+.cta {
+  transition: opacity 0.3s ease;
+}
+
+.logo {
+  flex: none;
+  border-radius: $radius-sm;
+
+  img {
+    height: 50px;
+    width: auto;
+  }
+}
+
+.nav {
+  display: none;
+
+  @include up(xl) {
+    display: block;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cta {
+  display: none;
+
+  @include up(md) {
+    display: inline-flex;
+  }
+}

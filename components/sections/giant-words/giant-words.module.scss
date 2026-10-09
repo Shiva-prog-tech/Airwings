@@ -1,0 +1,28 @@
+@use "abstracts" as *;
+
+.band {
+  display: grid;
+  padding-block: clamp(2rem, 5vw, 4rem);
+  overflow: hidden;
+  font-family: $font-display;
+  font-size: var(--fs-giant);
+  line-height: 0.82;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+
+  span {
+    display: block;
+    will-change: transform;
+  }
+}
+
+.solid {
+  color: $ink;
+}
+
+// Second line in outline, like a phantom line on a drawing.
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px $steel;
+}

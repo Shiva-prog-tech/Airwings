@@ -1,0 +1,38 @@
+@use "../abstracts" as *;
+
+body {
+  background: $canvas;
+  color: $ink;
+  font-family: $font-body;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: $font-display;
+  font-weight: 400; // Bebas Neue has one weight
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+p {
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+
+::selection {
+  background: $ink;
+  color: $canvas;
+}
+
+// Measured values: tolerances, sizes, materials, models.
+.mono {
+  font-family: $font-mono;
+  font-feature-settings: "zero" 1;
+  letter-spacing: 0;
+}

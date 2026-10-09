@@ -1,0 +1,29 @@
+@use "../abstracts" as *;
+
+:root {
+  --canvas: #{$canvas};
+  --ink: #{$ink};
+  --steel: #{$steel};
+  --graphite: #{$graphite};
+  --indigo: #{$indigo};
+  --signal: #{$signal};
+
+  // Fluid type scale (min at 375px, max around 1440px). Bebas is condensed,
+  // so display sizes run large.
+  --fs-hero: clamp(3.25rem, 1.2rem + 8vw, 9.5rem);
+  --fs-giant: clamp(6rem, 1rem + 22vw, 24rem);
+  --fs-display: clamp(3.25rem, 2rem + 5.4vw, 7.5rem);
+  --fs-h2: clamp(3rem, 2rem + 4.2vw, 6rem);
+  --fs-h3: clamp(1.9rem, 1.5rem + 1.6vw, 3rem);
+  --fs-lead: clamp(1.125rem, 1.03rem + 0.4vw, 1.375rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-mono: 0.8125rem;
+
+  --space-section: clamp(5.5rem, 3.5rem + 8vw, 10rem);
+  --gutter: clamp(1.25rem, 0.6rem + 2.6vw, 3rem);
+  --container: 1400px;
+  --header-h: 84px;
+
+  color-scheme: light;
+}

@@ -1,0 +1,17 @@
+@use "abstracts" as *;
+
+.marquee {
+  overflow: hidden;
+  // Soft fade at both edges.
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.item {
+  flex: none;
+}

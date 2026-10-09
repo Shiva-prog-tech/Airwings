@@ -1,0 +1,46 @@
+@use "../abstracts" as *;
+
+// Pre-animation states. Applied only while `has-motion` is on <html> (added by
+// the inline script in app/layout.tsx before first paint, removed after 3s if
+// the motion bundle never runs), so no-JS and reduced-motion users see it all.
+.has-motion {
+  [data-reveal],
+  [data-reveal-group] > * {
+    visibility: hidden;
+  }
+
+  [data-mask] {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+// Scroll text fill: SplitText wraps each line in a div; each paints from dim
+// to full colour as it scrolls through (lib/motion/effects.ts).
+[data-text-fill] > div {
+  background-image: linear-gradient(
+    to right,
+    currentColor 50%,
+    color-mix(in srgb, currentColor 22%, transparent) 50%
+  );
+  background-size: 200% 100%;
+  background-position-x: 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// Without motion the text is simply solid.
+html:not(.has-motion) [data-text-fill] > div {
+  background-position-x: 0;
+}
+
+@include reduced-motion {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

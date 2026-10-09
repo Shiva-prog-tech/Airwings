@@ -1,0 +1,112 @@
+@use "abstracts" as *;
+
+.hero {
+  padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem));
+}
+
+.top {
+  display: grid;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.title {
+  display: grid;
+  font-size: var(--fs-hero);
+  line-height: 0.84;
+}
+
+.mask {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.04em;
+
+  > span {
+    display: block;
+  }
+}
+
+.lineWithPill {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.24em;
+}
+
+// A machined part set into the headline, Parody Home 5 style.
+.pill {
+  display: none;
+  flex: none;
+  width: 1.45em;
+  height: 0.62em;
+  margin-top: -0.06em;
+  overflow: hidden;
+  border-radius: $radius-pill;
+  transform-origin: left center;
+  background: $canvas-raised;
+
+  @include up(md) {
+    display: inline-block;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.aside {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+}
+
+.lead {
+  color: $steel-dark;
+  font-size: var(--fs-lead);
+  max-width: 44ch;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 2rem;
+  margin-block: clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 3vw, 2.5rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid $line-strong;
+
+  @include up(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  dt {
+    color: $steel-dark;
+    font-size: 0.8rem;
+  }
+
+  dd {
+    font-weight: 600;
+  }
+}
+
+// Full-bleed shop floor; the inner layer is taller for parallax travel.
+.stage {
+  position: relative;
+  height: clamp(320px, 62vw, 860px);
+  margin-inline: clamp(0.5rem, 1.2vw, 1.25rem);
+  overflow: hidden;
+  border-radius: 28px;
+  background: $graphite;
+}
+
+.parallax {
+  position: absolute;
+  inset: -15% 0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

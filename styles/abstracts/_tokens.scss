@@ -1,0 +1,51 @@
+// Design tokens ("Shop floor"): colours taken from what is physically in
+// Airwing's photos — machined aluminium, graphite castings, the logo's
+// indigo, and BFW's red-orange machine doors. Sass values for build-time
+// maths; runtime CSS custom properties are emitted in base/_root.scss.
+
+// Light canvas
+$canvas: #e8eaed; // machined aluminium (cool, never cream)
+$canvas-raised: #f4f5f7; // cards on the canvas
+$ink: #16181c; // graphite text
+$steel: #7c838e; // secondary text, hairlines
+$steel-dark: #4f555e; // secondary text with AA contrast on canvas
+$line: rgba(22, 24, 28, 0.12);
+$line-strong: rgba(22, 24, 28, 0.28);
+
+// Graphite bands (dark sections)
+$graphite: #16181c;
+$graphite-raised: #202329;
+$on-graphite: #e8eaed;
+$on-graphite-muted: #9aa0a9;
+$line-dark: rgba(232, 234, 237, 0.12);
+$line-dark-strong: rgba(232, 234, 237, 0.28);
+
+// Brand moments only (zoom card, menu layer, mega-panel card)
+$indigo: #2e3192;
+$indigo-deep: #23256f;
+
+// Signal: CTAs and key tolerances only
+$signal: #e4572e;
+$signal-hover: #cf4720;
+$on-signal: #ffffff;
+
+// Logo green: tiny "certified" marks only
+$ok: #2a9d4b;
+
+$font-display: var(--font-bebas), "Arial Narrow", sans-serif;
+$font-body: var(--font-inter), system-ui, sans-serif;
+$font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+$radius-sm: 6px;
+$radius-md: 14px;
+$radius-lg: 24px;
+$radius-pill: 999px;
+
+$ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+$z-content: 1;
+$z-header: 50;
+$z-menu: 80;
+$z-cursor: 90;
+$z-preloader: 100;

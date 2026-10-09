@@ -1,0 +1,145 @@
+@use "abstracts" as *;
+
+.section {
+  padding-bottom: var(--space-section);
+}
+
+.rows {
+  border-top: 1px solid $line-strong;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem 1.5rem;
+  padding-block: clamp(1.75rem, 3vw, 2.75rem);
+  border-bottom: 1px solid $line-strong;
+
+  @include up(lg) {
+    grid-template-columns: 5rem minmax(0, 1fr) clamp(220px, 24vw, 340px);
+    align-items: center;
+  }
+}
+
+.index {
+  padding-top: 0.6rem;
+  color: $steel-dark;
+  align-self: start;
+}
+
+.body {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.title {
+  font-size: var(--fs-h2);
+  transition: color 0.3s ease;
+
+  @include fine-pointer {
+    .row:hover & {
+      color: $signal;
+    }
+  }
+}
+
+.text {
+  color: $steel-dark;
+  font-size: 1.05rem;
+}
+
+.points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  li {
+    padding: 0.4rem 0.85rem;
+    border: 1px solid $line-strong;
+    border-radius: $radius-pill;
+    font-size: 0.85rem;
+  }
+}
+
+// Thumbnail: always on phones; on desktop it opens with the row hover.
+.thumb {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  border-radius: $radius-md;
+  aspect-ratio: 16 / 10;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s $ease-out;
+  }
+
+  @include up(lg) {
+    grid-column: auto;
+    aspect-ratio: 4 / 3;
+    clip-path: inset(0 0 0 100% round $radius-md);
+    transition: clip-path 0.7s $ease-in-out;
+
+    .row:hover &,
+    .row:focus-within & {
+      clip-path: inset(0 0 0 0 round $radius-md);
+    }
+
+    img {
+      transform: scale(1.15);
+    }
+
+    .row:hover & img {
+      transform: scale(1);
+    }
+  }
+
+  @include up(lg) {
+    @include reduced-motion {
+      clip-path: none;
+    }
+  }
+}
+
+.counters {
+  display: grid;
+  gap: 2.5rem 2rem;
+  margin-top: clamp(3.5rem, 6vw, 5.5rem);
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  li {
+    display: grid;
+    gap: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid $ink;
+  }
+}
+
+.value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: $font-display;
+  font-size: clamp(4.5rem, 3rem + 5vw, 8rem);
+  line-height: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-size: 0.95rem;
+  color: $signal;
+}
+
+.label {
+  color: $steel-dark;
+  font-size: 0.95rem;
+  max-width: 26ch;
+}

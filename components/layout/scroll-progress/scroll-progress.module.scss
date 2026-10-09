@@ -1,0 +1,49 @@
+@use "abstracts" as *;
+
+.button {
+  position: fixed;
+  right: var(--gutter);
+  bottom: var(--gutter);
+  z-index: $z-header;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(244, 245, 247, 0.9);
+  backdrop-filter: blur(8px);
+  color: $ink;
+  font-size: 1.1rem;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s $ease-out;
+
+  &[data-visible] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.track,
+.progress {
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.track {
+  stroke: $line-strong;
+}
+
+.progress {
+  stroke: $signal;
+}

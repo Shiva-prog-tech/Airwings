@@ -1,0 +1,135 @@
+@use "abstracts" as *;
+
+.section {
+  padding-block: var(--space-section);
+  background: $canvas-raised;
+  border-block: 1px solid $line;
+}
+
+.layout {
+  display: grid;
+  gap: 3rem;
+
+  @include up(lg) {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.aside {
+  display: grid;
+  gap: 1.5rem;
+
+
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+  background: $canvas;
+
+  div {
+    display: grid;
+  }
+
+  strong {
+    font-size: 1.05rem;
+  }
+
+  span {
+    color: $steel-dark;
+    font-size: var(--fs-small);
+  }
+}
+
+// Green check disc: the one place the logo green appears.
+.badgeMark {
+  flex: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $ok;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 10px;
+    width: 9px;
+    height: 16px;
+    border: solid #fff;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.photo {
+  overflow: hidden;
+  border-radius: $radius-md;
+  aspect-ratio: 4 / 3;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.note {
+  color: $steel-dark;
+  font-size: var(--fs-small);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 560px;
+  font-size: 0.95rem;
+
+  // Parody "Digital Agency" award rows: hairlines, no boxes.
+  th,
+  td {
+    padding: 1rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid $line;
+  }
+
+  thead th {
+    border-bottom: 1px solid $ink;
+    color: $steel-dark;
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+
+  tbody th {
+    font-family: $font-display;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  tbody tr {
+    transition: background-color 0.2s ease;
+
+    @include fine-pointer {
+      &:hover {
+        background: rgba(22, 24, 28, 0.04);
+      }
+    }
+  }
+}

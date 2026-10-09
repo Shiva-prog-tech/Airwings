@@ -1,0 +1,51 @@
+{
+  "images": [
+    { "key": "hero-precision", "src": "slideshow/PE.jpeg", "aspect": 1.5, "grade": true, "alt": "CNC tool machining a metal aerospace part" },
+    { "key": "hero-engineering", "src": "slideshow/DEE.jpeg", "aspect": 1.5, "grade": true, "alt": "Airwing Technologies meeting room where engineering reviews take place" },
+    { "key": "hero-material", "src": "slideshow/Raw.jpeg", "aspect": 1.5, "grade": true, "alt": "Machined aluminium component on a raw billet" },
+    { "key": "hero-manufacturing", "src": "slideshow/UM.jpeg", "aspect": 1.5, "grade": true, "alt": "Spindle cutting a part under coolant" },
+
+    { "key": "about-engine", "src": "about.jpeg", "grade": true, "alt": "Cutaway of a turbofan aero engine" },
+    { "key": "about-aircraft", "src": "pai/pai1.jpeg", "grade": true, "alt": "Vintage aircraft engine and propeller on display" },
+    { "key": "about-hangar", "src": "pai/pai2.jpeg", "grade": true, "alt": "Aircraft landing gear in a hangar" },
+    { "key": "infrastructure", "src": "infrastructure.jpeg", "aspect": 2.05, "grade": true, "alt": "BFW vertical machining centres on the Airwing shop floor" },
+
+    { "key": "cmm-probe", "src": "cmmtypeshi/cmm.jpeg", "alt": "CMM probe inspecting a machined part" },
+    { "key": "qc-surface-table", "src": "cmmtypeshi/cmm2.jpeg", "grade": true, "alt": "Granite surface table in the quality control room" },
+    { "key": "cmm-machine", "src": "cmmtypeshi/cmm3.jpeg", "alt": "Coordinate measuring machine" },
+
+    { "key": "machine-bmv50", "src": "machines/m1.jpeg", "alt": "BFW BMV-50 TC24 vertical machining centre" },
+    { "key": "machine-bmv65", "src": "machines/m2.jpeg", "alt": "BFW BMV-65 TC24 vertical machining centre with fixtures" },
+    { "key": "machine-xtron544", "src": "machines/m3.jpeg", "alt": "BFW XTRON-544 vertical machining centre" },
+    { "key": "machine-virat1530", "src": "machines/m4.jpeg", "alt": "BFW double column milling centre" },
+    { "key": "machine-macpower", "src": "machines/m5.jpeg", "alt": "MAC POWER turning centre" },
+    { "key": "machine-lokesh", "src": "machines/m6.jpeg", "alt": "LOKESH TL-20 turning centre" },
+    { "key": "machine-itco", "src": "machines/m7.jpeg", "alt": "ITCO drilling machine" },
+    { "key": "machine-stacker", "src": "machines/m8.jpeg", "alt": "Newgen 2000 kg stacker" },
+
+    { "key": "part-1", "src": "products/p1.jpeg", "alt": "Machined aluminium 6061-T651 frame with ribbed pockets" },
+    { "key": "part-2", "src": "products/p2.jpeg", "alt": "Machined aluminium 7075-T6 housing" },
+    { "key": "part-3", "src": "products/p3.jpeg", "alt": "CAD model of a titanium alloy arm" },
+    { "key": "part-4", "src": "products/p4.jpeg", "alt": "CAD model of a semicircular ribbed panel" },
+    { "key": "part-5", "src": "products/p5.jpeg", "alt": "CAD model of a ribbed bracket with lightening holes" },
+    { "key": "part-6", "src": "products/p6.jpeg", "alt": "CAD model of a pocketed structural frame" },
+    { "key": "part-7", "src": "products/p7.jpeg", "alt": "CAD model of a long tapered ribbed beam" },
+    { "key": "gauge", "src": "products/p12.jpeg", "alt": "CAD model of a large air-filter checking gauge" },
+
+    { "key": "tool-form", "src": "products/p8.jpeg", "alt": "Form tool for a sheet metal component" },
+    { "key": "tool-jobrock", "src": "products/p9.jpeg", "alt": "Master mould machined from Jobrock" },
+    { "key": "tool-weld-jig", "src": "products/p10.jpeg", "alt": "Assembly pipe weld jig" },
+    { "key": "tool-vacuum", "src": "products/p11.jpeg", "alt": "Vacuum fixture plate" },
+    { "key": "tool-machining", "src": "products/p13.jpeg", "alt": "Part being machined in a CNC centre" },
+    { "key": "tool-checking", "src": "products/p14.jpeg", "alt": "Position checking fixture" },
+    { "key": "tool-die", "src": "products/p15.jpeg", "alt": "Die mould halves" },
+    { "key": "tool-automotive", "src": "products/p16.jpeg", "alt": "Machined automotive CNC part" },
+
+    { "key": "logo-hal-lca", "src": "customers/hal1.jpeg", "plain": true, "alt": "Hindustan Aeronautics Limited logo" },
+    { "key": "logo-hal-aero", "src": "customers/hal2.jpeg", "plain": true, "alt": "Hindustan Aeronautics Limited logo" },
+    { "key": "logo-indomim", "src": "customers/indomim.jpeg", "plain": true, "alt": "Indo-MIM logo" },
+    { "key": "logo-mann-hummel", "src": "customers/mann+hummel.jpeg", "plain": true, "alt": "MANN+HUMMEL logo" },
+    { "key": "logo-skyroot", "src": "customers/skyroot.jpeg", "plain": true, "alt": "Skyroot Aerospace logo" },
+    { "key": "logo-lt", "src": "customers/l&t.jpeg", "plain": true, "alt": "Larsen & Toubro logo" }
+  ]
+}

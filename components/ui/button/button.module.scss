@@ -1,0 +1,91 @@
+@use "abstracts" as *;
+
+// Pill button. The label slides up and is replaced by a copy on hover.
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 52px;
+  padding: 0 1.4rem 0 1.6rem;
+  border-radius: $radius-pill;
+  font-family: $font-body;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background-color 0.3s $ease-out,
+    color 0.3s $ease-out,
+    border-color 0.3s $ease-out;
+
+  svg {
+    font-size: 1.1rem;
+    transition: transform 0.4s $ease-out;
+  }
+
+  @include fine-pointer {
+    &:hover svg {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.primary {
+  background: $signal;
+  color: $on-signal;
+
+  @include fine-pointer {
+    &:hover {
+      background: $signal-hover;
+    }
+  }
+}
+
+.ghost {
+  border: 1px solid $line-strong;
+  color: $ink;
+
+  @include fine-pointer {
+    &:hover {
+      border-color: $ink;
+    }
+  }
+}
+
+.onGraphite {
+  border: 1px solid $line-dark-strong;
+  color: $on-graphite;
+
+  @include fine-pointer {
+    &:hover {
+      border-color: $on-graphite;
+    }
+  }
+}
+
+.label {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.2;
+
+  > span {
+    display: block;
+    transition: transform 0.45s $ease-out;
+  }
+
+  > span + span {
+    position: absolute;
+    inset: 0;
+    transform: translateY(110%);
+  }
+
+  @include fine-pointer {
+    .button:hover & > span:first-child {
+      transform: translateY(-110%);
+    }
+
+    .button:hover & > span + span {
+      transform: translateY(0);
+    }
+  }
+}

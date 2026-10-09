@@ -1,0 +1,34 @@
+{
+  "name": "airwing-technologies",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "images": "node scripts/images.mjs"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.8.0",
+    "@gsap/react": "^2.1.2",
+    "gsap": "^3.15.0",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.4",
+    "sass": "^1.105.0",
+    "sharp": "^0.34.0",
+    "typescript": "^5"
+  }
+}

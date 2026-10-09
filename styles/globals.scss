@@ -1,0 +1,6 @@
+// Global layer, imported once from app/layout.tsx. Components use CSS Modules.
+@use "base/root";
+@use "base/reset";
+@use "base/typography";
+@use "base/layout";
+@use "base/motion";

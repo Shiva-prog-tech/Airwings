@@ -1,0 +1,64 @@
+@use "abstracts" as *;
+
+.round {
+  @include round-button(140px);
+  flex: none;
+
+  > span {
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    max-width: 10ch;
+  }
+
+  @include fine-pointer {
+    &:hover {
+      transform: scale(1.06);
+    }
+
+    &:hover .icon {
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.icon {
+  font-size: 1.1rem;
+  transition: transform 0.45s $ease-out;
+}
+
+.outline {
+  border: 1px solid $line-strong;
+  color: $ink;
+
+  @include fine-pointer {
+    &:hover {
+      background: $ink;
+      border-color: $ink;
+      color: $canvas;
+    }
+  }
+}
+
+.solid {
+  background: $signal;
+  color: $on-signal;
+
+  @include fine-pointer {
+    &:hover {
+      background: $signal-hover;
+    }
+  }
+}
+
+.onGraphite {
+  border: 1px solid $line-dark-strong;
+  color: $on-graphite;
+
+  @include fine-pointer {
+    &:hover {
+      background: $on-graphite;
+      color: $graphite;
+    }
+  }
+}

@@ -1,0 +1,130 @@
+@use "abstracts" as *;
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.partners {
+  display: grid;
+  gap: 1rem;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.partner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px solid $line;
+  border-radius: $radius-lg;
+  background: $canvas-raised;
+}
+
+.monogram {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: $indigo;
+  color: #fff;
+  font-family: $font-display;
+  font-size: 2rem;
+  line-height: 1;
+  padding-top: 0.2rem;
+}
+
+.who {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.name {
+  font-family: $font-display;
+  font-size: 2.1rem;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.role {
+  color: $steel-dark;
+  font-size: 0.9rem;
+}
+
+.call {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1px solid $line-strong;
+  border-radius: $radius-pill;
+  transition: border-color 0.3s ease, color 0.3s ease;
+
+  @include fine-pointer {
+    &:hover {
+      border-color: $signal;
+      color: $signal;
+    }
+  }
+}
+
+.workforce {
+  display: grid;
+  gap: 2rem;
+  margin-top: clamp(3rem, 6vw, 5rem);
+
+  @include up(lg) {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.workforceLead {
+  font-size: var(--fs-lead);
+  color: $steel-dark;
+}
+
+.total {
+  display: block;
+  font-family: $font-display;
+  font-size: var(--fs-display);
+  line-height: 0.85;
+  color: $ink;
+}
+
+// Headcount bars: width is the share of the total.
+.bars {
+  display: grid;
+  gap: 0.6rem;
+
+  li {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    border-radius: $radius-sm;
+    overflow: hidden;
+    font-size: 0.95rem;
+    isolation: isolate;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      z-index: -1;
+      width: calc(var(--share) * 100% * 2.5);
+      max-width: 100%;
+      background: $canvas-raised;
+      border-right: 2px solid $signal;
+    }
+  }
+}

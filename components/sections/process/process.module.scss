@@ -1,0 +1,63 @@
+@use "abstracts" as *;
+
+.section {
+  padding-bottom: var(--space-section);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  max-width: 12ch;
+}
+
+.layout {
+  display: grid;
+  gap: 2.5rem;
+
+  @include up(lg) {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 5rem;
+    align-items: start;
+  }
+}
+
+.photo {
+  overflow: hidden;
+  border-radius: $radius-md;
+  aspect-ratio: 4 / 5;
+  max-height: 70vh;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.steps {
+  border-top: 1px solid $line-strong;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  padding-block: 1.75rem;
+  border-bottom: 1px solid $line;
+
+  p {
+    grid-column: 2;
+    color: $steel-dark;
+  }
+}
+
+.index {
+  grid-row: span 2;
+  color: $signal;
+  font-size: var(--fs-mono);
+  padding-top: 0.45rem;
+}
+
+.stepTitle {
+  font-size: var(--fs-h3);
+}

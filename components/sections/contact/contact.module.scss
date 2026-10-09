@@ -1,0 +1,253 @@
+@use "abstracts" as *;
+
+.section {
+  padding-block: var(--space-section);
+  border-top: 1px solid $line;
+}
+
+.layout {
+  display: grid;
+  gap: 3rem;
+
+  @include up(lg) {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.form {
+  display: grid;
+  gap: 1.25rem 1.5rem;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.full {
+  @include up(md) {
+    grid-column: 1 / -1;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+
+  label,
+  .labelText {
+    font-size: 0.9rem;
+    color: $steel-dark;
+  }
+
+  input:not([type="file"]),
+  textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid $line-strong;
+    border-radius: $radius-sm;
+    background: $canvas-raised;
+    color: $ink;
+    transition: border-color 0.2s ease;
+
+    &::placeholder {
+      color: $steel;
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: $signal;
+      box-shadow: 0 0 0 3px rgba(228, 87, 46, 0.2);
+    }
+
+    &[aria-invalid] {
+      border-color: #c2372a;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+}
+
+.optional {
+  color: $steel;
+}
+
+.file {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px dashed $line-strong;
+  border-radius: $radius-sm;
+  color: $steel-dark;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+
+  svg {
+    flex: none;
+    font-size: 1.2rem;
+  }
+
+  &[data-has-file] {
+    color: $ink;
+    border-style: solid;
+  }
+
+  &:focus-within {
+    border-color: $signal;
+  }
+
+  @include fine-pointer {
+    &:hover {
+      border-color: $ink;
+    }
+  }
+
+  input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.error {
+  color: #b3301f;
+  font-size: var(--fs-small);
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.submitRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 56px;
+  padding: 0 1.75rem;
+  border-radius: $radius-pill;
+  background: $signal;
+  color: $on-signal;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  @include fine-pointer {
+    &:hover:not(:disabled) {
+      background: $signal-hover;
+    }
+  }
+}
+
+.formStatus {
+  color: #b3301f;
+  font-size: var(--fs-small);
+}
+
+.success {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  padding: 2.5rem;
+  border: 1px solid $line-strong;
+  border-radius: $radius-lg;
+  background: $canvas-raised;
+
+  h3 {
+    font-size: var(--fs-h3);
+  }
+
+  p {
+    color: $steel-dark;
+  }
+}
+
+.successMark {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: $ok;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.details {
+  display: grid;
+  gap: 2rem;
+}
+
+.address,
+.direct {
+  display: grid;
+  gap: 0.3rem;
+  color: $steel-dark;
+
+  a {
+    color: $ink;
+    justify-self: start;
+  }
+}
+
+.direct .detailLabel:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.detailLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  color: $ink;
+  font-weight: 600;
+
+  svg {
+    color: $signal;
+  }
+}
+
+.mapLink {
+  margin-top: 0.5rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: $signal;
+}
+
+.map {
+  overflow: hidden;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+  aspect-ratio: 4 / 3;
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    // Tone the default map down to the aluminium palette.
+    filter: grayscale(1) contrast(1.05);
+  }
+}
