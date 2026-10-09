@@ -1,5 +1,6 @@
 import { SectionHeading } from "@/components/ui/section-heading/section-heading"
 import { SiteImage } from "@/components/ui/site-image/site-image"
+import { SiteVideo } from "@/components/ui/site-video/site-video"
 import { StatCounter } from "@/components/ui/stat-counter/stat-counter"
 import { numbers, services } from "@/content/home"
 import { pad2 } from "@/lib/utils"
@@ -34,7 +35,11 @@ export function Services() {
                 </ul>
               </div>
               <div className={styles.thumb}>
-                <SiteImage name={service.image} sizes="(min-width: 992px) 22vw, 100vw" />
+                {"video" in service && service.video ? (
+                  <SiteVideo name={service.video} className={styles.thumbVideo} />
+                ) : (
+                  <SiteImage name={service.image} sizes="(min-width: 992px) 22vw, 100vw" />
+                )}
               </div>
             </li>
           ))}

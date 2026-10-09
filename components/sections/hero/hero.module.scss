@@ -1,10 +1,61 @@
 @use "abstracts" as *;
 
 .hero {
-  padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem));
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: end;
+  min-height: 100svh;
+  overflow: hidden;
+  // Rounded bottom: the video panel ends in a soft curve over the canvas.
+
+  padding-top: calc(var(--header-h) + 2rem);
+  padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  @include graphite-band;
 }
 
-.top {
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+// Taller than the hero so the parallax drift never shows an edge: at
+// data-speed 0.75 the layer drifts down by ~25% of the hero height before
+// the hero leaves the screen, so it overhangs 30% at the top.
+.parallax {
+  position: absolute;
+  inset: -30% 0 -8%;
+}
+
+.zoom,
+.video {
+  position: absolute;
+  inset: 0;
+}
+
+.zoom {
+  will-change: transform;
+}
+
+// Base darkening on the footage itself (poster and video), not a separate
+// layer that a composited video could be drawn over.
+.video img,
+.video video {
+  filter: brightness(0.62) saturate(0.9);
+}
+
+// Text-legibility gradient, darker towards the bottom where the copy sits.
+// Inside the same transformed layer as the video (see hero.tsx).
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(22, 24, 28, 0.85) 0%, rgba(22, 24, 28, 0.35) 45%, rgba(22, 24, 28, 0.2) 100%),
+    linear-gradient(to right, rgba(22, 24, 28, 0.35), transparent 60%);
+}
+
+.content {
   display: grid;
   gap: clamp(1.75rem, 3vw, 2.5rem);
 }
@@ -13,6 +64,7 @@
   display: grid;
   font-size: var(--fs-hero);
   line-height: 0.84;
+  color: $on-graphite;
 }
 
 .mask {
@@ -25,36 +77,6 @@
   }
 }
 
-.lineWithPill {
-  display: flex !important;
-  flex-wrap: wrap;
-  align-items: center;
-  column-gap: 0.24em;
-}
-
-// A machined part set into the headline, Parody Home 5 style.
-.pill {
-  display: none;
-  flex: none;
-  width: 1.45em;
-  height: 0.62em;
-  margin-top: -0.06em;
-  overflow: hidden;
-  border-radius: $radius-pill;
-  transform-origin: left center;
-  background: $canvas-raised;
-
-  @include up(md) {
-    display: inline-block;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
 .aside {
   display: flex;
   align-items: center;
@@ -63,7 +85,7 @@
 }
 
 .lead {
-  color: $steel-dark;
+  color: $on-graphite-muted;
   font-size: var(--fs-lead);
   max-width: 44ch;
 }
@@ -72,41 +94,19 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem 2rem;
-  margin-block: clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 3vw, 2.5rem);
   padding-top: 1.25rem;
-  border-top: 1px solid $line-strong;
+  border-top: 1px solid $line-dark-strong;
 
   @include up(md) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   dt {
-    color: $steel-dark;
+    color: $on-graphite-muted;
     font-size: 0.8rem;
   }
 
   dd {
     font-weight: 600;
   }
-}
-
-// Full-bleed shop floor; the inner layer is taller for parallax travel.
-.stage {
-  position: relative;
-  height: clamp(320px, 62vw, 860px);
-  margin-inline: clamp(0.5rem, 1.2vw, 1.25rem);
-  overflow: hidden;
-  border-radius: 28px;
-  background: $graphite;
-}
-
-.parallax {
-  position: absolute;
-  inset: -15% 0;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }

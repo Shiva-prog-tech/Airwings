@@ -24,6 +24,12 @@
   --gutter: clamp(1.25rem, 0.6rem + 2.6vw, 3rem);
   --container: 1400px;
   --header-h: 84px;
+  // Width of the white frame around the viewport (notch navigation hangs from it).
+  --frame: 5px;
+
+  @media (min-width: 768px) {
+    --frame: 8px;
+  }
 
   color-scheme: light;
 }

@@ -7,105 +7,178 @@
 }
 
 .stage {
-  padding-top: clamp(4.5rem, 8vw, 8rem);
+  padding-top: clamp(3.5rem, 6vw, 6rem);
 }
 
+// Statement + round CTA (Parody "Digital Agency" footer head).
 .top {
-  display: grid;
-  gap: 2.5rem;
-  padding-bottom: clamp(3.5rem, 6vw, 6rem);
-
-  @include up(lg) {
-    grid-template-columns: 1.1fr 1fr;
-    align-items: end;
-  }
-}
-
-.title {
-  font-size: var(--fs-display);
-}
-
-.lead {
-  margin-top: 1.25rem;
-  color: $on-graphite-muted;
-  font-size: var(--fs-lead);
-}
-
-.pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-
-  @include up(lg) {
-    justify-content: flex-end;
-  }
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
 }
 
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  min-height: 52px;
-  padding: 0 1.4rem;
-  border: 1px solid $line-dark-strong;
-  border-radius: $radius-pill;
-  background: rgba(32, 35, 41, 0.7);
-  backdrop-filter: blur(6px);
-  font-size: 0.95rem;
-  transition:
-    border-color 0.3s ease,
-    background-color 0.3s ease;
-
-  @include fine-pointer {
-    &:hover {
-      border-color: $on-graphite;
-    }
-  }
+// The whole footer must fit one viewport, so its type scales with the
+// viewport height as well as the width.
+.title {
+  font-size: clamp(3.25rem, min(1.5rem + 5vw, 9vh), 6.5rem);
+  line-height: 0.88;
 }
 
-.pillPrimary {
-  border-color: $signal;
-  background: $signal;
-  color: $on-signal;
-  font-weight: 600;
-
-  @include fine-pointer {
-    &:hover {
-      border-color: $signal-hover;
-      background: $signal-hover;
-    }
-  }
+.cta {
+  flex: none;
 }
 
 .columns {
   display: grid;
   gap: 2.5rem;
-  padding-block: 3rem;
+  padding-block: clamp(2rem, 3vw, 2.75rem);
   border-top: 1px solid $line-dark;
 
   @include up(md) {
-    grid-template-columns: 1.2fr 1fr 1.2fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.3fr);
+    gap: 3rem;
   }
 }
 
-.brand {
+.column {
   display: grid;
-  gap: 1rem;
+  gap: 0.35rem;
   align-content: start;
   color: $on-graphite-muted;
+  font-size: 0.95rem;
+
+  a {
+    color: $on-graphite;
+    justify-self: start;
+    transition: color 0.25s ease;
+
+    @include fine-pointer {
+      &:hover {
+        color: $signal;
+      }
+    }
+  }
+}
+
+.wide {
+  @include up(md) {
+    grid-column: 1 / -1;
+  }
+
+  @include up(lg) {
+    grid-column: auto;
+  }
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  color: $on-graphite;
+  font-weight: 600;
+}
+
+.textLink {
+  margin-top: 0.4rem;
+  text-decoration: underline;
+  text-decoration-color: $signal;
+  text-underline-offset: 4px;
+}
+
+// Underlined line with an icon, after the footer email field in Parody.
+.column .lineLink {
+  display: flex;
+  justify-self: stretch;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid $line-dark-strong;
+  font-size: 1.05rem;
+
+  svg {
+    font-size: 1.2rem;
+    transition: transform 0.35s $ease-out;
+  }
+
+  @include fine-pointer {
+    &:hover {
+      border-bottom-color: $signal;
+
+      svg {
+        transform: translateY(3px);
+      }
+    }
+  }
+}
+
+.note {
+  margin-top: 0.5rem;
   font-size: var(--fs-small);
+}
+
+// Full-width wordmark, sized so the word spans the viewport edge to edge.
+.wordmarkWrap {
+  overflow: hidden;
+  padding-top: clamp(0.5rem, 2vw, 1.5rem);
+  line-height: 0.74;
+}
+
+// Wide enough to span the page, capped by height so it never pushes the
+// footer past one screen.
+.wordmark {
+  display: block;
+  font-family: $font-display;
+  font-size: min(33.5vw, 36vh);
+  line-height: 0.74;
+  text-align: center;
+  text-transform: uppercase;
+  color: $graphite-raised;
+  user-select: none;
+  will-change: transform;
+  // The base of the letters tucks under the legal bar.
+  margin-bottom: -0.08em;
+}
+
+.bottom {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid $line-dark;
+  background: $graphite;
+  color: $on-graphite-muted;
+  font-size: var(--fs-small);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
 
   img {
-    height: 64px;
+    height: 34px;
     width: auto;
+  }
+
+  p {
+    max-width: none;
   }
 }
 
 .links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.6rem 1.5rem;
-  font-size: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
 
   a {
     color: $on-graphite-muted;
@@ -116,45 +189,5 @@
         color: $on-graphite;
       }
     }
-  }
-}
-
-.address {
-  display: grid;
-  gap: 0.35rem;
-  align-content: start;
-  color: $on-graphite-muted;
-  font-size: 0.95rem;
-
-  a {
-    color: $on-graphite;
-  }
-}
-
-// Wordmark sized to the viewport so it spans edge to edge.
-.giant {
-  font-family: $font-display;
-  font-size: 31vw;
-  line-height: 0.74;
-  text-align: center;
-  text-transform: uppercase;
-  color: transparent;
-  -webkit-text-stroke: 1px $line-dark-strong;
-  user-select: none;
-  margin-bottom: -1.5vw;
-}
-
-.bottom {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 2rem;
-  padding-block: 1.5rem;
-  border-top: 1px solid $line-dark;
-  color: $on-graphite-muted;
-  font-size: var(--fs-small);
-
-  p {
-    max-width: none;
   }
 }

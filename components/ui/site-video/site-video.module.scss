@@ -1,0 +1,26 @@
+@use "abstracts" as *;
+
+.wrap {
+  position: relative;
+  overflow: hidden;
+  background: $graphite;
+}
+
+.poster,
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Fades in over the poster once frames are actually playing.
+.video {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+
+  &[data-playing] {
+    opacity: 1;
+  }
+}

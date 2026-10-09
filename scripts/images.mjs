@@ -14,6 +14,8 @@ const ROOT = path.resolve(import.meta.dirname, "..")
 const SRC = path.join(ROOT, "assets/images")
 const OUT = path.join(ROOT, "public/images")
 const WIDTHS = [640, 1080, 1600, 2400]
+/** Sources narrower than this get a (capped 2x) quality upscale. */
+const MIN_WIDTH = 1200
 // Cool steel tint so stock, phone and CAD images read as one set.
 const STEEL = { r: 124, g: 131, b: 142 }
 
@@ -21,14 +23,14 @@ fs.mkdirSync(OUT, { recursive: true })
 
 async function grade(pipeline) {
   const { data, info } = await pipeline
-    .modulate({ saturation: 0.62, brightness: 0.98 })
+    .modulate({ saturation: 0.75, brightness: 0.99 })
     .toBuffer({ resolveWithObject: true })
   const tint = await sharp({
     create: {
       width: info.width,
       height: info.height,
       channels: 4,
-      background: { ...STEEL, alpha: 0.3 },
+      background: { ...STEEL, alpha: 0.22 },
     },
   })
     .png()
@@ -39,10 +41,13 @@ async function grade(pipeline) {
 async function buildImage(entry) {
   const file = path.join(SRC, entry.src)
   const meta = await sharp(file).metadata()
-  // Largest crop of the requested aspect that fits the source (never upscale).
-  const baseWidth = Math.round(
-    Math.min(2400, meta.width, entry.aspect ? meta.height * entry.aspect : Infinity)
-  )
+  // Largest crop of the requested aspect that fits the source.
+  const cropWidth = Math.min(meta.width, entry.aspect ? meta.height * entry.aspect : Infinity)
+  // Small sources (many originals are ~500 px) are upscaled up to 2x with
+  // Lanczos plus light sharpening, so they stay crisp on high-DPI screens.
+  // This can't invent detail; sharper originals are still the real fix.
+  const upscale = cropWidth < MIN_WIDTH ? Math.min(2, MIN_WIDTH / cropWidth) : 1
+  const baseWidth = Math.round(Math.min(2400, cropWidth * upscale))
   const baseHeight = entry.aspect
     ? Math.round(baseWidth / entry.aspect)
     : Math.round((meta.height * baseWidth) / meta.width)
@@ -52,15 +57,17 @@ async function buildImage(entry) {
     height: baseHeight,
     fit: "cover",
     position: sharp.strategy.attention,
+    kernel: sharp.kernel.lanczos3,
   })
-  if (entry.grade) base = await grade(base)
+  if (upscale > 1) base = base.sharpen({ sigma: 0.8, m1: 0.6, m2: 1.4 })
+  if (entry.grade) base = await grade(sharp(await base.png().toBuffer()))
   const master = await base.png().toBuffer()
 
   // Only emit widths the source can fill; smaller sources reuse their max.
   for (const width of WIDTHS) {
     await sharp(master)
       .resize({ width: Math.min(width, baseWidth) })
-      .webp({ quality: entry.plain ? 90 : 78, effort: 5 })
+      .webp({ quality: entry.plain ? 94 : 88, effort: 6, smartSubsample: true })
       .toFile(path.join(OUT, `${entry.key}-${width}.webp`))
   }
   const blur = await sharp(master).resize({ width: 16 }).webp({ quality: 40 }).toBuffer()

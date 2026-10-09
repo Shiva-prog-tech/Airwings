@@ -1,9 +1,10 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 import { SectionHeading } from "@/components/ui/section-heading/section-heading"
 import { SiteImage } from "@/components/ui/site-image/site-image"
+import { SiteVideo } from "@/components/ui/site-video/site-video"
 import { projects, type Project } from "@/content/projects"
 import { DESKTOP_MEDIA, gsap, prefersReducedMotion, useGSAP } from "@/lib/motion/gsap"
 import { pad2 } from "@/lib/utils"
@@ -13,10 +14,15 @@ import styles from "./projects.module.scss"
 /**
  * Projects as a full-screen slicer (after Parody's "Full Screen Slicer"):
  * on desktop the stage pins and each scroll step wipes the next part in over
- * the last, which sinks back. Phones and reduced motion get a swipeable row.
+ * the last, which sinks back. Each slide plays a machining clip; the real
+ * part photo sits in its spec block. Phones and reduced motion get a
+ * swipeable row.
  */
 export function Projects() {
   const rootRef = useRef<HTMLElement>(null)
+  // Desktop scene: only the current slide's clip plays (all are stacked).
+  const [current, setCurrent] = useState<number | null>(null)
+  const currentRef = useRef<number | null>(null)
 
   useGSAP(
     () => {
@@ -25,6 +31,8 @@ export function Projects() {
       const mm = gsap.matchMedia()
       mm.add(DESKTOP_MEDIA, () => {
         root.dataset.animated = ""
+        currentRef.current = 0
+        setCurrent(0)
         const slides = gsap.utils.toArray<HTMLElement>("[data-slide]", root)
         const counter = root.querySelector<HTMLElement>("[data-counter]")
         const tl = gsap.timeline({
@@ -37,7 +45,12 @@ export function Projects() {
             scrub: 0.6,
             anticipatePin: 1,
             onUpdate: (self) => {
-              if (counter) counter.textContent = pad2(Math.round(self.progress * (slides.length - 1)) + 1)
+              const index = Math.round(self.progress * (slides.length - 1))
+              if (counter) counter.textContent = pad2(index + 1)
+              if (index !== currentRef.current) {
+                currentRef.current = index
+                setCurrent(index)
+              }
             },
           },
         })
@@ -54,6 +67,8 @@ export function Projects() {
         })
         return () => {
           delete root.dataset.animated
+          currentRef.current = null
+          setCurrent(null)
         }
       })
       return () => mm.revert()
@@ -75,7 +90,7 @@ export function Projects() {
       <div className={styles.slicer} data-slicer>
         <ol className={styles.track}>
           {projects.map((project, i) => (
-            <Slide key={project.id} project={project} index={i} />
+            <Slide key={project.id} project={project} index={i} active={current === null || current === i} />
           ))}
         </ol>
         <div className={styles.hud} aria-hidden>
@@ -89,16 +104,21 @@ export function Projects() {
   )
 }
 
-function Slide({ project, index }: { project: Project; index: number }) {
+function Slide({ project, index, active }: { project: Project; index: number; active: boolean }) {
   return (
     <li className={styles.slide} data-slide style={{ zIndex: index + 1 }} aria-labelledby={`project-${project.id}`}>
       <div className={styles.inner} data-slide-inner>
         <div className={styles.media}>
           <div className={styles.mediaImage} data-slide-image>
-            <SiteImage name={project.image} sizes="(min-width: 992px) 100vw, 85vw" />
+            <SiteVideo name={project.video} active={active} className={styles.mediaVideo} />
           </div>
         </div>
         <div className={styles.caption}>
+          {/* The real part: the clip above is illustrative machining footage. */}
+          <figure className={styles.part}>
+            <SiteImage name={project.image} sizes="160px" />
+            <figcaption>The part</figcaption>
+          </figure>
           <span className={`mono ${styles.no}`}>{pad2(index + 1)}</span>
           <h3 id={`project-${project.id}`} className={styles.title}>
             {project.title}

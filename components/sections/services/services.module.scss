@@ -63,6 +63,7 @@
 
 // Thumbnail: always on phones; on desktop it opens with the row hover.
 .thumb {
+  position: relative;
   grid-column: 1 / -1;
   overflow: hidden;
   border-radius: $radius-md;
@@ -100,6 +101,11 @@
       clip-path: none;
     }
   }
+}
+
+.thumbVideo {
+  position: absolute;
+  inset: 0;
 }
 
 .counters {

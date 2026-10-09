@@ -1,7 +1,7 @@
 @use "abstracts" as *;
 
+// Phones and tablets only; desktop uses the notch navigation.
 .wrapper {
-  --menu-width: clamp(340px, 40vw, 520px);
   position: fixed;
   inset: 0;
   z-index: $z-menu;
@@ -16,8 +16,8 @@
     }
   }
 
-  @media (max-width: 1023px) {
-    --menu-width: 100%;
+  @include up(xl) {
+    display: none;
   }
 }
 
@@ -37,10 +37,7 @@
 .layers,
 .panel {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: var(--menu-width);
-  height: 100%;
+  inset: 0;
 }
 
 .layers {
@@ -65,9 +62,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 3vh, 2.5rem);
-  padding: calc(var(--header-h) + 1rem) 2.5rem clamp(1.25rem, 3vh, 2.5rem);
-  // Links are sized to the viewport height (below), so this only kicks in on
-  // very short screens, and without a visible scrollbar.
+  padding: calc(var(--header-h) + 1.5rem) var(--gutter) clamp(1.25rem, 3vh, 2.5rem);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: none;
@@ -77,16 +72,11 @@
   &::-webkit-scrollbar {
     display: none;
   }
-
-  @media (max-width: 1023px) {
-    padding-inline: var(--gutter);
-  }
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 0;
   counter-reset: menu;
 }
 
@@ -101,8 +91,8 @@
   display: inline-block;
   padding-right: 2.2rem;
   font-family: $font-display;
-  // 8 links must fit between the header and the contact block.
-  font-size: clamp(2rem, 6.4vh, 4.2rem);
+  // All links fit between the header and the contact block.
+  font-size: clamp(2rem, 6.2vh, 4rem);
   line-height: 1.02;
   text-transform: uppercase;
   color: $ink;
@@ -139,22 +129,30 @@
   margin-top: auto;
 }
 
-.cta {
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.cta,
+.ghost {
   display: inline-flex;
   align-items: center;
-  justify-self: start;
-  gap: 0.75rem;
-  min-height: 54px;
-  padding: 0 1.6rem;
+  gap: 0.6rem;
+  min-height: 50px;
+  padding: 0 1.4rem;
   border-radius: $radius-pill;
+  font-weight: 600;
+}
+
+.cta {
   background: $signal;
   color: $on-signal;
-  font-weight: 600;
-  transition: background-color 0.25s ease;
+}
 
-  &:hover {
-    background: $signal-hover;
-  }
+.ghost {
+  border: 2px solid $line-strong;
 }
 
 .contactLinks {
@@ -166,68 +164,10 @@
     align-items: center;
     gap: 0.6rem;
     color: $ink;
-
-    &:hover {
-      color: $signal;
-    }
   }
 }
 
 .address {
   color: $steel-dark;
   font-size: var(--fs-small);
-}
-
-.toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  min-height: 48px;
-  padding: 0 1.2rem;
-  border: 1px solid $line-strong;
-  border-radius: $radius-pill;
-  background: $canvas-raised;
-  color: $ink;
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.toggleText {
-  position: relative;
-  display: inline-block;
-  height: 1em;
-  overflow: hidden;
-}
-
-.toggleRoll {
-  display: flex;
-  flex-direction: column;
-
-  span {
-    display: block;
-    height: 1em;
-  }
-}
-
-.toggleIcon {
-  position: relative;
-  width: 13px;
-  height: 13px;
-  will-change: transform;
-
-  span {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1.75px;
-    border-radius: 2px;
-    background: currentColor;
-    transform: translateY(-50%);
-
-    & + span {
-      transform: translateY(-50%) rotate(90deg);
-    }
-  }
 }

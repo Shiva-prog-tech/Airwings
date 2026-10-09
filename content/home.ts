@@ -1,3 +1,4 @@
+import type { VideoKey } from "@/components/ui/site-video/site-video"
 import type { ImageKey } from "@/content/images"
 
 export const heroFacts = [
@@ -70,6 +71,7 @@ export const services = [
     text: "Parts that need a series of different operations are our speciality. We analyse the design, then manufacture, assemble and deliver the finished product ready for its application.",
     points: ["Multi-operation CNC milling and turning", "Assembly of machined sub-assemblies", "Parts for machine, SPM and fabrication manufacturers"],
     image: "tool-machining",
+    video: "turning",
   },
   {
     id: "design",
@@ -84,6 +86,7 @@ export const services = [
     text: "Every part is checked in a full-fledged quality room with calibrated instruments, and CMM inspection is available when your drawing calls for it.",
     points: ["CMM inspection on request", "Instruments calibrated at approved labs", "Batch and material-grade traceability"],
     image: "cmm-probe",
+    video: "inspection",
   },
 ] as const satisfies readonly {
   id: string
@@ -91,6 +94,8 @@ export const services = [
   text: string
   points: readonly string[]
   image: ImageKey
+  /** Optional stock clip for the hover thumbnail (public/videos). */
+  video?: VideoKey
 }[]
 
 // Derived from the services copy: analyse → program → machine → inspect → deliver.

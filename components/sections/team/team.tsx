@@ -1,6 +1,13 @@
-import { SectionHeading } from "@/components/ui/section-heading/section-heading"
+"use client"
+
+import { useRef } from "react"
+
 import { Icon } from "@/components/ui/icon/icon"
+import { SectionHeading } from "@/components/ui/section-heading/section-heading"
+import { SiteImage } from "@/components/ui/site-image/site-image"
+import { StatCounter } from "@/components/ui/stat-counter/stat-counter"
 import { team, workforce } from "@/content/people"
+import { gsap, prefersReducedMotion, useGSAP } from "@/lib/motion/gsap"
 
 import styles from "./team.module.scss"
 
@@ -14,47 +21,94 @@ const initials = (name: string) =>
 
 const TOTAL = workforce.reduce((sum, item) => sum + item.count, 0)
 
-/** The four managing partners (tap to call) and the people behind them. */
+/**
+ * The four managing partners as cards with a floating round monogram (a
+ * photo once the client supplies one): name, role, call link and their
+ * background below a hairline. Then the
+ * whole workforce as a unit chart: one square per person, grouped by role.
+ */
 export function Team() {
+  const unitsRef = useRef<HTMLDivElement>(null)
+
+  // Squares pop in row by row when the chart scrolls into view.
+  useGSAP(
+    () => {
+      const root = unitsRef.current
+      if (!root || prefersReducedMotion()) return
+      gsap.fromTo(
+        root.querySelectorAll("[data-unit]"),
+        { scale: 0, autoAlpha: 0 },
+        {
+          scale: 1,
+          autoAlpha: 1,
+          duration: 0.4,
+          ease: "back.out(2)",
+          stagger: 0.025,
+          scrollTrigger: { trigger: root, start: "top 80%", once: true },
+        }
+      )
+    },
+    { scope: unitsRef }
+  )
+
   return (
     <section id="team" className={styles.section} aria-labelledby="team-title">
       <div className="container">
         <SectionHeading
           id="team-title"
+          align="stack"
+          className={styles.heading}
           title="Run by the people who machine"
-          intro="Airwing is led by four managing partners with backgrounds in CNC, CAD-CAM and tool-room work. Call the partner who handles what you need."
+          intro="Four managing partners with backgrounds in CNC, CAD-CAM and tool-room work. Call the partner who handles what you need."
         />
 
         <ul className={styles.partners} data-reveal-group>
           {team.map((person) => (
-            <li key={person.name} className={styles.partner}>
-              <span className={styles.monogram} aria-hidden>
-                {initials(person.name)}
-              </span>
-              <div className={styles.who}>
-                <strong className={styles.name}>{person.name}</strong>
-                <span className={styles.role}>Managing partner · {person.role}</span>
+            <li key={person.name} className={styles.card}>
+              <div className={styles.avatar} aria-hidden>
+                <div className={styles.avatarInner}>
+                  {person.photo ? (
+                    <SiteImage name={person.photo} sizes="96px" className={styles.photo} />
+                  ) : (
+                    <span className={styles.initials}>{initials(person.name)}</span>
+                  )}
+                </div>
               </div>
-              <a href={person.phone.href} className={styles.call}>
+              <h3 className={styles.name}>{person.name}</h3>
+              <p className={styles.role}>Managing partner · {person.role}</p>
+              <a href={person.phone.href} className={`mono ${styles.call}`}>
                 <Icon name="phone" />
-                <span className="mono">{person.phone.display}</span>
+                {person.phone.display}
               </a>
+              <div className={styles.expertise}>
+                <span>{person.expertise}</span>
+                <small>Background</small>
+              </div>
             </li>
           ))}
         </ul>
 
         <div className={styles.workforce}>
-          <p className={styles.workforceLead}>
-            <span className={styles.total}>{TOTAL}</span> people on design, programming, machining, fitting and quality.
-          </p>
-          <ul className={styles.bars}>
+          <div className={styles.workforceLead}>
+            <span className={styles.total}>
+              <StatCounter value={TOTAL} />
+            </span>
+            <p>People on design, programming, machining, fitting and quality. Each square is one person.</p>
+          </div>
+
+          <div ref={unitsRef} className={styles.units} role="list" aria-label="Workforce by role">
             {workforce.map((item) => (
-              <li key={item.role} style={{ "--share": item.count / TOTAL }}>
-                <span>{item.role}</span>
-                <span className="mono">{item.count}</span>
-              </li>
+              <div key={item.role} className={styles.unitRow} role="listitem">
+                <span className={styles.unitRole}>{item.role}</span>
+                <span className={styles.unitSquares} aria-hidden>
+                  {Array.from({ length: item.count }, (_, i) => (
+                    <span key={i} className={styles.unit} data-unit />
+                  ))}
+                </span>
+                <span className={`mono ${styles.unitCount}`}>{item.count}</span>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     </section>

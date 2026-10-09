@@ -56,19 +56,20 @@ app/                          Routes only: metadata, JSON-LD, composition. No bu
 
 components/
   layout/                     Page chrome used once per page
-    site-header/              site-header.tsx + site-header.module.scss (+ use-sticky-header.ts)
+    site-header/              full-width bar: transparent over the hero, frosted once scrolled; below xl Menu opens staggered-menu
+    staggered-menu/           full-screen menu for phones and tablets (tsfsolodev / React Bits style)
     site-nav/                 desktop nav: Base UI Navigation Menu (shadcn-style) with the Capabilities mega panel
-    staggered-menu/           full-screen menu + MenuToggle (tsfsolodev)
     cinematic-footer/         desktop footer (curtain reveal)
     site-footer/              phone footer
-    preloader/ · custom-cursor/ · scroll-progress/ · smooth-shell/
+    preloader/                "drawing to part" intro: nozzle drawing draws, machining pass, sheet lifts (full once per session)
+    scroll-progress/          back-to-top ring
   sections/                   One folder per landing-page section, in page order
     hero/                     hero.tsx · hero.module.scss · (hero-slides.tsx if split)
     credentials/ · about/ · numbers/ · infrastructure/ · services/ · machinery/
     quality/ · projects-zoom/ · projects/ · tooling/ · process/ · customers/
     team/ · contact/
   ui/                         Reusable primitives, no section knowledge
-    site-image/ · button/ · marquee/ · fade-slides/ · stat-counter/
+    site-image/ · button/ · round-button/ · marquee/ · stat-counter/ · scramble-text/
     section-heading/ · spec-list/ · icon/
 
 content/                      ALL copy and data, typed. Components never hardcode copy.
