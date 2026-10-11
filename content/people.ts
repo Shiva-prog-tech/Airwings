@@ -22,14 +22,18 @@ export const customers: Customer[] = [
 export type Partner = {
   name: string
   role: string
+  /** Background, from the company profile. */
+  expertise: string
   phone: { display: string; href: string }
+  /** Cut-out portrait (transparent background) once the client supplies one. */
+  photo?: ImageKey
 }
 
 export const team: Partner[] = [
-  { name: "Arunkumar D.N", role: "Planning and business development", phone: { display: "+91 81477 76954", href: "tel:+918147776954" } },
-  { name: "Shivaprasada D.S", role: "Production and projects", phone: { display: "+91 87480 55511", href: "tel:+918748055511" } },
-  { name: "Eshwar C.J", role: "Marketing and finance", phone: { display: "+91 97435 40623", href: "tel:+919743540623" } },
-  { name: "Vijay A.V", role: "Manufacturing and technical", phone: { display: "+91 93532 14013", href: "tel:+919353214013" } },
+  { name: "Arunkumar D.N", expertise: "CAD-CAM and planning", role: "Planning and business development", phone: { display: "+91 81477 76954", href: "tel:+918147776954" } },
+  { name: "Shivaprasada D.S", expertise: "CAD-CAM and production", role: "Production and projects", phone: { display: "+91 87480 55511", href: "tel:+918748055511" } },
+  { name: "Eshwar C.J", expertise: "Finance and marketing", role: "Marketing and finance", phone: { display: "+91 97435 40623", href: "tel:+919743540623" } },
+  { name: "Vijay A.V", expertise: "Production and technical", role: "Manufacturing and technical", phone: { display: "+91 93532 14013", href: "tel:+919353214013" } },
 ]
 
 export const workforce = [

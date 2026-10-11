@@ -5,70 +5,207 @@
   position: fixed;
   inset: 0;
   z-index: $z-preloader;
-  background: $graphite;
-  color: $on-graphite;
+  @include graphite-band;
 
   :global(.has-motion) & {
-    display: grid;
-    place-items: center;
+    display: block;
   }
 }
 
-.inner {
+.sheet {
+  position: absolute;
+  inset: clamp(12px, 2vw, 28px);
   display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
   justify-items: center;
-  gap: 2.5rem;
-  width: min(560px, 84vw);
-  text-align: center;
+  padding: clamp(1rem, 3vw, 2.5rem);
+}
+
+// Drawing border: a hairline frame with zone ticks along each edge.
+.frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid $line-dark-strong;
+  background:
+    repeating-linear-gradient(to right, $line-dark-strong 0 1px, transparent 1px 12.5%) top / 100% 8px no-repeat,
+    repeating-linear-gradient(to right, $line-dark-strong 0 1px, transparent 1px 12.5%) bottom / 100% 8px no-repeat,
+    repeating-linear-gradient(to bottom, $line-dark-strong 0 1px, transparent 1px 16.66%) left / 8px 100% no-repeat,
+    repeating-linear-gradient(to bottom, $line-dark-strong 0 1px, transparent 1px 16.66%) right / 8px 100% no-repeat;
+  pointer-events: none;
+}
+
+// Start states, applied from first paint (the preloader only renders under
+// .has-motion). GSAP animates every one of them to its end state.
+.preloader {
+  [data-draw] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  [data-frame],
+  [data-chain],
+  [data-fade],
+  [data-block],
+  [data-stamp],
+  [data-billet] {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.drawing {
+  position: relative;
+  width: min(900px, 92%);
+
+  // Phones: use the full sheet width; the callouts reach the drawing's edge.
+  @media (max-width: 575px) {
+    width: 100%;
+  }
+  color: $on-graphite;
+
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  text {
+    font-family: $font-mono;
+  }
+}
+
+// Tool / probe line that sweeps across during the machining pass.
+.probe {
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  left: 7%;
+  width: 2px;
+  background: $signal;
+  box-shadow:
+    0 0 12px 2px rgba(228, 87, 46, 0.65),
+    0 0 40px 6px rgba(228, 87, 46, 0.25);
+  opacity: 0;
+}
+
+// Title block, bottom right like a real drawing sheet.
+.block {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  width: min(560px, 100%);
+  border: 1px solid $line-dark-strong;
+
+  @media (max-width: 575px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.blockLogo {
+  display: grid;
+  place-items: center;
+  padding: 0.9rem 1.1rem;
+  border-right: 1px solid $line-dark-strong;
 
   img {
-    height: 120px;
+    height: 46px;
     width: auto;
-    margin-inline: auto;
+  }
+
+  @media (max-width: 575px) {
+    border-right: 0;
+    border-bottom: 1px solid $line-dark-strong;
   }
 }
 
-.motto {
-  margin-top: 1rem;
-  margin-inline: auto;
-  color: $on-graphite-muted;
-  font-size: var(--fs-small);
-}
-
-// Engineering dimension line: |<———————>| with a readout under it.
-.dimension {
+.blockGrid {
   display: grid;
-  gap: 0.75rem;
-  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  // Phones: one column so the values never truncate.
+  @media (max-width: 575px) {
+    grid-template-columns: 1fr;
+
+    > div:nth-child(odd) {
+      border-right: 0;
+    }
+
+    > div:nth-last-child(2) {
+      border-bottom: 1px solid $line-dark;
+    }
+  }
+
+  > div {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid $line-dark;
+
+    &:nth-child(odd) {
+      border-right: 1px solid $line-dark;
+    }
+
+    &:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+  }
+
+  dt {
+    color: $on-graphite-muted;
+    font-size: 0.65rem;
+  }
+
+  dd {
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
-.line {
-  position: relative;
-  display: block;
-  height: 1px;
-  background: $signal;
-  transform-origin: left;
+.stampCell {
+  align-content: center;
+}
 
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: -6px;
-    width: 1px;
-    height: 13px;
-    background: $signal;
-  }
+// Live weight readout during the machining pass.
+.weight {
+  color: $signal;
+  font-variant-numeric: tabular-nums;
+}
+
+.stamp {
+  display: inline-flex;
+  transform-origin: left center;
+  align-items: center;
+  gap: 0.45rem;
+  color: $ok;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 
   &::before {
-    left: 0;
-  }
-
-  &::after {
-    right: 0;
+    content: "";
+    width: 6px;
+    height: 11px;
+    margin-top: -3px;
+    border: solid $ok;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
   }
 }
 
-.readout {
-  font-size: var(--fs-mono);
-  color: $on-graphite;
+.skip {
+  position: absolute;
+  left: clamp(1rem, 3vw, 2.5rem);
+  bottom: clamp(1rem, 3vw, 2.5rem);
+  color: $on-graphite-muted;
+  font-size: 0.75rem;
+
+  @media (max-width: 575px) {
+    display: none;
+  }
 }

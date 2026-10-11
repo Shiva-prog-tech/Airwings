@@ -87,8 +87,15 @@
   }
 }
 
+.mediaVideo {
+  position: absolute;
+  inset: 0;
+}
+
 .caption {
   display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
   gap: 1rem;
   padding: 1.5rem;
 
@@ -98,12 +105,43 @@
     left: var(--gutter);
     right: var(--gutter);
     bottom: var(--gutter);
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: end;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
     gap: 1rem 2.5rem;
     padding: 2rem 2.25rem;
     border-radius: $radius-lg;
     background: $graphite-raised;
+  }
+}
+
+// Inset photo of Airwing's actual part.
+.part {
+  display: grid;
+  gap: 0.35rem;
+  grid-row: span 2;
+  width: 84px;
+
+  img {
+    width: 84px;
+    height: 84px;
+    border-radius: $radius-sm;
+    object-fit: cover;
+    background: #dfe2e6;
+  }
+
+  figcaption {
+    color: $on-graphite-muted;
+    font-size: 0.7rem;
+  }
+
+  [data-animated] & {
+    width: 132px;
+    grid-row: span 1;
+
+    img {
+      width: 132px;
+      height: 96px;
+    }
   }
 }
 
@@ -125,6 +163,7 @@
 }
 
 .specs {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.9rem 1.5rem;

@@ -4,7 +4,8 @@ import { useActionState, useState } from "react"
 
 import { submitRfq } from "@/app/actions/rfq"
 import { Icon } from "@/components/ui/icon/icon"
-import { DRAWING_EXTENSIONS, type RfqField, type RfqState } from "@/lib/schemas/rfq"
+import type { RfqField, RfqState } from "@/lib/schemas/rfq"
+import { DRAWING_EXTENSIONS } from "@/lib/schemas/rfq-files"
 import { cn } from "@/lib/utils"
 
 import styles from "./contact.module.scss"

@@ -1,9 +1,18 @@
 @use "abstracts" as *;
 
+// Two looks: over the hero footage (transparent, light text) and scrolled
+// (frosted aluminium bar, graphite text). The nav links read the same custom
+// properties, so the whole header switches together.
 .header {
+  --nav-ink: #{$on-graphite};
+  --nav-hover: rgba(232, 234, 237, 0.12);
+  --header-ink: #{$on-graphite};
+  --header-line: #{$line-dark-strong};
+
   position: fixed;
   inset: 0 0 auto;
   z-index: $z-header;
+  color: var(--header-ink);
   border-bottom: 1px solid transparent;
   transition:
     transform 0.5s $ease-out,
@@ -11,7 +20,12 @@
     border-color 0.4s ease;
 
   &[data-scrolled] {
-    background: rgba(232, 234, 237, 0.82);
+    --nav-ink: #{$ink};
+    --nav-hover: rgba(22, 24, 28, 0.07);
+    --header-ink: #{$ink};
+    --header-line: #{$line-strong};
+
+    background: rgba(232, 234, 237, 0.84);
     backdrop-filter: blur(14px) saturate(140%);
     border-bottom-color: $line;
   }
@@ -20,18 +34,22 @@
     transform: translateY(-100%);
   }
 
-  // Above the open menu, with only the toggle left visible.
+  // Over the open full-screen menu (light panel): dark text, no bar.
   &[data-menu-open] {
+    --header-ink: #{$ink};
+    --header-line: #{$line-strong};
+
     z-index: $z-menu + 1;
     background: transparent;
     backdrop-filter: none;
     border-bottom-color: transparent;
 
-    .logo,
-    .nav,
-    .cta {
-      opacity: 0;
-      pointer-events: none;
+    .logoLight {
+      display: none;
+    }
+
+    .logoDark {
+      display: block;
     }
   }
 }
@@ -44,19 +62,27 @@
   height: var(--header-h);
 }
 
-.logo,
-.nav,
-.cta {
-  transition: opacity 0.3s ease;
-}
-
 .logo {
   flex: none;
   border-radius: $radius-sm;
 
   img {
-    height: 50px;
+    height: 46px;
     width: auto;
+  }
+}
+
+.logoDark {
+  display: none;
+
+  .header[data-scrolled] & {
+    display: block;
+  }
+}
+
+.logoLight {
+  .header[data-scrolled] & {
+    display: none;
   }
 }
 
@@ -74,10 +100,149 @@
   gap: 0.6rem;
 }
 
-.cta {
+.brochure {
   display: none;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 46px;
+  padding: 0 1.1rem;
+  border: 2px solid var(--header-line);
+  border-radius: $radius-pill;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: border-color 0.25s ease;
+
+  svg {
+    font-size: 1.05rem;
+  }
+
+  &:hover {
+    border-color: var(--header-ink);
+  }
+
+  @include up(lg) {
+    display: inline-flex;
+  }
+}
+
+// Request a quote: signal pill with a white arrow chip. On hover the label
+// rolls to a second line and the chip turns and nudges forward.
+.quote {
+  display: none;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 48px;
+  padding: 0 0.35rem 0 1.25rem;
+  border-radius: $radius-pill;
+  background: $signal;
+  color: $on-signal;
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
 
   @include up(md) {
     display: inline-flex;
+  }
+
+  @include fine-pointer {
+    &:hover {
+      background: $signal-hover;
+
+      .quoteLabel > span:first-child {
+        transform: translateY(-110%);
+      }
+
+      .quoteLabel > span + span {
+        transform: translateY(0);
+      }
+
+      .quoteChip {
+        transform: translateX(2px) rotate(45deg);
+      }
+    }
+  }
+}
+
+.quoteLabel {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.2;
+
+  > span {
+    display: block;
+    transition: transform 0.45s $ease-out;
+  }
+
+  > span + span {
+    position: absolute;
+    inset: 0;
+    transform: translateY(110%);
+  }
+}
+
+.quoteChip {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  color: $signal;
+  font-size: 1.05rem;
+  transition: transform 0.5s $ease-out;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 46px;
+  padding: 0 1.05rem;
+  border: 1px solid var(--header-line);
+  border-radius: $radius-pill;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: border-color 0.25s ease;
+
+  @include up(xl) {
+    display: none;
+  }
+}
+
+.toggleIcon {
+  position: relative;
+  width: 12px;
+  height: 12px;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.75px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.45s $ease-out;
+  }
+
+  &::before {
+    transform: translateY(-50%);
+  }
+
+  &::after {
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  &[data-open]::before {
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  &[data-open]::after {
+    transform: translateY(-50%) rotate(135deg);
   }
 }

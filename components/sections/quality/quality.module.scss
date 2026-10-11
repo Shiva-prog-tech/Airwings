@@ -6,6 +6,54 @@
   border-block: 1px solid $line;
 }
 
+// Key figures: one ruled strip under the heading.
+.figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: clamp(3rem, 5vw, 4.5rem);
+  border-top: 1px solid $ink;
+
+  @include up(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  > div {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding: 1.25rem 1.25rem 1.25rem 0;
+    border-bottom: 1px solid $line;
+
+    @include up(lg) {
+      border-bottom: 0;
+
+      & + div {
+        padding-left: 1.5rem;
+        border-left: 1px solid $line;
+      }
+    }
+  }
+
+  dt {
+    order: 2;
+    color: $steel-dark;
+    font-size: var(--fs-small);
+  }
+
+  dd {
+    order: 1;
+    font-family: $font-display;
+    font-size: clamp(2.4rem, 1.8rem + 2vw, 3.6rem);
+    line-height: 0.9;
+
+    &:global(.mono) {
+      font-family: $font-mono;
+      font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.5rem);
+      line-height: 1.1;
+    }
+  }
+}
+
 .layout {
   display: grid;
   gap: 3rem;
@@ -20,8 +68,6 @@
 .aside {
   display: grid;
   gap: 1.5rem;
-
-
 }
 
 .badge {
@@ -92,14 +138,15 @@
 
 .table {
   width: 100%;
-  min-width: 560px;
+  min-width: 600px;
   font-size: 0.95rem;
 
-  // Parody "Digital Agency" award rows: hairlines, no boxes.
+  // Hairline award-style rows, no boxes.
   th,
   td {
-    padding: 1rem 0.75rem;
+    padding: 0.9rem 0.75rem;
     text-align: left;
+    vertical-align: middle;
     border-bottom: 1px solid $line;
   }
 
@@ -112,24 +159,79 @@
 
   tbody th {
     font-family: $font-display;
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: 400;
     line-height: 1;
     text-transform: uppercase;
   }
 
-
-  tbody tr:last-child > * {
-    border-bottom: 0;
-  }
-
-  tbody tr {
+  tbody tr:not(.groupRow) {
     transition: background-color 0.2s ease;
 
     @include fine-pointer {
       &:hover {
         background: rgba(22, 24, 28, 0.04);
       }
+    }
+  }
+}
+
+.caption {
+  caption-side: bottom;
+  padding-top: 1rem;
+  color: $steel-dark;
+  font-size: var(--fs-small);
+  text-align: left;
+}
+
+// Group header row inside each tbody.
+.groupRow th {
+  padding-top: 2rem;
+  font-family: $font-body;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: $ink;
+  border-bottom: 1px solid $line-strong;
+
+  .group:first-of-type & {
+    padding-top: 1.1rem;
+  }
+}
+
+.groupCount {
+  margin-left: 0.5rem;
+  color: $steel-dark;
+  font-family: $font-mono;
+  font-weight: 400;
+}
+
+// Least count with its resolution bar: one hue (graphite), thin, rounded
+// ends, from a fixed baseline. The printed value stays the reading.
+.resolution {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 11rem;
+}
+
+.meter {
+  position: relative;
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(22, 24, 28, 0.08);
+
+  > span {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--share) * 100%);
+    border-radius: 4px;
+    background: $steel-dark;
+
+    &[data-finest] {
+      background: $ink;
     }
   }
 }

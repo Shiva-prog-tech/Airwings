@@ -1,0 +1,69 @@
+@use "abstracts" as *;
+
+.badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: clamp(132px, 12vw, 168px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: $on-graphite;
+}
+
+// The text ring turns slowly; it stops for reduced motion.
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: badge-spin 18s linear infinite;
+
+  @include reduced-motion {
+    animation: none;
+  }
+}
+
+.ringText {
+  fill: currentColor;
+  font-family: $font-mono;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+// Solid centre: grows and turns its arrow on hover.
+.disc {
+  display: grid;
+  place-items: center;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: $signal;
+  color: $on-signal;
+  font-size: 1.5rem;
+  transition:
+    transform 0.5s $ease-out,
+    background-color 0.3s ease;
+
+  svg {
+    transition: transform 0.5s $ease-out;
+  }
+
+  @include fine-pointer {
+    .badge:hover & {
+      transform: scale(1.12);
+      background: $signal-hover;
+
+      svg {
+        transform: rotate(45deg);
+      }
+    }
+  }
+}
+
+@keyframes badge-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

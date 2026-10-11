@@ -23,7 +23,10 @@ export const machines: Machine[] = [
   { id: "stacker", name: "Stacker (forklift), 2000 kg", make: "Newgen", quantity: 1, image: "machine-stacker" },
 ]
 
+export type InstrumentGroup = "callipers" | "micrometers" | "height" | "setup" | "gauges"
+
 export type Instrument = {
+  group: InstrumentGroup
   name: string
   range: string
   leastCount: string
@@ -31,20 +34,29 @@ export type Instrument = {
 }
 
 export const instruments: Instrument[] = [
-  { name: "Digital vernier", range: "0–200 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
-  { name: "Dial vernier", range: "0–300 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
-  { name: "Vernier caliper", range: "0–200 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
-  { name: "Digital height gauge", range: "0–600 mm", leastCount: "0.001 mm", make: "Mitutoyo" },
-  { name: "Digital micrometer", range: "0–25 mm", leastCount: "0.001 mm", make: "Mitutoyo" },
-  { name: "Micrometer", range: "0–25 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
-  { name: "Micrometer", range: "25–50 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
-  { name: "Dial stand", range: "1 set", leastCount: "—", make: "Dasaqua" },
-  { name: "Dial indicator", range: "—", leastCount: "0.01 mm", make: "Mitutoyo" },
-  { name: "Dial indicator", range: "—", leastCount: "0.002 mm", make: "Mitutoyo" },
-  { name: "Slip gauge set", range: "1.005–100 mm", leastCount: "0.005 mm", make: "Jefuji" },
-  { name: "Bore gauge set", range: "10–60 mm", leastCount: "0.001 mm", make: "Mitutoyo" },
-  { name: "V blocks", range: "0–150 mm", leastCount: "—", make: "Mitutoyo" },
-  { name: "Pin gauge set", range: "1–12 mm", leastCount: "0.01 mm", make: "AIK" },
-  { name: "Surface table", range: "2000 × 1000 × 200 mm", leastCount: "0.006 mm", make: "MI & S" },
-  { name: "Height master", range: "0–765 mm", leastCount: "0.001 mm", make: "TESA" },
+  { group: "callipers", name: "Digital vernier", range: "0–200 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
+  { group: "callipers", name: "Dial vernier", range: "0–300 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
+  { group: "callipers", name: "Vernier caliper", range: "0–200 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
+  { group: "height", name: "Digital height gauge", range: "0–600 mm", leastCount: "0.001 mm", make: "Mitutoyo" },
+  { group: "micrometers", name: "Digital micrometer", range: "0–25 mm", leastCount: "0.001 mm", make: "Mitutoyo" },
+  { group: "micrometers", name: "Micrometer", range: "0–25 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
+  { group: "micrometers", name: "Micrometer", range: "25–50 mm", leastCount: "0.01 mm", make: "Mitutoyo" },
+  { group: "setup", name: "Dial stand", range: "1 set", leastCount: "—", make: "Dasaqua" },
+  { group: "setup", name: "Dial indicator", range: "—", leastCount: "0.01 mm", make: "Mitutoyo" },
+  { group: "setup", name: "Dial indicator", range: "—", leastCount: "0.002 mm", make: "Mitutoyo" },
+  { group: "gauges", name: "Slip gauge set", range: "1.005–100 mm", leastCount: "0.005 mm", make: "Jefuji" },
+  { group: "micrometers", name: "Bore gauge set", range: "10–60 mm", leastCount: "0.001 mm", make: "Mitutoyo" },
+  { group: "setup", name: "V blocks", range: "0–150 mm", leastCount: "—", make: "Mitutoyo" },
+  { group: "gauges", name: "Pin gauge set", range: "1–12 mm", leastCount: "0.01 mm", make: "AIK" },
+  { group: "setup", name: "Surface table", range: "2000 × 1000 × 200 mm", leastCount: "0.006 mm", make: "MI & S" },
+  { group: "height", name: "Height master", range: "0–765 mm", leastCount: "0.001 mm", make: "TESA" },
+]
+
+/** Display order and names for the instrument groups (quality section). */
+export const instrumentGroups: { id: InstrumentGroup; label: string }[] = [
+  { id: "micrometers", label: "Micrometers and bore gauges" },
+  { id: "height", label: "Height measurement" },
+  { id: "callipers", label: "Callipers and verniers" },
+  { id: "setup", label: "Indicators and set-up" },
+  { id: "gauges", label: "Gauge sets" },
 ]

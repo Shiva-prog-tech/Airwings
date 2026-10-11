@@ -109,9 +109,11 @@ export function animateMasks(root: ParentNode = document) {
   })
 }
 
+// Line-only splits keep words whole, so screen readers read the lines as-is;
+// SplitText's default aria-label isn't allowed on <p> and fails axe.
 export function animateTitles(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>("[data-title]").forEach((el) => {
-    const split = new SplitText(el, { type: "lines", mask: "lines" })
+    const split = new SplitText(el, { type: "lines", mask: "lines", aria: "none" })
     gsap.from(split.lines, {
       yPercent: 110,
       duration: 1,
@@ -124,7 +126,7 @@ export function animateTitles(root: ParentNode = document) {
 
 export function animateTextFill(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>("[data-text-fill]").forEach((el) => {
-    const split = new SplitText(el, { type: "lines" })
+    const split = new SplitText(el, { type: "lines", aria: "none" })
     split.lines.forEach((line) => {
       gsap.to(line, {
         backgroundPositionX: 0,

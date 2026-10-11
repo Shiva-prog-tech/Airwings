@@ -54,9 +54,10 @@ function playClose(wrap: HTMLElement, panel: HTMLElement) {
 }
 
 /**
- * Full-screen site menu (after React Bits "Staggered Menu", as in
- * tsfsolodev): coloured layers sweep in, then the panel, then the numbered
- * links rotate up one by one. Controlled by <MenuToggle> in the header.
+ * Full-screen menu for phones and tablets (after React Bits "Staggered
+ * Menu", as in tsfsolodev): coloured layers sweep in, then the panel, then
+ * the numbered links rotate up one by one. Opened from the notch's Menu
+ * button; closes on Escape, backdrop click or link click.
  */
 export function StaggeredMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -100,7 +101,7 @@ export function StaggeredMenu({ open, onClose }: { open: boolean; onClose: () =>
   useEffect(() => () => void ScrollSmoother.get()?.paused(false), [])
 
   // Close first, then scroll once the smoother is running again.
-  const go = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const go = (event: React.MouseEvent<HTMLAnchorElement>, href: `#${string}`) => {
     event.preventDefault()
     onClose()
     window.setTimeout(() => scrollToHash(href), 120)
@@ -129,9 +130,14 @@ export function StaggeredMenu({ open, onClose }: { open: boolean; onClose: () =>
         </ul>
 
         <div className={styles.contact}>
-          <a href="#contact" className={styles.cta} onClick={(event) => go(event, "#contact")} data-fade>
-            Request a quote <Icon name="arrow-right" />
-          </a>
+          <div className={styles.actions} data-fade>
+            <a href="#contact" className={styles.cta} onClick={(event) => go(event, "#contact")}>
+              Request a quote <Icon name="arrow-right" />
+            </a>
+            <a href={site.brochure} download className={styles.ghost}>
+              <Icon name="download" /> Brochure
+            </a>
+          </div>
           <div className={styles.contactLinks} data-fade>
             <a href={site.phones[0].href}>
               <Icon name="phone" /> <span className="mono">{site.phones[0].display}</span>
@@ -146,65 +152,5 @@ export function StaggeredMenu({ open, onClose }: { open: boolean; onClose: () =>
         </div>
       </aside>
     </div>
-  )
-}
-
-function animateToggle(button: HTMLButtonElement, opening: boolean) {
-  const reduced = prefersReducedMotion()
-  gsap.to(button.querySelector("[data-icon]"), {
-    rotate: opening ? 225 : 0,
-    duration: reduced ? 0 : opening ? 0.8 : 0.35,
-    ease: opening ? "power4.out" : "power3.inOut",
-    overwrite: "auto",
-  })
-  // The label rolls through Menu/Close a few times before settling.
-  const inner = button.querySelector<HTMLElement>("[data-roll]")
-  if (!inner) return
-  const lines = inner.children.length
-  gsap.to(inner, {
-    yPercent: -((opening ? lines - 1 : 0) / lines) * 100,
-    duration: reduced ? 0 : 0.5 + lines * 0.07,
-    ease: "power4.out",
-    overwrite: "auto",
-  })
-}
-
-/** "Menu" / "Close" text roll with a plus that spins into a cross. */
-export function MenuToggle({ open, onToggle }: { open: boolean; onToggle: () => void }) {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const mounted = useRef(false)
-
-  useEffect(() => {
-    const button = buttonRef.current
-    if (!button) return
-    if (!mounted.current) {
-      mounted.current = true
-      return
-    }
-    animateToggle(button, open)
-  }, [open])
-
-  return (
-    <button
-      ref={buttonRef}
-      type="button"
-      className={styles.toggle}
-      aria-label={open ? "Close menu" : "Open menu"}
-      aria-expanded={open}
-      aria-controls={MENU_ID}
-      onClick={onToggle}
-    >
-      <span className={styles.toggleText} aria-hidden>
-        <span className={styles.toggleRoll} data-roll>
-          {["Menu", "Close", "Menu", "Close", "Menu", "Close"].map((label, i) => (
-            <span key={i}>{label}</span>
-          ))}
-        </span>
-      </span>
-      <span className={styles.toggleIcon} data-icon aria-hidden>
-        <span />
-        <span />
-      </span>
-    </button>
   )
 }

@@ -15,6 +15,16 @@ html {
   scroll-padding-top: var(--header-h);
 }
 
+// Scrollbars hidden site-wide; scrolling still works (wheel, keys, touch).
+// The back-to-top ring shows scroll progress instead.
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;

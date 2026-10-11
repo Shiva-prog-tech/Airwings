@@ -1,0 +1,107 @@
+{
+  "license": "Pexels License (https://www.pexels.com/license/): free for commercial use, no attribution required, edits allowed. Do not imply endorsement by people or brands shown; do not redistribute the raw files.",
+  "note": "Stock footage is illustrative only. Never caption it as Airwing's own shop floor.",
+  "videos": [
+    {
+      "key": "hero",
+      "files": [
+        "hero.mp4",
+        "hero.webm",
+        "hero-mobile.mp4",
+        "hero-mobile.webm",
+        "hero-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/cnc-machine-tool-cutting-metal-with-coolant-spray-5998850/",
+      "shows": "CNC end mill machining an aluminium plate, chips and coolant hoses",
+      "edit": "1.0-12.0 s, crossfaded loop, steel grade, 1920 and 960 px"
+    },
+    {
+      "key": "slicer",
+      "files": [
+        "slicer.mp4",
+        "slicer.webm",
+        "slicer-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/a-machine-is-cutting-metal-with-a-metal-cutting-tool-9033891/",
+      "shows": "End mill cutting rectangular pockets into an aluminium part (original upload is 720p); also the slider clip for the ribbed frame",
+      "edit": "2.0-14.0 s, crossfaded loop, steel grade, 1280 px"
+    },
+    {
+      "key": "turning",
+      "files": [
+        "turning.mp4",
+        "turning.webm",
+        "turning-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/turning-steel-on-a-cnc-machine-19791092/",
+      "shows": "CNC turning centre cutting a steel shaft",
+      "edit": "0.3-8.0 s, crossfaded loop, steel grade, 960 px"
+    },
+    {
+      "key": "inspection",
+      "files": [
+        "inspection.mp4",
+        "inspection.webm",
+        "inspection-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/person-measuring-metal-5846664/",
+      "shows": "Vernier caliper measuring a turned metal part",
+      "edit": "3.0-13.0 s, crossfaded loop, steel grade, 960 px"
+    },
+    {
+      "key": "milling",
+      "files": [
+        "milling.mp4",
+        "milling.webm",
+        "milling-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/precision-metal-milling-in-workshop-31801781/",
+      "shows": "End mill machining a plate with coolant (slider: machined housing)",
+      "edit": "2.0-12.0 s, crossfaded loop, steel grade, 1600 px"
+    },
+    {
+      "key": "facemill",
+      "files": [
+        "facemill.mp4",
+        "facemill.webm",
+        "facemill-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/precision-cnc-machine-metalworking-process-36591394/",
+      "shows": "Face-milling spindle at work (slider: titanium arm)",
+      "edit": "3.0-13.0 s, crossfaded loop, steel grade, 1600 px"
+    },
+    {
+      "key": "toolchange",
+      "files": [
+        "toolchange.mp4",
+        "toolchange.webm",
+        "toolchange-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/high-precision-cnc-machine-operation-31751330/",
+      "shows": "Machining centre with tool magazine (slider: ribbed bracket)",
+      "edit": "1.0-11.0 s, crossfaded loop, steel grade, 1600 px"
+    },
+    {
+      "key": "drilling",
+      "files": [
+        "drilling.mp4",
+        "drilling.webm",
+        "drilling-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/aluminium-automatic-machinery-drill-cnc-18883365/",
+      "shows": "CNC drilling aluminium (slider: pocketed frame)",
+      "edit": "0.3-7.0 s, crossfaded loop, steel grade, 1600 px"
+    },
+    {
+      "key": "operator",
+      "files": [
+        "operator.mp4",
+        "operator.webm",
+        "operator-poster.webp"
+      ],
+      "source": "https://www.pexels.com/video/cnc-milling-machine-in-operation-with-operator-31474685/",
+      "shows": "CNC mill in operation with an operator (slider: tapered beam)",
+      "edit": "4.0-14.0 s, crossfaded loop, steel grade, 1600 px"
+    }
+  ]
+}

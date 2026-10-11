@@ -22,13 +22,16 @@
   font-size: 0.95rem;
   font-weight: 500;
   line-height: 1;
-  color: $ink;
-  transition: background-color 0.2s ease;
+  // Set by the header: light over the hero, graphite once scrolled.
+  color: var(--nav-ink, #{$ink});
+  transition:
+    background-color 0.2s ease,
+    color 0.3s ease;
 
   &:hover,
   &:focus-visible,
   &[data-popup-open] {
-    background: rgba(22, 24, 28, 0.07);
+    background: var(--nav-hover, rgba(22, 24, 28, 0.07));
   }
 }
 
@@ -70,15 +73,13 @@
   box-shadow:
     0 30px 60px -20px rgba(22, 24, 28, 0.35),
     0 2px 6px rgba(22, 24, 28, 0.06);
-  transform-origin: var(--transform-origin);
-  transition-property: opacity, transform, width, height;
-  transition-duration: 0.35s;
-  transition-timing-function: $ease-out;
+  // Fade only. Scaling while Base UI also animates the popup's width and
+  // height made the panel text visibly squeeze as it opened.
+  transition: opacity 0.22s ease;
 
   &[data-starting-style],
   &[data-ending-style] {
     opacity: 0;
-    transform: scale(0.96);
   }
 }
 
@@ -89,16 +90,15 @@
   overflow: hidden;
 }
 
+// Content only fades: a vertical slide here made the taglines visibly
+// drift upward every time the panel opened.
 .content {
   width: max-content;
-  transition:
-    opacity 0.35s $ease-out,
-    transform 0.35s $ease-out;
+  transition: opacity 0.25s ease;
 
   &[data-starting-style],
   &[data-ending-style] {
     opacity: 0;
-    transform: translateY(6px);
   }
 }
 
