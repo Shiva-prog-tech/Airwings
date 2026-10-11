@@ -1,117 +1,207 @@
 @use "abstracts" as *;
 
 .section {
-  padding-bottom: var(--space-section);
+  position: relative;
+  // Half: industries below opens on its own photo band, which reads as space.
+  padding-bottom: calc(var(--space-section) * 0.5);
 }
 
-.rows {
-  border-top: 1px solid $line-strong;
-}
-
-.row {
+.cards {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr);
-  gap: 1rem 1.5rem;
-  padding-block: clamp(1.75rem, 3vw, 2.75rem);
-  border-bottom: 1px solid $line-strong;
+  gap: 1rem;
 
   @include up(lg) {
-    grid-template-columns: 5rem minmax(0, 1fr) clamp(220px, 24vw, 340px);
-    align-items: center;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  @include hull-panel;
+  border-radius: $radius-lg;
+  transition:
+    border-color 0.5s ease,
+    transform 0.7s $ease-out,
+    box-shadow 0.7s $ease-out;
+
+  @include fine-pointer {
+    &:hover {
+      border-color: $line-bright;
+      transform: translateY(-6px);
+      box-shadow: 0 40px 80px -40px rgba(255, 91, 31, 0.35);
+    }
+  }
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  margin: 8px 8px 0;
+  overflow: hidden;
+  border-radius: calc($radius-lg - 8px);
+  background: $space;
+
+  // Scanline sheen and bottom fade into the card.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 55%, rgba(15, 18, 24, 0.85)),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+  }
+}
+
+// Child selector outranks SiteVideo's own `position: relative` wrapper.
+.media > .mediaFill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  transition:
+    transform 1.2s $ease-out,
+    opacity 0.8s ease;
+
+  @include fine-pointer {
+    .card:hover & {
+      transform: scale(1.1);
+    }
+  }
+}
+
+// Footage: dimmed with opacity over the dark card rather than a CSS filter,
+// which would re-filter every video frame; full strength on hover.
+.media:not([data-render="cad"]) > .mediaFill {
+  opacity: 0.8;
+
+  @include fine-pointer {
+    .card:hover & {
+      opacity: 1;
+    }
+  }
+}
+
+// CAD stills become the same x-ray scan as the project parts.
+.media[data-render="cad"] {
+  background: $void;
+
+  > .mediaFill {
+    object-fit: contain;
+    padding: 6%;
+    @include blueprint-scan;
+    transition:
+      transform 1.2s $ease-out,
+      filter 0.8s ease;
+
+    img {
+      filter: inherit;
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: $plasma;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+  }
+
+  // Hover lifts the scan and shows the render as modelled.
+  @include fine-pointer {
+    .card:hover & {
+      &::before {
+        opacity: 0;
+      }
+
+      > .mediaFill {
+        filter: none;
+        mix-blend-mode: normal;
+      }
+    }
   }
 }
 
 .index {
-  padding-top: 0.6rem;
-  color: $steel-dark;
-  align-self: start;
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid $line-strong;
+  border-radius: $radius-pill;
+  background: rgba(5, 6, 8, 0.6);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: $text;
 }
 
 .body {
   display: grid;
-  gap: 0.9rem;
+  align-content: start;
+  gap: 1rem;
+  padding: 1.75rem 1.75rem 2rem;
 }
 
 .title {
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h3);
   transition: color 0.3s ease;
 
   @include fine-pointer {
-    .row:hover & {
-      color: $signal;
+    .card:hover & {
+      color: $ignition;
     }
   }
 }
 
 .text {
-  color: $steel-dark;
-  font-size: 1.05rem;
+  color: $text-muted;
+  font-size: 1rem;
 }
 
 .points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  display: grid;
+  gap: 0;
+  margin-top: 0.5rem;
+  border-top: 1px solid $line;
 
   li {
-    padding: 0.4rem 0.85rem;
-    border: 1px solid $line-strong;
-    border-radius: $radius-pill;
-    font-size: 0.85rem;
-  }
-}
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid $line;
+    font-size: 0.875rem;
+    color: $text;
 
-// Thumbnail: always on phones; on desktop it opens with the row hover.
-.thumb {
-  position: relative;
-  grid-column: 1 / -1;
-  overflow: hidden;
-  border-radius: $radius-md;
-  aspect-ratio: 16 / 10;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.9s $ease-out;
-  }
-
-  @include up(lg) {
-    grid-column: auto;
-    aspect-ratio: 4 / 3;
-    clip-path: inset(0 0 0 100% round $radius-md);
-    transition: clip-path 0.7s $ease-in-out;
-
-    .row:hover &,
-    .row:focus-within & {
-      clip-path: inset(0 0 0 0 round $radius-md);
-    }
-
-    img {
-      transform: scale(1.15);
-    }
-
-    .row:hover & img {
-      transform: scale(1);
+    &::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      flex: none;
+      background: $ignition;
+      transform: rotate(45deg);
     }
   }
-
-  @include up(lg) {
-    @include reduced-motion {
-      clip-path: none;
-    }
-  }
-}
-
-.thumbVideo {
-  position: absolute;
-  inset: 0;
 }
 
 .counters {
   display: grid;
-  gap: 2.5rem 2rem;
-  margin-top: clamp(3.5rem, 6vw, 5.5rem);
+  gap: 1px;
+  margin-top: clamp(4rem, 7vw, 6rem);
+  overflow: hidden;
+  border: 1px solid $line;
+  border-radius: $radius-lg;
+  background: $line;
 
   @include up(sm) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -123,9 +213,9 @@
 
   li {
     display: grid;
-    gap: 0.75rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid $ink;
+    gap: 1rem;
+    padding: clamp(1.5rem, 2.5vw, 2.25rem);
+    background: $void;
   }
 }
 
@@ -133,19 +223,28 @@
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
-  font-family: $font-display;
-  font-size: clamp(4.5rem, 3rem + 5vw, 8rem);
-  line-height: 0.8;
+  @include display(600);
+  font-size: clamp(2.75rem, 1.8rem + 3vw, 4.75rem);
+  line-height: 0.9;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+
+  > span:first-child {
+    @include metal-text;
+  }
 }
 
 .unit {
-  font-size: 0.95rem;
-  color: $signal;
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-stretch: 100%;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: $ignition;
 }
 
 .label {
-  color: $steel-dark;
-  font-size: 0.95rem;
+  color: $text-muted;
+  font-size: 0.9375rem;
   max-width: 26ch;
 }

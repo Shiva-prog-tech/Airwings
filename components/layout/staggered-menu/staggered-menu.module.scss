@@ -1,6 +1,6 @@
 @use "abstracts" as *;
 
-// Phones and tablets only; desktop uses the notch navigation.
+// Phones and tablets only; desktop uses the header navigation.
 .wrapper {
   position: fixed;
   inset: 0;
@@ -24,7 +24,7 @@
 .backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(22, 24, 28, 0.45);
+  background: rgba(0, 0, 0, 0.6);
   opacity: 0;
   transition: opacity 0.4s ease;
 
@@ -49,12 +49,13 @@
   inset: 0;
 }
 
+// Ignition sweep, then logo indigo, then the dark panel.
 .layerGraphite {
-  background: $graphite;
+  background: $ignition;
 }
 
 .layerIndigo {
-  background: $indigo;
+  background: $indigo-deep;
 }
 
 .panel {
@@ -66,8 +67,19 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: none;
-  background: $canvas-raised;
+  background:
+    radial-gradient(90% 60% at 100% 0%, rgba(255, 91, 31, 0.12), transparent 60%),
+    $void;
   pointer-events: auto;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    @include blueprint-grid($line, 56px);
+    mask-image: linear-gradient(180deg, #000, transparent 75%);
+    pointer-events: none;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -75,6 +87,7 @@
 }
 
 .list {
+  position: relative;
   display: flex;
   flex-direction: column;
   counter-reset: menu;
@@ -83,36 +96,37 @@
 .itemWrap {
   overflow: hidden;
   line-height: 1;
+  border-bottom: 1px solid $line;
 }
 
 .item {
   --num-opacity: 0;
   position: relative;
-  display: inline-block;
-  padding-right: 2.2rem;
-  font-family: $font-display;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  padding: 0.35em 0;
+  @include display(600);
   // All links fit between the header and the contact block.
-  font-size: clamp(2rem, 6.2vh, 4rem);
+  font-size: clamp(1.5rem, 4.6vh, 2.75rem);
   line-height: 1.02;
-  text-transform: uppercase;
-  color: $ink;
+  color: $text;
   transition: color 0.25s ease;
 
   &:hover,
   &:focus-visible {
-    color: $signal;
+    color: $ignition;
   }
 
   // Item number fades in with the link (--num-opacity is tweened).
   &::after {
     counter-increment: menu;
     content: counter(menu, decimal-leading-zero);
-    position: absolute;
-    top: 0.25em;
-    right: 0;
     font-family: $font-mono;
-    font-size: 0.8rem;
-    color: $steel-dark;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: $text-muted;
     opacity: var(--num-opacity);
   }
 }
@@ -124,6 +138,7 @@
 }
 
 .contact {
+  position: relative;
   display: grid;
   gap: clamp(0.75rem, 1.8vh, 1.25rem);
   margin-top: auto;
@@ -147,12 +162,12 @@
 }
 
 .cta {
-  background: $signal;
-  color: $on-signal;
+  background: $ignition;
+  color: $on-ignition;
 }
 
 .ghost {
-  border: 2px solid $line-strong;
+  border: 1px solid $line-strong;
 }
 
 .contactLinks {
@@ -163,11 +178,11 @@
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    color: $ink;
+    color: $text;
   }
 }
 
 .address {
-  color: $steel-dark;
+  color: $text-muted;
   font-size: var(--fs-small);
 }

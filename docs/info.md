@@ -77,7 +77,7 @@ We at Airwing Technologies are committed to total customer satisfaction in terms
 Our company is committed to ultimate customer satisfaction by manufacturing and supplying precision machined components to the highest quality standards with timely delivery.
 
 ### Facility
-We have 10,000 sq ft of working area with good store and fitting facilities, a CAD-CAM room, a quality room and an office. We handle customer raw material and components with care, identifying each by batch and material grade and storing them separately.
+We have 20,000 sq ft of working area with good store and fitting facilities, a CAD-CAM room, a quality room and an office. We handle customer raw material and components with care, identifying each by batch and material grade and storing them separately.
 
 ---
 
@@ -87,8 +87,7 @@ A state-of-the-art facility built for precision, scale, and the future of aerosp
 
 | Item | Value | Description |
 |---|---|---|
-| Total built-up area | 10,000 sq ft | A spacious, modern facility designed for efficient workflow and large-scale projects |
-| Shop floor | 5,500 sq ft | Equipped with 3-axis machines producing components from small detailed parts up to 3.5 m in length |
+| Total built-up area | 20,000 sq ft | A spacious, modern facility designed for efficient workflow and large-scale projects |
 | Advanced CMM | 2.1 m range | Expanding quality control capabilities by adding a new Coordinate Measuring Machine |
 
 ---
@@ -238,7 +237,7 @@ All four are Managing Partners.
 ## Key Numbers (for a stats strip)
 
 - Established **2022**
-- **10,000 sq ft** facility, **5,500 sq ft** shop floor
+- **20,000 sq ft** facility
 - **11** machines (6 BFW milling centers, 2 turning centers, plus support equipment)
 - **16** precision quality instruments
 - **25** skilled staff

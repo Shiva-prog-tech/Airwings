@@ -1,11 +1,13 @@
 @use "abstracts" as *;
 
 .section {
-  @include graphite-band;
-  padding-top: var(--space-section);
+  position: relative;
+  background: $void;
+  // Half: infrastructure above adds the other half.
+  padding-top: calc(var(--space-section) * 0.5);
 }
 
-// Default (phones, reduced motion): a swipeable row of cards.
+// Default (phones, reduced motion): a swipeable row of spec cards.
 // `[data-animated]` (desktop scene): one pinned full-screen stage.
 .slicer {
   position: relative;
@@ -21,7 +23,7 @@
 .track {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: min(85vw, 560px);
+  grid-auto-columns: min(86vw, 560px);
   gap: 1rem;
   padding-inline: var(--gutter);
   overflow-x: auto;
@@ -46,147 +48,237 @@
   [data-animated] & {
     position: absolute;
     inset: 0;
+    // Clips the counter-sliding content into the wipe (projects.tsx).
+    overflow: hidden;
+    will-change: transform;
   }
 }
 
 .inner {
+  position: relative;
   display: grid;
   height: 100%;
   overflow: hidden;
+  @include hull-panel;
   border-radius: $radius-lg;
-  background: $graphite-raised;
   transform-origin: center 60%;
 
   [data-animated] & {
-    position: relative;
+    border: 0;
     border-radius: 0;
+    background: $void;
   }
 }
 
+// Footage: desktop backdrop only (phones skip the download).
 .media {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: #dfe2e6; // CAD renders and studio shots sit on light grey
+  display: none;
 
   [data-animated] & {
     position: absolute;
     inset: 0;
-    aspect-ratio: auto;
+    display: block;
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5, 6, 8, 0.92) 0%, rgba(5, 6, 8, 0.55) 55%, rgba(5, 6, 8, 0.85) 100%),
+        linear-gradient(0deg, rgba(5, 6, 8, 0.9), transparent 40%);
+    }
   }
 }
 
 .mediaImage {
   position: absolute;
   inset: 0;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 }
 
 .mediaVideo {
   position: absolute;
   inset: 0;
+
+  // Dimmed with opacity over the slide's $void, not a CSS filter: a filter
+  // would be re-applied to every frame of the playing video.
+  opacity: 0.65;
 }
 
-.caption {
+.layout {
+  position: relative;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 1rem;
-  padding: 1.5rem;
+  align-content: start;
 
-  // Desktop: graphite title block over the bottom of the full-screen image.
   [data-animated] & {
-    position: absolute;
-    left: var(--gutter);
-    right: var(--gutter);
-    bottom: var(--gutter);
-    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     align-items: center;
-    gap: 1rem 2.5rem;
-    padding: 2rem 2.25rem;
-    border-radius: $radius-lg;
-    background: $graphite-raised;
+    gap: clamp(2rem, 4vw, 5rem);
+    max-width: calc(var(--container) + var(--gutter) * 2);
+    width: 100%;
+    margin-inline: auto;
+    // Right padding clears the progress rail.
+    padding: calc(var(--header-h) + 2rem) calc(var(--gutter) + 3.5rem) 3rem var(--gutter);
   }
 }
 
-// Inset photo of Airwing's actual part.
+// Inspection panel holding Airwing's real part.
 .part {
+  position: relative;
   display: grid;
-  gap: 0.35rem;
-  grid-row: span 2;
-  width: 84px;
+  margin: 8px;
+  padding: 10px;
+  border: 1px solid $line-strong;
+  border-radius: calc($radius-lg - 8px);
+  background:
+    radial-gradient(70% 60% at 50% 45%, rgba(159, 214, 255, 0.08), transparent 70%),
+    $space;
+  @include corner-ticks($ignition, 16px, -1px);
 
-  img {
-    width: 84px;
-    height: 84px;
-    border-radius: $radius-sm;
-    object-fit: cover;
-    background: #dfe2e6;
+  // Fine grid behind the part.
+  .partImage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    @include blueprint-grid(rgba(159, 214, 255, 0.07), 28px);
+    pointer-events: none;
   }
 
   figcaption {
-    color: $on-graphite-muted;
-    font-size: 0.7rem;
+    @include readout;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0.4rem 0.2rem;
+    color: $text-muted;
+    font-size: 0.625rem;
+
+    .mono {
+      color: $ignition;
+    }
   }
 
   [data-animated] & {
-    width: 132px;
-    grid-row: span 1;
+    margin: 0;
+    padding: 14px;
+    background:
+      radial-gradient(70% 60% at 50% 45%, rgba(159, 214, 255, 0.1), transparent 70%),
+      rgba(9, 11, 16, 0.82);
+    box-shadow: 0 50px 100px -40px rgba(0, 0, 0, 0.9);
+  }
+}
+
+.partImage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: $radius-md;
+  isolation: isolate;
+
+  img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // CAD renders become an ice-blue x-ray scan.
+  [data-render="cad"] & {
+    background: $void;
 
     img {
-      width: 132px;
-      height: 96px;
+      object-fit: contain;
+      padding: 4%;
+      @include blueprint-scan;
     }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: $plasma;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+  }
+
+  [data-render="photo"] & img {
+    filter: saturate(0.85) contrast(1.05);
+  }
+}
+
+.info {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 1.75rem;
+
+  [data-animated] & {
+    gap: 1.25rem;
+    padding: 0;
   }
 }
 
 .no {
-  color: $on-graphite-muted;
-
-  [data-animated] & {
-    align-self: start;
-    padding-top: 0.5rem;
-  }
+  color: $text-muted;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
 }
 
 .title {
   font-size: var(--fs-h3);
 
   [data-animated] & {
-    font-size: var(--fs-h2);
+    @include metal-text;
+    font-size: clamp(2rem, 1rem + 2.6vw, 3.75rem);
+    padding-bottom: 0.06em;
+  }
+}
+
+.reduction {
+  color: $text-muted;
+  font-size: 0.9375rem;
+
+  .mono {
+    color: $ignition;
+    font-size: 1.05em;
   }
 }
 
 .specs {
-  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem 1.5rem;
+  gap: 1px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+  background: $line;
 
-  [data-animated] & {
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding-top: 1.25rem;
-    border-top: 1px solid $line-dark;
+  > div {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.9rem 1rem;
+    background: $hull;
+  }
+
+  [data-animated] & > div {
+    padding: 1.1rem 1.25rem;
+    background: rgba(15, 18, 24, 0.85);
   }
 
   dt {
-    color: $on-graphite-muted;
-    font-size: 0.75rem;
+    @include readout;
+    color: $text-muted;
+    font-size: 0.625rem;
   }
 
   dd {
-    font-size: 0.95rem;
+    font-size: 0.9375rem;
   }
 }
 
 .tolerance {
-  color: $signal;
+  color: $ignition;
 }
 
 .hud {
@@ -194,21 +286,40 @@
 
   [data-animated] & {
     position: absolute;
-    top: calc(var(--header-h) + 1rem);
+    top: calc(var(--header-h) + 1.5rem);
     right: var(--gutter);
+    bottom: 3rem;
     z-index: 20;
     display: grid;
-    justify-items: end;
-    gap: 0.25rem;
-    padding: 0.75rem 1rem;
-    border-radius: $radius-md;
-    background: rgba(22, 24, 28, 0.75);
-    color: $on-graphite;
-    font-size: 1rem;
+    grid-template-rows: auto 1fr auto;
+    justify-items: center;
+    gap: 1rem;
+    color: $text;
+    font-size: 0.875rem;
+  }
+}
+
+.hudTotal {
+  color: $text-dim;
+}
+
+.rail {
+  position: relative;
+  width: 1px;
+  background: $line-strong;
+
+  span {
+    position: absolute;
+    inset: 0;
+    background: $ignition;
+    transform: scaleY(0);
+    transform-origin: top;
   }
 }
 
 .hint {
-  color: $on-graphite-muted;
-  font-size: 0.75rem;
+  @include readout;
+  writing-mode: vertical-rl;
+  color: $text-muted;
+  font-size: 0.625rem;
 }

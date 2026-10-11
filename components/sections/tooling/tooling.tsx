@@ -20,9 +20,14 @@ export function Tooling() {
   return (
     <section className={styles.section} aria-labelledby="tooling-title">
       <div className="container">
-        <h2 id="tooling-title" className={styles.title} data-title>
-          Tooling and special-purpose work
-        </h2>
+        <div className={styles.head}>
+          <h2 id="tooling-title" className={styles.title} data-title>
+            Tooling and special-purpose work
+          </h2>
+          <p className={styles.intro} data-reveal="fade">
+            Moulds, jigs, fixtures and gauges from the same tool room, plus automotive and medical CNC parts.
+          </p>
+        </div>
         <ul className="sr-only">
           {tooling.map((item) => (
             <li key={item.title}>{item.title}</li>

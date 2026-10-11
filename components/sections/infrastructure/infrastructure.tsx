@@ -81,6 +81,7 @@ export function Infrastructure() {
           ))}
         </div>
         <div className={styles.statement} data-statement>
+          <p className={styles.code}>Infrastructure</p>
           <h2 id="infra-title" className={styles.title}>
             {infrastructure.statement}
           </h2>
@@ -88,14 +89,16 @@ export function Infrastructure() {
         </div>
       </div>
 
-      <div className={`container ${styles.stats}`} data-reveal-group>
-        {infrastructure.stats.map((stat) => (
-          <div key={stat.label} className={styles.stat}>
-            <span className={styles.statValue}>{stat.value}</span>
-            <span className={styles.statLabel}>{stat.label}</span>
-            <p>{stat.text}</p>
-          </div>
-        ))}
+      <div className="container">
+        <div className={styles.stats} data-reveal-group>
+          {infrastructure.stats.map((stat) => (
+            <div key={stat.label} className={styles.stat}>
+              <span className={styles.statValue}>{stat.value}</span>
+              <span className={styles.statLabel}>{stat.label}</span>
+              <p>{stat.text}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

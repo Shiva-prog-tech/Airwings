@@ -19,11 +19,11 @@
   gap: 6px;
   padding: 10px 16px;
   border-radius: $radius-pill;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1;
-  // Set by the header: light over the hero, graphite once scrolled.
-  color: var(--nav-ink, #{$ink});
+  letter-spacing: 0.01em;
+  color: var(--nav-ink, #{$text});
   transition:
     background-color 0.2s ease,
     color 0.3s ease;
@@ -31,7 +31,7 @@
   &:hover,
   &:focus-visible,
   &[data-popup-open] {
-    background: var(--nav-hover, rgba(22, 24, 28, 0.07));
+    background: var(--nav-hover, rgba(236, 239, 244, 0.08));
   }
 }
 
@@ -67,12 +67,13 @@
   position: relative;
   width: var(--popup-width);
   height: var(--popup-height);
-  border: 1px solid $line;
-  border-radius: 20px;
-  background: $canvas-raised;
+  border: 1px solid $line-strong;
+  border-radius: 22px;
+  background: rgba(12, 14, 19, 0.92);
+  backdrop-filter: blur(20px) saturate(150%);
   box-shadow:
-    0 30px 60px -20px rgba(22, 24, 28, 0.35),
-    0 2px 6px rgba(22, 24, 28, 0.06);
+    0 40px 80px -30px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
   // Fade only. Scaling while Base UI also animates the popup's width and
   // height made the panel text visibly squeeze as it opened.
   transition: opacity 0.22s ease;
@@ -104,42 +105,54 @@
 
 .panel {
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 10px;
-  width: min(780px, calc(100vw - 32px));
+  width: min(800px, calc(100vw - 32px));
   padding: 10px;
 }
 
-// Indigo card: one of the few places the logo colour is used at size.
+// Ignition card with a blueprint grid behind the copy.
 .feature {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 8px;
-  min-height: 210px;
+  gap: 10px;
+  min-height: 220px;
   padding: 22px;
+  overflow: hidden;
   border-radius: 14px;
-  background: $indigo;
-  color: #fff;
-  transition: background-color 0.25s ease;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, 0.25), transparent 55%),
+    $ignition;
+  color: $on-ignition;
+  transition: filter 0.25s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    @include blueprint-grid(rgba(10, 10, 12, 0.08), 22px);
+    pointer-events: none;
+  }
 
   &:hover,
   &:focus-visible {
-    background: $indigo-deep;
+    filter: brightness(1.08);
   }
 }
 
 .featureTitle {
-  font-family: $font-display;
-  font-size: 2.1rem;
-  line-height: 0.95;
+  @include display(700);
+  position: relative;
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 .featureText {
-  font-size: 0.85rem;
+  position: relative;
+  font-size: 0.8125rem;
   line-height: 1.5;
-  opacity: 0.85;
 }
 
 .featureArrow {
@@ -151,7 +164,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.14);
+  background: $on-ignition;
+  color: $ignition;
   transform: rotate(-45deg);
   transition: transform 0.35s $ease-out;
 
@@ -169,26 +183,30 @@
 .item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   height: 100%;
-  padding: 16px 18px;
+  padding: 18px;
+  border: 1px solid transparent;
   border-radius: 12px;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 
   &:hover,
   &:focus-visible {
-    background: rgba(22, 24, 28, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: $line;
   }
 }
 
 .itemTitle {
-  font-family: $font-display;
-  font-size: 1.6rem;
-  line-height: 1;
+  @include display(600);
+  font-size: 1rem;
+  line-height: 1.1;
 }
 
 .itemText {
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
   line-height: 1.45;
-  color: $steel-dark;
+  color: $text-muted;
 }

@@ -6,3 +6,5 @@ out
 *.tsbuildinfo
 next-env.d.ts
 _legacy
+# Dev-only placeholder media (never deployed or committed)
+public/_dev/

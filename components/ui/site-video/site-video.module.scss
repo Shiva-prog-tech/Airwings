@@ -3,7 +3,7 @@
 .wrap {
   position: relative;
   overflow: hidden;
-  background: $graphite;
+  background: $void;
 }
 
 .poster,
@@ -18,7 +18,7 @@
 // Fades in over the poster once frames are actually playing.
 .video {
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity 1s ease;
 
   &[data-playing] {
     opacity: 1;

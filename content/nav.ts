@@ -12,7 +12,7 @@ export const navGroups: (NavLink | NavGroup)[] = [
     label: "Capabilities",
     items: [
       { label: "Services", href: "#services", tagline: "Machining, design and drafting, CMM inspection" },
-      { label: "Infrastructure", href: "#infrastructure", tagline: "10,000 sq ft facility, 5,500 sq ft shop floor" },
+      { label: "Infrastructure", href: "#infrastructure", tagline: "20,000 sq ft facility" },
       { label: "Machinery", href: "#machinery", tagline: "BFW milling centres up to 3100 × 1700 × 1000 mm" },
       { label: "Quality", href: "#quality", tagline: "ISO 9001:2015, 16 calibrated instruments" },
     ],

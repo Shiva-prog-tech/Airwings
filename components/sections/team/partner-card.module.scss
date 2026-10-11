@@ -1,0 +1,297 @@
+@use "abstracts" as *;
+
+// Flag-code green reads dark on the hull; this lift keeps hairlines visible.
+$green-lit: #2bb24c;
+// Chakra navy, lifted so it holds up on the dark title pill.
+$chakra: #8a93ff;
+
+// Saffron, white and green as soft-edged bands, for hairlines and ribbons.
+$tricolour: linear-gradient(
+  90deg,
+  $saffron 0%,
+  $saffron 30%,
+  $india-white 42%,
+  $india-white 58%,
+  $green-lit 70%,
+  $green-lit 100%
+);
+
+// Full-bleed portrait card (partner-card.tsx writes --rx / --ry / --mx / --my).
+.card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 35%;
+
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  aspect-ratio: 3 / 4.25;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  background: $hull;
+  isolation: isolate;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.7s $ease-out;
+
+  // Tricolour ribbon along the top edge, with a soft glow beneath it.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 4;
+    height: 3px;
+    background: $tricolour;
+    box-shadow:
+      0 0 18px rgba(255, 153, 51, 0.35),
+      0 0 24px rgba(43, 178, 76, 0.2);
+    mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+    pointer-events: none;
+  }
+
+  // Hairline metal border: bright along the top edge, fading down the sides.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      170deg,
+      rgba(255, 255, 255, 0.38),
+      rgba(255, 255, 255, 0.08) 30%,
+      rgba(255, 255, 255, 0.04) 70%,
+      rgba(43, 178, 76, 0.3)
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @include fine-pointer {
+    &:hover {
+      transition-duration: 0.15s;
+
+      .photo {
+        filter: grayscale(0.15) contrast(1.05);
+        transform: scale(1.035);
+      }
+
+      .glow {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// --- Portrait -----------------------------------------------------------------
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 14%;
+  filter: grayscale(1) contrast(1.06);
+  transition:
+    transform 1.4s $ease-out,
+    filter 1s ease;
+}
+
+// Fades the portrait into the dark base that holds the text.
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 6, 8, 0.55) 0%, transparent 18%),
+    linear-gradient(180deg, transparent 38%, rgba(9, 11, 16, 0.75) 60%, $space 82%);
+}
+
+// Soft light that follows the pointer.
+.glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(45% 35% at var(--mx) var(--my), rgba(255, 255, 255, 0.14), transparent 70%);
+  mix-blend-mode: screen;
+  transition: opacity 0.6s ease;
+}
+
+// Monogram plate until a partner's own portrait is supplied.
+.plate {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-bottom: 35%;
+  background:
+    radial-gradient(55% 40% at 50% 32%, rgba(46, 49, 146, 0.45), transparent 70%),
+    linear-gradient(180deg, $hull-raised, $space);
+}
+
+.initials {
+  @include display(800);
+  @include metal-text;
+  font-size: clamp(4rem, 3rem + 3vw, 5.5rem);
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+// --- Top line: index and title --------------------------------------------------
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.4rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.index {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: $text;
+
+  // Short tricolour dash after the number.
+  &::after {
+    content: "";
+    width: 26px;
+    height: 2px;
+    border-radius: $radius-pill;
+    background: linear-gradient(90deg, $saffron 0 33.3%, $india-white 33.3% 66.6%, $green-lit 66.6%);
+  }
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.75rem 0.4rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: $radius-pill;
+  background: rgba(5, 6, 8, 0.35);
+  backdrop-filter: blur(10px);
+  color: rgba(236, 239, 244, 0.85);
+}
+
+.chakra {
+  width: 14px;
+  height: 14px;
+  fill: $chakra;
+  stroke: $chakra;
+  filter: drop-shadow(0 0 4px rgba(138, 147, 255, 0.5));
+  transition: transform 1.6s $ease-out;
+
+  .card:hover & {
+    transform: rotate(180deg);
+  }
+}
+
+// --- Text base ------------------------------------------------------------------
+
+.body {
+  align-self: end;
+  display: grid;
+  gap: 1.1rem;
+  padding: 0 1.4rem 1.4rem;
+}
+
+.identity {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.name {
+  @include display(700);
+  @include metal-text;
+  font-size: clamp(1.35rem, 1.1rem + 0.6vw, 1.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.04em;
+}
+
+.role {
+  color: $text-muted;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+// Tricolour hairline that fades out to the right.
+.rule {
+  height: 1px;
+  background: $tricolour;
+  mask-image: linear-gradient(90deg, #000 55%, transparent);
+  opacity: 0.85;
+}
+
+// Background beside the call button on every card, however long it runs.
+.meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 1rem;
+}
+
+.expertise {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.label {
+  color: $text-dim;
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.call {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(255, 91, 31, 0.45);
+  border-radius: $radius-pill;
+  background: rgba(255, 91, 31, 0.08);
+  color: $text;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+  @include focus-ring;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    color: $ignition;
+    transition: color 0.3s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: $ignition;
+    background: $ignition;
+    color: $on-ignition;
+
+    svg {
+      color: $on-ignition;
+    }
+  }
+}

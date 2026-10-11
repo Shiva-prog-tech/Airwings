@@ -6,18 +6,20 @@ import { Logo } from "@/components/layout/logo/logo"
 import { AnchorLink } from "@/components/ui/anchor-link/anchor-link"
 import { Icon } from "@/components/ui/icon/icon"
 import { RoundButton } from "@/components/ui/round-button/round-button"
+import { YouTubeBackground } from "@/components/ui/youtube-background/youtube-background"
+import { imageUrl } from "@/content/images"
 import { menuLinks } from "@/content/nav"
-import { site } from "@/content/site"
+import { launchFilm, site } from "@/content/site"
 import { DESKTOP_MEDIA, gsap, prefersReducedMotion, useGSAP } from "@/lib/motion/gsap"
 import { cn } from "@/lib/utils"
 
 import styles from "./site-footer.module.scss"
 
 /**
- * Footer in the Parody "Digital Agency" layout: a statement headline with a
- * round call-to-action, contact columns and an underlined brochure line,
- * then a full-width wordmark and the legal bar. On desktop the footer
- * rises from under the page (curtain) and the wordmark lifts into place.
+ * Footer: a statement headline over Skyroot's Vikram-I launch with a round
+ * call-to-action, contact columns and an underlined brochure line, then a
+ * ghosted full-width wordmark and the legal bar. On desktop the footer rises
+ * from under the page (curtain) and the wordmark lifts into place.
  */
 export function SiteFooter() {
   const rootRef = useRef<HTMLElement>(null)
@@ -44,12 +46,34 @@ export function SiteFooter() {
   return (
     <footer ref={rootRef} className={styles.footer}>
       <div className={styles.stage} data-stage>
+        {/* Skyroot's Vikram-I liftoff: a customer's launch, embedded from YouTube. */}
+        <div className={styles.bg} aria-hidden>
+          <YouTubeBackground
+            id={launchFilm.id}
+            start={launchFilm.start}
+            end={launchFilm.end}
+            title={launchFilm.title}
+            poster={imageUrl("skyroot-vikram-s", 1600)}
+            className={styles.video}
+          />
+        </div>
         <div className={cn("container", styles.top)}>
-          <h2 className={styles.title}>
-            Have a drawing?
-            <br />
-            We&apos;ll machine it.
-          </h2>
+          <div>
+            <p className={styles.kicker}>{site.tagline}</p>
+            <h2 className={styles.title}>
+              Have a drawing?
+              <br />
+              We&apos;ll machine it.
+            </h2>
+            {/* <a href={launchFilm.url} target="_blank" rel="noopener noreferrer" className={styles.film}>
+              <span className={styles.filmDot} aria-hidden />
+              <span>
+                {launchFilm.label}
+                <small>{launchFilm.credit}. Watch on YouTube</small>
+              </span>
+              <Icon name="arrow-up-right" />
+            </a> */}
+          </div>
           <RoundButton href="#contact" tone="solid" className={styles.cta}>
             Request a quote
           </RoundButton>
@@ -96,23 +120,25 @@ export function SiteFooter() {
           </span>
         </div>
 
-        <div className={cn("container", styles.bottom)}>
-          <div className={styles.legal}>
-            <Logo height={34} tone="light" />
-            <p>
-              © <CurrentYear /> {site.name}. {site.certification} certified. GSTIN{" "}
-              <span className="mono">{site.gstin}</span>
-            </p>
+        <div className={styles.bottomBar}>
+          <div className={cn("container", styles.bottom)}>
+            <div className={styles.legal}>
+              <Logo height={34} tone="light" />
+              <p>
+                © <CurrentYear /> {site.name}. {site.certification} certified. GSTIN{" "}
+                <span className="mono">{site.gstin}</span>
+              </p>
+            </div>
+            <nav aria-label="Footer">
+              <ul className={styles.links}>
+                {menuLinks.map((item) => (
+                  <li key={item.href}>
+                    <AnchorLink href={item.href}>{item.label}</AnchorLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
-          <nav aria-label="Footer">
-            <ul className={styles.links}>
-              {menuLinks.map((item) => (
-                <li key={item.href}>
-                  <AnchorLink href={item.href}>{item.label}</AnchorLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
         </div>
       </div>
     </footer>

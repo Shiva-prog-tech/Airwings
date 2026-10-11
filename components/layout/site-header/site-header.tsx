@@ -20,10 +20,10 @@ function pastHero() {
 }
 
 /**
- * Full-width header: logo · shadcn-style links (xl+) · Brochure + Request a
- * quote. Transparent with light text over the hero footage, a frosted
- * aluminium bar once the hero is passed. Hides on scroll down, returns on scroll up.
- * Below xl a Menu button opens the full-screen staggered menu.
+ * Header: logo and live status · shadcn-style links (xl+) · Brochure +
+ * Request a quote. Open and transparent over the hero footage; once the hero
+ * is passed it closes into a floating glass capsule. Hides on scroll down,
+ * returns on scroll up. Below xl a Menu button opens the full-screen menu.
  */
 export function SiteHeader() {
   const { scrolled, hidden } = useStickyHeader(120, 8, pastHero)
@@ -50,9 +50,15 @@ export function SiteHeader() {
             onClick={(event) => go(event, "#top")}
             aria-label="Airwing Technologies, back to top"
           >
-            {/* Light logo over the hero, full colour on the scrolled bar. */}
-            <Logo height={46} tone="light" className={styles.logoLight} />
-            <Logo height={46} className={styles.logoDark} />
+            <Logo height={44} tone="light" />
+            <span className={styles.status} aria-hidden>
+              <span className={styles.live} />
+              <span>
+                Peenya · Bengaluru
+                <br />
+                24×7 operations
+              </span>
+            </span>
           </a>
 
           <div className={styles.nav}>

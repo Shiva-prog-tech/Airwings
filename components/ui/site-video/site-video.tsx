@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react"
+import { useEffect, useRef, useState } from "react"
 
+import { useVideoAllowed } from "@/lib/use-video-allowed"
 import { cn } from "@/lib/utils"
 
 import styles from "./site-video.module.scss"
@@ -16,20 +17,6 @@ export type VideoKey =
   | "toolchange"
   | "drilling"
   | "operator"
-
-const REDUCED = "(prefers-reduced-motion: reduce)"
-
-/** Video is allowed unless reduced motion or Save-Data is on (client only). */
-function subscribe(onChange: () => void) {
-  const query = window.matchMedia(REDUCED)
-  query.addEventListener("change", onChange)
-  return () => query.removeEventListener("change", onChange)
-}
-function videoAllowed() {
-  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData
-  return !window.matchMedia(REDUCED).matches && !saveData
-}
-const serverSnapshot = () => false
 
 /** Keys with a smaller phone encode (public/videos/<key>-mobile.*). */
 const HAS_MOBILE: Partial<Record<VideoKey, true>> = { hero: true }
@@ -59,7 +46,7 @@ export function SiteVideo({
   const wrapRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   // Server renders the poster only; the client adds the video if allowed.
-  const enabled = useSyncExternalStore(subscribe, videoAllowed, serverSnapshot)
+  const enabled = useVideoAllowed()
   const [playing, setPlaying] = useState(false)
 
   useEffect(() => {

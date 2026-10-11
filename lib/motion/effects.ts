@@ -5,6 +5,7 @@
 //   [data-reveal-group]   direct children stagger in
 //   [data-mask]           clip-path wipe up; the inner <img> settles from zoom
 //   [data-text-fill]      SplitText lines paint in as they scroll through
+//                         ("tricolour": saffron / white / green thirds)
 //   [data-title]          SplitText lines rise in with a slight 3D tilt
 //   [data-speed] / [data-lag]  parallax (ScrollSmoother `effects: true`)
 // Hidden start states live in styles/base/_motion.scss under `.has-motion`.
@@ -19,7 +20,8 @@ export function createSmoother() {
   return ScrollSmoother.create({
     wrapper,
     content,
-    smooth: 1.2,
+    // Glide without feeling sluggish: the page settles about 1 s after input.
+    smooth: 1,
     effects: true,
     smoothTouch: 0.1,
     ignoreMobileResize: true,
@@ -127,7 +129,10 @@ export function animateTitles(root: ParentNode = document) {
 export function animateTextFill(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>("[data-text-fill]").forEach((el) => {
     const split = new SplitText(el, { type: "lines", aria: "none" })
-    split.lines.forEach((line) => {
+    const tricolour = el.dataset.textFill === "tricolour"
+    split.lines.forEach((line, i) => {
+      // Top, middle and bottom thirds of the lines (styles/base/_motion.scss).
+      if (tricolour) line.setAttribute("data-band", String(Math.min(2, Math.floor((i * 3) / split.lines.length))))
       gsap.to(line, {
         backgroundPositionX: 0,
         ease: "none",

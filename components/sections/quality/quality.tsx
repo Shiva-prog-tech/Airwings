@@ -47,6 +47,8 @@ export function Quality() {
       <div className="container">
         <SectionHeading
           id="quality-title"
+          code="Quality room"
+          tone="paper"
           title="Measured before it leaves"
           intro="A full-fledged quality room with standard instruments for general inspection and custom attribute gauges for production jobs. Every instrument is calibrated periodically at approved labs."
         />

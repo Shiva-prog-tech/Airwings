@@ -1,12 +1,75 @@
 import type { VideoKey } from "@/components/ui/site-video/site-video"
 import type { ImageKey } from "@/content/images"
 
+export const hero = {
+  kicker: "Shaping the future of aerospace",
+  title: ["Machined", "for flight"],
+  lead: "Precision CNC-machined structures, housings, gauges and fixtures for aircraft, defence and space-launch programmes, made from solid billet in Peenya, Bengaluru.",
+  location: "Peenya Industrial Estate · Bengaluru 560058",
+}
+
+/** Telemetry strip along the bottom of the hero. */
 export const heroFacts = [
-  { label: "Certification", value: "ISO 9001:2015" },
-  { label: "Registered", value: "MSME, est. 2022" },
-  { label: "Workshop", value: "Peenya, Bengaluru" },
-  { label: "Tightest tolerance held", value: "0.02 mm" },
+  { label: "Quality system", value: "ISO 9001:2015" },
+  { label: "Tightest tolerance", value: "0.02 mm" },
+  { label: "Longest part", value: "3.5 m" },
+  { label: "Operations", value: "24×7" },
 ]
+
+/**
+ * Sectors served, over machining footage. Customer names only (the old
+ * site's per-customer descriptions are unverified, see docs/info.md). Each
+ * photo shows a customer's own product (freely licensed, credited on the
+ * card); none is captioned as containing Airwing parts.
+ */
+export const industries = {
+  title: "Built for flight",
+  intro:
+    "Our mission is zero-defect precision components for aerospace, avionics and airborne systems. These are the programmes our parts are made for.",
+  note: "Photos show our customers' own products, for context. They don't imply that a pictured product contains Airwing parts.",
+  sectors: [
+    {
+      id: "aircraft",
+      title: "Aircraft and aerostructures",
+      text: "Ribbed frames, panels, brackets and beams machined from solid aluminium billet to tight position and profile tolerances.",
+      customers: ["HAL, LCA Tejas Division", "HAL, Aerospace Division"],
+      image: "hal-tejas",
+      caption: "HAL Tejas",
+    },
+    {
+      id: "space",
+      title: "Space launch",
+      text: "Pocketed aluminium and titanium parts for India's private space-launch sector, where every gram taken off the billet counts.",
+      customers: ["Skyroot Aerospace"],
+      image: "skyroot-vikram",
+      caption: "Skyroot Vikram-I",
+    },
+    {
+      id: "defence",
+      title: "Defence and avionics",
+      text: "Housings and sub-assemblies for avionics and airborne systems, inspected on calibrated instruments before they ship.",
+      customers: ["Larsen & Toubro, Coimbatore"],
+      image: "lt-defence",
+      caption: "L&T K9 Vajra-T",
+    },
+    {
+      id: "engineering",
+      title: "Engineering and special purpose",
+      text: "Checking gauges, fixtures, moulds and SPM parts for engineering manufacturers in India and overseas.",
+      customers: ["Indo-MIM", "MANN+HUMMEL"],
+      image: "hero-material",
+      caption: "Airwing machined part",
+    },
+  ] as const satisfies readonly {
+    id: string
+    title: string
+    text: string
+    customers: readonly string[]
+    image: ImageKey
+    /** What the photo shows. */
+    caption: string
+  }[],
+}
 
 /** Giant scrubbed type between Services and Infrastructure. */
 export const giantWords = ["Airwing", "Precision engineering"] as const
@@ -40,25 +103,24 @@ export const about = {
     },
     {
       title: "Facility",
-      text: "10,000 sq ft of working area with store and fitting facilities, a CAD-CAM room, a quality room and an office. Customer material and components are identified by batch and material grade and stored separately.",
+      text: "20,000 sq ft of working area with store and fitting facilities, a CAD-CAM room, a quality room and an office. Customer material and components are identified by batch and material grade and stored separately.",
     },
   ],
 }
 
 /** Counters under the service rows. */
 export const numbers = [
-  { value: 10000, unit: "sq ft", label: "Built-up facility", format: "grouped" },
+  { value: 20000, unit: "sq ft", label: "Built-up facility", format: "grouped" },
   { value: 0.02, unit: "mm", label: "Tightest position tolerance held" },
   { value: 3.5, unit: "m", label: "Longest part length on our 3-axis machines" },
   { value: 25, unit: "people", label: "Design, CNC, fitting and quality staff" },
 ] as const
 
 export const infrastructure = {
-  statement: "10,000 sq ft built for precision",
+  statement: "20,000 sq ft built for precision",
   text: "A spacious, modern facility laid out for efficient workflow and large-scale aerospace projects.",
   stats: [
-    { value: "10,000 sq ft", label: "Total built-up area", text: "Room for efficient workflow and large-scale projects." },
-    { value: "5,500 sq ft", label: "Shop floor", text: "3-axis machines producing parts from small details up to 3.5 m long." },
+    { value: "20,000 sq ft", label: "Total built-up area", text: "Room for efficient workflow and large-scale projects." },
     { value: "2.1 m", label: "CMM range (being added)", text: "A new coordinate measuring machine is expanding our inspection capacity." },
   ],
   images: ["infrastructure", "machine-bmv65", "qc-surface-table", "hero-engineering"] as const satisfies readonly ImageKey[],

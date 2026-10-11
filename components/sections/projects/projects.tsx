@@ -12,11 +12,11 @@ import { pad2 } from "@/lib/utils"
 import styles from "./projects.module.scss"
 
 /**
- * Projects as a full-screen slicer (after Parody's "Full Screen Slicer"):
- * on desktop the stage pins and each scroll step wipes the next part in over
- * the last, which sinks back. Each slide plays a machining clip; the real
- * part photo sits in its spec block. Phones and reduced motion get a
- * swipeable row.
+ * Projects as a full-screen slicer: on desktop the stage pins and each scroll
+ * step wipes the next part in over the last, which sinks back. Airwing's own
+ * part is the hero of every slide, in a blueprint inspection panel (CAD
+ * renders become x-ray scans); illustrative machining footage runs dark
+ * behind it. Phones and reduced motion get a swipeable row of spec cards.
  */
 export function Projects() {
   const rootRef = useRef<HTMLElement>(null)
@@ -35,6 +35,7 @@ export function Projects() {
         setCurrent(0)
         const slides = gsap.utils.toArray<HTMLElement>("[data-slide]", root)
         const counter = root.querySelector<HTMLElement>("[data-counter]")
+        const bar = root.querySelector<HTMLElement>("[data-progress]")
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
@@ -47,6 +48,7 @@ export function Projects() {
             onUpdate: (self) => {
               const index = Math.round(self.progress * (slides.length - 1))
               if (counter) counter.textContent = pad2(index + 1)
+              bar?.style.setProperty("transform", `scaleY(${self.progress})`)
               if (index !== currentRef.current) {
                 currentRef.current = index
                 setCurrent(index)
@@ -56,14 +58,18 @@ export function Projects() {
         })
         slides.forEach((slide, i) => {
           if (i === 0) return
-          tl.fromTo(
-            slide,
-            { clipPath: "inset(100% 0% 0% 0%)" },
-            { clipPath: "inset(0% 0% 0% 0%)", duration: 1 },
-            i - 1
-          )
+          // The wipe: the slide rises while its content counter-slides
+          // down by the same amount, so the content holds still behind a
+          // rising edge. Transforms only, so the GPU does it without the
+          // full-screen repaint an animated clip-path costs every frame.
+          tl.fromTo(slide, { yPercent: 100 }, { yPercent: 0, duration: 1 }, i - 1)
+          tl.fromTo(slide.querySelector("[data-slide-inner]"), { yPercent: -100 }, { yPercent: 0, duration: 1 }, i - 1)
           tl.fromTo(slide.querySelector("[data-slide-image]"), { scale: 1.25 }, { scale: 1, duration: 1 }, i - 1)
-          tl.to(slides[i - 1].querySelector("[data-slide-inner]"), { scale: 0.9, autoAlpha: 0.3, duration: 1 }, i - 1)
+          tl.fromTo(slide.querySelector("[data-part]"), { yPercent: 18 }, { yPercent: 0, duration: 1 }, i - 1)
+          tl.to(slides[i - 1].querySelector("[data-slide-inner]"), { scale: 0.92, autoAlpha: 0.25, duration: 1 }, i - 1)
+          // The slide two back is fully covered by now: hide it, so it can't
+          // ghost through the fading one above it (and isn't drawn at all).
+          if (i >= 2) tl.set(slides[i - 2], { autoAlpha: 0 }, i - 1)
         })
         return () => {
           delete root.dataset.animated
@@ -81,9 +87,9 @@ export function Projects() {
       <div className="container">
         <SectionHeading
           id="projects-title"
-          tone="graphite"
+          code="Flight hardware"
           title="Parts we have machined"
-          intro="Aluminium and titanium parts machined from solid billet, with tight position and profile tolerances."
+          intro="Aluminium and titanium structures machined from solid billet, holding tight position and profile tolerances."
         />
       </div>
 
@@ -95,7 +101,11 @@ export function Projects() {
         </ol>
         <div className={styles.hud} aria-hidden>
           <span className="mono">
-            <span data-counter>01</span> / {pad2(projects.length)}
+            <span data-counter>01</span>
+            <span className={styles.hudTotal}> / {pad2(projects.length)}</span>
+          </span>
+          <span className={styles.rail}>
+            <span data-progress />
           </span>
           <span className={styles.hint}>Scroll</span>
         </div>
@@ -105,47 +115,67 @@ export function Projects() {
 }
 
 function Slide({ project, index, active }: { project: Project; index: number; active: boolean }) {
+  const reduction = project.rawWeight
+    ? Math.round((1 - parseFloat(project.finishWeight ?? "0") / parseFloat(project.rawWeight)) * 100)
+    : null
+
   return (
     <li className={styles.slide} data-slide style={{ zIndex: index + 1 }} aria-labelledby={`project-${project.id}`}>
       <div className={styles.inner} data-slide-inner>
-        <div className={styles.media}>
+        {/* Illustrative machining footage, not this part. */}
+        <div className={styles.media} aria-hidden>
           <div className={styles.mediaImage} data-slide-image>
             <SiteVideo name={project.video} active={active} className={styles.mediaVideo} />
           </div>
         </div>
-        <div className={styles.caption}>
-          {/* The real part: the clip above is illustrative machining footage. */}
-          <figure className={styles.part}>
-            <SiteImage name={project.image} sizes="160px" />
-            <figcaption>The part</figcaption>
+
+        <div className={styles.layout}>
+          <figure className={styles.part} data-part data-render={project.render}>
+            <div className={styles.partImage}>
+              <SiteImage name={project.image} sizes="(min-width: 992px) 46vw, 85vw" placeholder={project.render === "photo"} />
+            </div>
+            <figcaption>
+              <span className="mono">Fig. {pad2(index + 1)}</span>
+              <span>{project.render === "cad" ? "CAD model" : "Finished part"}</span>
+            </figcaption>
           </figure>
-          <span className={`mono ${styles.no}`}>{pad2(index + 1)}</span>
-          <h3 id={`project-${project.id}`} className={styles.title}>
-            {project.title}
-          </h3>
-          <dl className={styles.specs}>
-            <div>
-              <dt>Material</dt>
-              <dd className="mono">{project.material}</dd>
-            </div>
-            <div>
-              <dt>{project.sizeLabel}</dt>
-              <dd className="mono">{project.size} mm</dd>
-            </div>
-            <div>
-              <dt>{project.rawWeight ? "Raw → finished" : "Weight"}</dt>
-              <dd className="mono">
-                {project.rawWeight ? `${project.rawWeight} → ${project.finishWeight}` : project.weight}
-              </dd>
-            </div>
-            <div>
-              <dt>Position / profile</dt>
-              <dd className={`mono ${styles.tolerance}`}>
-                {project.position}
-                {project.profile ? ` / ${project.profile}` : ""}
-              </dd>
-            </div>
-          </dl>
+
+          <div className={styles.info}>
+            <span className={`mono ${styles.no}`}>
+              {pad2(index + 1)} / {pad2(projects.length)}
+            </span>
+            <h3 id={`project-${project.id}`} className={styles.title}>
+              {project.title}
+            </h3>
+            {reduction !== null ? (
+              <p className={styles.reduction}>
+                <span className="mono">{reduction}%</span> of the billet machined away
+              </p>
+            ) : null}
+            <dl className={styles.specs}>
+              <div>
+                <dt>Material</dt>
+                <dd className="mono">{project.material}</dd>
+              </div>
+              <div>
+                <dt>{project.sizeLabel}</dt>
+                <dd className="mono">{project.size} mm</dd>
+              </div>
+              <div>
+                <dt>{project.rawWeight ? "Raw → finished" : "Weight"}</dt>
+                <dd className="mono">
+                  {project.rawWeight ? `${project.rawWeight} → ${project.finishWeight}` : project.weight}
+                </dd>
+              </div>
+              <div>
+                <dt>Position / profile</dt>
+                <dd className={`mono ${styles.tolerance}`}>
+                  {project.position}
+                  {project.profile ? ` / ${project.profile}` : ""}
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </li>

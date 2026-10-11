@@ -1,32 +1,50 @@
 @use "abstracts" as *;
 
 .section {
+  position: relative;
   padding-bottom: var(--space-section);
 }
 
 .head {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 1rem 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.25rem;
 }
 
 .title {
-  font-size: var(--fs-h3);
+  @include readout;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: $text-muted;
+  font-size: 0.75rem;
+
+  &::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $ignition;
+    box-shadow: 0 0 12px 2px $ignition-glow;
+  }
 }
 
 .intro {
-  color: $steel-dark;
+  color: $text-muted;
   max-width: 48ch;
 }
 
 .strip {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid $line-strong;
-  border-left: 1px solid $line;
+  overflow: hidden;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+  background: $line;
+  gap: 1px;
 
   @include up(md) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -38,38 +56,58 @@
 }
 
 .cell {
+  position: relative;
   display: grid;
   grid-template-rows: 1fr auto;
-  gap: 1rem;
-  padding: 1.5rem 1.25rem 1.25rem;
-  border-right: 1px solid $line;
-  border-bottom: 1px solid $line;
+  gap: 1.25rem;
+  padding: 1.75rem 1.25rem 1.25rem;
+  background: $void;
+  transition: background-color 0.4s ease;
+
+  // Ignition line that wipes in on hover.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 2px;
+    background: $ignition;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s $ease-out;
+  }
+
+  @include fine-pointer {
+    &:hover {
+      background: $hull;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
 }
 
-// Logos are JPEGs on white: multiply drops the white into the canvas, and
-// greyscale keeps six brand colours from fighting; colour returns on hover.
+// Logos are JPEGs on off-white: greyscale + invert turns them into light
+// marks, strong contrast crushes the backdrop to black, and screen drops it.
 .logo {
   display: grid;
   place-items: center;
-  min-height: 84px;
+  min-height: 88px;
 
   img {
-    max-width: min(170px, 100%);
-    max-height: 64px;
+    max-width: min(150px, 100%);
+    max-height: 60px;
     width: auto;
     height: auto;
     object-fit: contain;
-    mix-blend-mode: multiply;
-    filter: grayscale(1) contrast(1.1);
-    opacity: 0.8;
-    transition:
-      filter 0.4s ease,
-      opacity 0.4s ease;
+    mix-blend-mode: screen;
+    filter: grayscale(1) invert(1) contrast(2.2) brightness(1.15);
+    opacity: 0.7;
+    transition: opacity 0.4s ease;
   }
 
   @include fine-pointer {
     .cell:hover & img {
-      filter: none;
       opacity: 1;
     }
   }
@@ -77,12 +115,14 @@
 
 .name {
   display: grid;
-  font-size: 0.8rem;
-  font-weight: 600;
+  gap: 0.15rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
   line-height: 1.35;
 
   span {
-    color: $steel-dark;
+    color: $text-muted;
     font-weight: 400;
+    font-size: 0.75rem;
   }
 }

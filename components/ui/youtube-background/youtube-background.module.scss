@@ -1,0 +1,36 @@
+@use "abstracts" as *;
+
+.wrap {
+  position: relative;
+  overflow: hidden;
+  background: $void;
+  // Lets the frame size itself to cover the box (cqw / cqh).
+  container-type: size;
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// 16:9 frame scaled to cover the box, oversized so the player's edge
+// chrome sits outside the crop. Never takes the pointer.
+.frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100cqw, 177.78cqh);
+  height: max(56.25cqw, 100cqh);
+  border: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.18);
+  transition: opacity 1.2s ease;
+
+  &[data-ready] {
+    opacity: 1;
+  }
+}

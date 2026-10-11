@@ -21,7 +21,7 @@ If a rule here conflicts with a habit, the rule wins. If a rule is wrong, fix th
 | Motion | **GSAP 3.15** + `@gsap/react` (`useGSAP`), plugins ScrollTrigger, ScrollSmoother, SplitText | All plugins are free since 3.13. **ScrollSmoother** for smooth scroll and `data-speed`/`data-lag` parallax. Because it breaks CSS `position: sticky`, every sticky layout is a ScrollTrigger pin (`usePin`, `useStack`). **No** Lenis, Framer Motion, AOS, Swiper, slick, react-countup. |
 | Validation | **zod 4** | Server Action input (RFQ form). |
 | Images | **sharp** pipeline (`pnpm images`), `<SiteImage>` | Pre-built WebP variants and blur placeholders. No runtime optimiser. |
-| Fonts | `next/font/google`: **Bebas Neue** (display), **Inter** (body), **IBM Plex Mono** (measured values) | Self-hosted at build. No `@import` from Google. |
+| Fonts | `next/font/google`: **Archivo** with the `wdth` axis (expanded display), **Geist** (body), **Geist Mono** (measured values) | Self-hosted at build. No `@import` from Google. |
 | Lint | ESLint 9 + `eslint-config-next` (core-web-vitals + TypeScript) | |
 | Package manager | **pnpm 10** | Don't commit `package-lock.json` or `yarn.lock`. |
 | Hosting | **Vercel** (plain `next build`) | Node 20.9+ (dev machine runs 24). |
@@ -65,7 +65,7 @@ components/
     scroll-progress/          back-to-top ring
   sections/                   One folder per landing-page section, in page order
     hero/                     hero.tsx · hero.module.scss · (hero-slides.tsx if split)
-    credentials/ · about/ · numbers/ · infrastructure/ · services/ · machinery/
+    about/ · customers/ · services/ · industries/ · giant-words/ · infrastructure/ · machinery/
     quality/ · projects-zoom/ · projects/ · tooling/ · process/ · customers/
     team/ · contact/
   ui/                         Reusable primitives, no section knowledge
@@ -147,35 +147,36 @@ _legacy/                      the previous Tailwind/shadcn site. Read-only refer
 - Nesting max 3 levels. No `!important` (the only exception is honouring `prefers-reduced-motion`).
 - Animate only `transform`, `opacity`, `clip-path`, `filter` (sparingly). Never animate `width`, `height`, `top` or `left`.
 - `backdrop-filter` is allowed only on small elements (pills, header), never full-screen.
-- One theme: **light-first** aluminium canvas with graphite bands for rhythm. Keep contrast AA (4.5:1 body, 3:1 large text).
+- One theme: **dark-first** launch-hall canvas, with one light "clean room" band (quality) for rhythm. Keep contrast AA (4.5:1 body, 3:1 large text). `$text-dim` is for large or decorative text only.
 
-### Design language ("Shop floor", Parody "Digital Agency" layout)
-- **Palette** (from what is physically in Airwing's photos):
-  - Aluminium `$canvas #E8EAED` page and `$canvas-raised` cards. Light-first.
-  - Graphite `$ink #16181C` text, and `$graphite` dark bands (infrastructure, projects, footer, preloader).
-  - Steel `$steel` / `$steel-dark` for secondary text and hairlines.
-  - Logo indigo `$indigo #2E3192` **only** for big brand moments: menu layer, mega-panel card, monograms.
-  - Signal `$signal #E4572E` (BFW machine-door red-orange) **only** for CTAs and key tolerances.
-  - Logo green `$ok` for the tiny "certified" check only.
+### Design language ("Mission grade")
+- **Palette** (`styles/abstracts/_tokens.scss`):
+  - Void `$void #050608` page, `$space` alternate bands, `$hull` / `$hull-raised` panels, hairlines `$line` / `$line-strong` / `$line-bright`.
+  - Platinum `$text #ECEFF4`, `$text-muted` for secondary copy.
+  - Ignition `$ignition #FF5B1F` (BFW machine doors, rocket plume) **only** for CTAs, live indicators and key tolerances. Text on it is dark (`$on-ignition`) for AA.
+  - Plasma `$plasma` (ice blue) **only** for HUD readouts, blueprint grids and the CAD "x-ray scan".
+  - Paper `$paper` tokens for the quality band only.
+  - Logo indigo `$indigo` **only** for brand moments: menu layer, partner monograms.
+  - Logo green `$ok` for "certified" / "live" marks only.
+  - `$metal` gradient (via `@include metal-text`) for large headlines.
 - **Type:**
-  - Bebas Neue, uppercase, for display.
-  - Inter for body.
-  - **IBM Plex Mono for every measured value** (`0.02 mm`, `Al 7075-T6`, `3100 × 1700 × 1000`).
-- **Layout vocabulary** (Parody Home 5 + Full Screen Slicer):
-  - Poster-scale headlines with an inline image pill.
-  - Round CTA buttons.
-  - Full-bleed parallax photos.
-  - Numbered service rows that reveal a thumbnail.
-  - Giant scrubbed type bands.
-  - Award-style hairline rows (instruments).
-  - Full-screen pinned project slicer.
-  - Infinite two-row banner before the footer.
+  - **Archivo expanded** (`@include display`, `font-stretch: 125%`), uppercase, for display.
+  - **Geist** for body; large statements use Geist in sentence case, tight tracking.
+  - **Geist Mono for every measured value** (`0.02 mm`, `Al 7075-T6`, `3100 × 1700 × 1000`) and HUD labels (`@include readout`).
+- **Layout vocabulary:**
+  - Cinematic video hero with a HUD frame (corner ticks, altitude ruler, reticle) and a telemetry strip.
+  - Hull panels with hairlines and a faint top sheen (`@include hull-panel`), corner ticks (`@include corner-ticks`).
+  - Blueprint grids (`@include blueprint-grid`); CAD renders shown as x-ray scans (`@include blueprint-scan` + plasma multiply).
+  - A small HUD code above section titles (`SectionHeading code="…"`): a lit dot, a word, a hairline. Words, not numbers.
+  - Round and pill CTAs with a rolling label and an arrow chip.
+  - Full-screen pinned project slicer where Airwing's own part is the hero of each slide.
+  - Giant metal type band; infinite two-row banner before the footer; ghosted wordmark in the footer.
+  - Film grain over everything (`body::after`).
 - **Avoid template tells:**
-  - No ALL-CAPS eyebrow label above every heading.
   - No single highlighted word inside a headline.
-  - No `01 / 02` numbering unless the content is a real sequence (services, process steps, slides).
+  - No `01 / 02` numbering unless the content is a real sequence (services, process stages, sectors, slides).
   - No `→` appended to every button.
-  - No navy + single neon accent.
+  - No neon glow on body text; glow is for the ignition dot, CTAs and the process trajectory.
 
 ---
 

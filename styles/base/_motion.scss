@@ -16,10 +16,11 @@
 
 // Scroll text fill: SplitText wraps each line in a div; each paints from dim
 // to full colour as it scrolls through (lib/motion/effects.ts).
+// `--fill` is the painted colour (the text colour unless a variant sets it).
 [data-text-fill] > div {
   background-image: linear-gradient(
     to right,
-    currentColor 50%,
+    var(--fill, currentColor) 50%,
     color-mix(in srgb, currentColor 22%, transparent) 50%
   );
   background-size: 200% 100%;
@@ -32,6 +33,30 @@
 // Without motion the text is simply solid.
 html:not(.has-motion) [data-text-fill] > div {
   background-position-x: 0;
+}
+
+// Tricolour variant: lines fill saffron, white and green from top to bottom,
+// in thirds (effects.ts sets data-band from the line count).
+[data-text-fill="tricolour"] > div {
+  &[data-band="0"] {
+    --fill: #{$saffron};
+  }
+
+  &[data-band="1"] {
+    --fill: #{$india-white};
+  }
+
+  &[data-band="2"] {
+    --fill: #{$india-green};
+  }
+}
+
+// No motion means no SplitText lines: band the whole statement instead.
+html:not(.has-motion) [data-text-fill="tricolour"] {
+  background: linear-gradient(180deg, $saffron 0 33.4%, $india-white 33.4% 66.6%, $india-green 66.6% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @include reduced-motion {

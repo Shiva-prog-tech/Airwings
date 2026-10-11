@@ -1,34 +1,63 @@
 @use "abstracts" as *;
 
 .about {
+  position: relative;
   padding-block: var(--space-section);
+  overflow: hidden;
+
+  // Faint orbit rings behind the statement.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 4%;
+    left: 50%;
+    width: min(1300px, 140vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid $line;
+    box-shadow:
+      0 0 0 140px rgba(255, 255, 255, 0.008),
+      inset 0 0 0 1px $line;
+    transform: translateX(-50%);
+    mask-image: linear-gradient(180deg, #000 0%, transparent 45%);
+    pointer-events: none;
+  }
 }
 
 .intro {
+  position: relative;
   display: grid;
   gap: 2.5rem;
   justify-items: center;
 
   @include up(lg) {
-    grid-template-columns: 1fr minmax(0, 2.2fr) 1fr;
+    grid-template-columns: 1fr minmax(0, 2.4fr) 1fr;
     align-items: center;
-    gap: 3rem;
+    gap: 3.5rem;
   }
 }
 
 .center {
   display: grid;
   justify-items: center;
-  gap: 2.5rem;
+  gap: 2.75rem;
   text-align: center;
 }
 
+.code {
+  @include readout;
+  color: $text-muted;
+}
+
+// Editorial statement in the body face: large, tight, sentence case.
 .statement {
-  max-width: 30ch;
-  font-family: $font-display;
-  font-size: clamp(2.25rem, 1.5rem + 2.8vw, 4.5rem);
-  line-height: 1;
-  text-transform: uppercase;
+  max-width: 26ch;
+  font-family: $font-body;
+  font-size: clamp(1.75rem, 1rem + 2.7vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: $text;
 }
 
 .sideLeft,
@@ -49,59 +78,89 @@
   align-self: end;
 }
 
+.figure {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  padding: 10px;
+  @include hull-panel;
+  @include corner-ticks($ignition, 12px, -1px);
+
+  figcaption {
+    @include readout;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.25rem 0.15rem;
+    color: $text-muted;
+    font-size: 0.625rem;
+  }
+}
+
 .photo {
   overflow: hidden;
-  border-radius: $radius-md;
+  border-radius: $radius-sm;
   aspect-ratio: 3 / 4;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: saturate(0.8) contrast(1.05);
   }
 }
 
 .story {
+  position: relative;
   display: grid;
   gap: 3rem;
-  margin-top: clamp(4rem, 8vw, 7rem);
-  padding-top: 2.5rem;
+  margin-top: clamp(5rem, 9vw, 8rem);
+  padding-top: 3rem;
   border-top: 1px solid $line-strong;
 
   @include up(lg) {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-    gap: 5rem;
+    gap: 6rem;
   }
 }
 
 .text {
   display: grid;
-  gap: 1.25rem;
+  gap: 1.4rem;
   align-content: start;
-  color: $steel-dark;
+  color: $text-muted;
   font-size: var(--fs-lead);
-  line-height: 1.55;
+  line-height: 1.6;
 
   p:first-child {
-    color: $ink;
+    color: $text;
   }
 }
 
 .pillars {
   border-top: 1px solid $line-strong;
+  counter-reset: pillar;
 }
 
 .pillar {
   border-bottom: 1px solid $line;
+  transition: background-color 0.4s ease;
 
   summary {
-    display: flex;
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding-block: 1.3rem;
+    gap: 1rem;
+    padding-block: 1.5rem;
     cursor: pointer;
     list-style: none;
+
+    &::before {
+      counter-increment: pillar;
+      content: counter(pillar, decimal-leading-zero);
+      font-family: $font-mono;
+      font-size: 0.75rem;
+      color: $text-dim;
+    }
 
     &::-webkit-details-marker {
       display: none;
@@ -109,45 +168,62 @@
 
     @include fine-pointer {
       &:hover .pillarTitle {
-        color: $signal;
+        color: $ignition;
       }
     }
   }
 
   p {
-    padding-bottom: 1.6rem;
-    color: $steel-dark;
-    font-size: 1.05rem;
+    padding: 0 0 1.75rem 4rem;
+    color: $text-muted;
+    font-size: 1.0625rem;
   }
 
-  &[open] .plus::after {
-    transform: rotate(90deg) scaleX(0);
+  &[open] {
+    summary::before {
+      color: $ignition;
+    }
+
+    .plus {
+      background: $ignition;
+      border-color: $ignition;
+      color: $on-ignition;
+    }
+
+    .plus::after {
+      transform: rotate(90deg) scaleX(0);
+    }
   }
 }
 
 .pillarTitle {
-  font-family: $font-display;
+  @include display(600);
   font-size: var(--fs-h3);
-  line-height: 1;
-  text-transform: uppercase;
+  line-height: 1.05;
   transition: color 0.25s ease;
 }
 
 .plus {
   position: relative;
   flex: none;
-  width: 22px;
-  height: 22px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid $line-strong;
+  border-radius: 50%;
+  color: $text;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 
   &::before,
   &::after {
     content: "";
     position: absolute;
     top: 50%;
-    left: 0;
-    right: 0;
+    left: 11px;
+    right: 11px;
     height: 1.5px;
-    background: $ink;
+    background: currentColor;
     transition: transform 0.4s $ease-out;
   }
 

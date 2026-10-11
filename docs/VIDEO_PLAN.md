@@ -1,5 +1,7 @@
 # Video plan (free stock)
 
+> **Update 2026-10-10 (Mission grade redesign):** no rocket footage is re-hosted. The footer embeds Skyroot Aerospace's official YouTube recording of Vikram-I (Mission Aagaman, 18 Jul 2026), looping the liftoff window via `ui/youtube-background` (privacy-enhanced domain, poster only under reduced motion / Save-Data). Customer products (HAL Tejas and Prachand, Skyroot Vikram, L&T K9 Vajra-T) appear as freely licensed Wikimedia Commons photos (GODL-India, CC BY-SA), credited on the page; see `assets/images/sources.json`. Self-hosting the launch film needs Skyroot's written permission first.
+
 **Goal:** add motion footage that matches what Airwing actually does: precision **CNC milling and turning of aluminium and titanium aerospace parts, then measuring them**. Nothing that suggests a different business.
 
 ## 1. What fits, and what doesn't

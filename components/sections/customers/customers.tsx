@@ -10,7 +10,7 @@ export function Customers() {
       <div className="container">
         <div className={styles.head}>
           <h2 id="customers-title" className={styles.title}>
-            Supplying
+            Supplying India&apos;s aerospace programmes
           </h2>
           <p className={styles.intro}>
             Precision components, sub-assemblies, gauges and fixtures for aerospace and engineering customers.

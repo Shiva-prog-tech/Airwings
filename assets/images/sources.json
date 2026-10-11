@@ -1,19 +1,11 @@
 {
   "images": [
-    { "key": "hero-precision", "src": "slideshow/PE.jpeg", "aspect": 1.5, "grade": true, "alt": "CNC tool machining a metal aerospace part" },
     { "key": "hero-engineering", "src": "slideshow/DEE.jpeg", "aspect": 1.5, "grade": true, "alt": "Airwing Technologies meeting room where engineering reviews take place" },
     { "key": "hero-material", "src": "slideshow/Raw.jpeg", "aspect": 1.5, "grade": true, "alt": "Machined aluminium component on a raw billet" },
     { "key": "hero-manufacturing", "src": "slideshow/UM.jpeg", "aspect": 1.5, "grade": true, "alt": "Spindle cutting a part under coolant" },
-
-    { "key": "about-engine", "src": "about.jpeg", "grade": true, "alt": "Cutaway of a turbofan aero engine" },
-    { "key": "about-aircraft", "src": "pai/pai1.jpeg", "grade": true, "alt": "Vintage aircraft engine and propeller on display" },
-    { "key": "about-hangar", "src": "pai/pai2.jpeg", "grade": true, "alt": "Aircraft landing gear in a hangar" },
     { "key": "infrastructure", "src": "infrastructure.jpeg", "aspect": 2.05, "grade": true, "alt": "BFW vertical machining centres on the Airwing shop floor" },
-
     { "key": "cmm-probe", "src": "cmmtypeshi/cmm.jpeg", "alt": "CMM probe inspecting a machined part" },
     { "key": "qc-surface-table", "src": "cmmtypeshi/cmm2.jpeg", "grade": true, "alt": "Granite surface table in the quality control room" },
-    { "key": "cmm-machine", "src": "cmmtypeshi/cmm3.jpeg", "alt": "Coordinate measuring machine" },
-
     { "key": "machine-bmv50", "src": "machines/m1.jpeg", "alt": "BFW BMV-50 TC24 vertical machining centre" },
     { "key": "machine-bmv65", "src": "machines/m2.jpeg", "alt": "BFW BMV-65 TC24 vertical machining centre with fixtures" },
     { "key": "machine-xtron544", "src": "machines/m3.jpeg", "alt": "BFW XTRON-544 vertical machining centre" },
@@ -22,7 +14,6 @@
     { "key": "machine-lokesh", "src": "machines/m6.jpeg", "alt": "LOKESH TL-20 turning centre" },
     { "key": "machine-itco", "src": "machines/m7.jpeg", "alt": "ITCO drilling machine" },
     { "key": "machine-stacker", "src": "machines/m8.jpeg", "alt": "Newgen 2000 kg stacker" },
-
     { "key": "part-1", "src": "products/p1.jpeg", "alt": "Machined aluminium 6061-T651 frame with ribbed pockets" },
     { "key": "part-2", "src": "products/p2.jpeg", "alt": "Machined aluminium 7075-T6 housing" },
     { "key": "part-3", "src": "products/p3.jpeg", "alt": "CAD model of a titanium alloy arm" },
@@ -31,7 +22,6 @@
     { "key": "part-6", "src": "products/p6.jpeg", "alt": "CAD model of a pocketed structural frame" },
     { "key": "part-7", "src": "products/p7.jpeg", "alt": "CAD model of a long tapered ribbed beam" },
     { "key": "gauge", "src": "products/p12.jpeg", "alt": "CAD model of a large air-filter checking gauge" },
-
     { "key": "tool-form", "src": "products/p8.jpeg", "alt": "Form tool for a sheet metal component" },
     { "key": "tool-jobrock", "src": "products/p9.jpeg", "alt": "Master mould machined from Jobrock" },
     { "key": "tool-weld-jig", "src": "products/p10.jpeg", "alt": "Assembly pipe weld jig" },
@@ -40,12 +30,17 @@
     { "key": "tool-checking", "src": "products/p14.jpeg", "alt": "Position checking fixture" },
     { "key": "tool-die", "src": "products/p15.jpeg", "alt": "Die mould halves" },
     { "key": "tool-automotive", "src": "products/p16.jpeg", "alt": "Machined automotive CNC part" },
-
     { "key": "logo-hal-lca", "src": "customers/hal1.jpeg", "plain": true, "alt": "Hindustan Aeronautics Limited logo" },
     { "key": "logo-hal-aero", "src": "customers/hal2.jpeg", "plain": true, "alt": "Hindustan Aeronautics Limited logo" },
     { "key": "logo-indomim", "src": "customers/indomim.jpeg", "plain": true, "alt": "Indo-MIM logo" },
     { "key": "logo-mann-hummel", "src": "customers/mann+hummel.jpeg", "plain": true, "alt": "MANN+HUMMEL logo" },
     { "key": "logo-skyroot", "src": "customers/skyroot.jpeg", "plain": true, "alt": "Skyroot Aerospace logo" },
-    { "key": "logo-lt", "src": "customers/l&t.jpeg", "plain": true, "alt": "Larsen & Toubro logo" }
+    { "key": "logo-lt", "src": "customers/l&t.jpeg", "plain": true, "alt": "Larsen & Toubro logo" },
+    { "key": "hal-tejas", "src": "partners/hal-tejas.jpeg", "aspect": 1.5, "alt": "HAL Tejas light combat aircraft banking in flight above farmland", "source": "https://commons.wikimedia.org/wiki/File:HAL_Tejas_(LA-5018)_of_Squadron_18_Flying_Bullets.jpg", "license": "GODL-India", "credit": "Ministry of Defence, Government of India (photo: POV@Neel), via Wikimedia Commons; cropped", "licenseUrl": "https://data.gov.in/government-open-data-license-india" },
+    { "key": "hal-tejas-wide", "src": "partners/hal-tejas-wide.jpeg", "alt": "HAL Tejas light combat aircraft flying with smoke trails against a blue sky at Aero India 2013", "source": "https://commons.wikimedia.org/wiki/File:Tejas_Aero_India_2013.jpg", "license": "CC BY-SA 2.0", "credit": "Ashwin Kumar, via Wikimedia Commons; resized and darkened", "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/" },
+    { "key": "skyroot-vikram", "src": "partners/skyroot-vikram.jpeg", "alt": "Skyroot Aerospace Vikram-I orbital rocket on the launch pad at Satish Dhawan Space Centre, Sriharikota", "source": "https://commons.wikimedia.org/wiki/File:Skyroot%E2%80%99s_Vikram-I_on_the_Launch_Pad_at_SDSC_SHAR.webp", "license": "GODL-India", "credit": "ISRO, via Wikimedia Commons", "licenseUrl": "https://data.gov.in/government-open-data-license-india" },
+    { "key": "skyroot-vikram-s", "src": "partners/skyroot-vikram-s.jpeg", "alt": "Skyroot Aerospace Vikram-S rocket lifting off from Sriharikota on Mission Prarambh, November 2022", "source": "https://commons.wikimedia.org/wiki/File:Vikram-S_rocket%27s_Mission_Prarambh_02.webp", "license": "GODL-India", "credit": "ISRO, via Wikimedia Commons", "licenseUrl": "https://data.gov.in/government-open-data-license-india" },
+    { "key": "lt-defence", "src": "partners/lt-defence.jpeg", "alt": "Two K9 Vajra-T self-propelled howitzers, built by Larsen & Toubro, in the Republic Day parade in New Delhi", "source": "https://commons.wikimedia.org/wiki/File:K-9_VAJRA-T_passes_through_the_Rajpath,_at_the_71st_Republic_Day_Celebrations,_at_Rajpath,_in_New_Delhi_on_January_26,_2020.jpg", "license": "GODL-India", "credit": "Press Information Bureau, Government of India, via Wikimedia Commons", "licenseUrl": "https://data.gov.in/government-open-data-license-india" },
+    { "key": "hal-helicopter", "src": "partners/hal-helicopter.jpeg", "aspect": 1.5, "alt": "HAL Prachand light combat helicopter in digital camouflage flying past snow-dusted mountains", "source": "https://commons.wikimedia.org/wiki/File:HAL_LCH_Camo.jpg", "license": "GODL-India", "credit": "Government of India (Hindustan Aeronautics Limited), via Wikimedia Commons", "licenseUrl": "https://data.gov.in/government-open-data-license-india" }
   ]
 }

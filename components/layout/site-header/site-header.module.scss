@@ -1,56 +1,31 @@
 @use "abstracts" as *;
 
-// Two looks: over the hero footage (transparent, light text) and scrolled
-// (frosted aluminium bar, graphite text). The nav links read the same custom
-// properties, so the whole header switches together.
+// Over the hero the bar is open and transparent; once scrolled it closes into
+// a floating glass capsule. The nav links read the same custom properties.
 .header {
-  --nav-ink: #{$on-graphite};
-  --nav-hover: rgba(232, 234, 237, 0.12);
-  --header-ink: #{$on-graphite};
-  --header-line: #{$line-dark-strong};
+  --nav-ink: #{$text};
+  --nav-hover: rgba(236, 239, 244, 0.08);
 
   position: fixed;
   inset: 0 0 auto;
   z-index: $z-header;
-  color: var(--header-ink);
-  border-bottom: 1px solid transparent;
+  padding-top: 0;
+  color: $text;
   transition:
-    transform 0.5s $ease-out,
-    background-color 0.4s ease,
-    border-color 0.4s ease;
+    transform 0.6s $ease-out,
+    padding 0.5s $ease-out;
 
   &[data-scrolled] {
-    --nav-ink: #{$ink};
-    --nav-hover: rgba(22, 24, 28, 0.07);
-    --header-ink: #{$ink};
-    --header-line: #{$line-strong};
-
-    background: rgba(232, 234, 237, 0.84);
-    backdrop-filter: blur(14px) saturate(140%);
-    border-bottom-color: $line;
+    padding-top: 12px;
   }
 
   &[data-hidden] {
-    transform: translateY(-100%);
+    transform: translateY(-120%);
   }
 
-  // Over the open full-screen menu (light panel): dark text, no bar.
   &[data-menu-open] {
-    --header-ink: #{$ink};
-    --header-line: #{$line-strong};
-
     z-index: $z-menu + 1;
-    background: transparent;
-    backdrop-filter: none;
-    border-bottom-color: transparent;
-
-    .logoLight {
-      display: none;
-    }
-
-    .logoDark {
-      display: block;
-    }
+    padding-top: 0;
   }
 }
 
@@ -60,29 +35,76 @@
   justify-content: space-between;
   gap: 1.5rem;
   height: var(--header-h);
+  border: 1px solid transparent;
+  border-radius: $radius-pill;
+  // The capsule's size changes while the header is hidden (it only turns
+  // solid past the hero, mid scroll-down), so only the paint transitions.
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+
+  .header[data-scrolled]:not([data-menu-open]) & {
+    height: 66px;
+    max-width: min(1240px, calc(100% - 24px));
+    padding-inline: 0.6rem 0.5rem;
+    background: rgba(12, 14, 19, 0.72);
+    backdrop-filter: blur(18px) saturate(160%);
+    border-color: $line-strong;
+    box-shadow: 0 20px 50px -24px rgba(0, 0, 0, 0.8);
+  }
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
   flex: none;
   border-radius: $radius-sm;
 
   img {
-    height: 46px;
+    height: 44px;
     width: auto;
+    transition: height 0.5s $ease-out;
+
+    .header[data-scrolled] & {
+      height: 38px;
+    }
   }
 }
 
-.logoDark {
+// Live status readout beside the logo (wide screens only).
+.status {
+  @include readout;
   display: none;
+  align-items: center;
+  gap: 0.55rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid $line-strong;
+  color: $text-muted;
+  font-size: 0.6875rem;
+  line-height: 1.35;
 
-  .header[data-scrolled] & {
-    display: block;
+  @include up(xxl) {
+    display: inline-flex;
   }
-}
 
-.logoLight {
   .header[data-scrolled] & {
     display: none;
+  }
+}
+
+.live {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: $ok;
+  box-shadow: 0 0 0 0 rgba(59, 178, 115, 0.6);
+  animation: live 2.4s ease-out infinite;
+
+  @include reduced-motion {
+    animation: none;
   }
 }
 
@@ -97,7 +119,7 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .brochure {
@@ -106,19 +128,22 @@
   gap: 0.5rem;
   min-height: 46px;
   padding: 0 1.1rem;
-  border: 2px solid var(--header-line);
+  border: 1px solid $line-strong;
   border-radius: $radius-pill;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 500;
   white-space: nowrap;
-  transition: border-color 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease;
 
   svg {
     font-size: 1.05rem;
   }
 
   &:hover {
-    border-color: var(--header-ink);
+    border-color: $line-bright;
+    background: rgba(255, 255, 255, 0.05);
   }
 
   @include up(lg) {
@@ -126,8 +151,8 @@
   }
 }
 
-// Request a quote: signal pill with a white arrow chip. On hover the label
-// rolls to a second line and the chip turns and nudges forward.
+// Request a quote: ignition pill with a dark arrow chip. On hover the label
+// rolls to a second line and the chip turns.
 .quote {
   display: none;
   align-items: center;
@@ -135,12 +160,14 @@
   min-height: 48px;
   padding: 0 0.35rem 0 1.25rem;
   border-radius: $radius-pill;
-  background: $signal;
-  color: $on-signal;
-  font-size: 0.92rem;
+  background: $ignition;
+  color: $on-ignition;
+  font-size: 0.875rem;
   font-weight: 600;
   white-space: nowrap;
-  transition: background-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.4s ease;
 
   @include up(md) {
     display: inline-flex;
@@ -148,7 +175,8 @@
 
   @include fine-pointer {
     &:hover {
-      background: $signal-hover;
+      background: $ignition-hot;
+      box-shadow: 0 8px 30px -8px $ignition-glow;
 
       .quoteLabel > span:first-child {
         transform: translateY(-110%);
@@ -159,7 +187,7 @@
       }
 
       .quoteChip {
-        transform: translateX(2px) rotate(45deg);
+        transform: rotate(45deg);
       }
     }
   }
@@ -189,8 +217,8 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #fff;
-  color: $signal;
+  background: $on-ignition;
+  color: $ignition;
   font-size: 1.05rem;
   transition: transform 0.5s $ease-out;
 }
@@ -201,11 +229,16 @@
   gap: 0.6rem;
   min-height: 46px;
   padding: 0 1.05rem;
-  border: 1px solid var(--header-line);
+  border: 1px solid $line-strong;
   border-radius: $radius-pill;
-  font-size: 0.9rem;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.875rem;
+  font-weight: 500;
   transition: border-color 0.25s ease;
+
+  &:hover {
+    border-color: $line-bright;
+  }
 
   @include up(xl) {
     display: none;
@@ -224,7 +257,7 @@
     top: 50%;
     left: 0;
     width: 100%;
-    height: 1.75px;
+    height: 1.5px;
     border-radius: 2px;
     background: currentColor;
     transition: transform 0.45s $ease-out;
@@ -244,5 +277,16 @@
 
   &[data-open]::after {
     transform: translateY(-50%) rotate(135deg);
+  }
+}
+
+@keyframes live {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 178, 115, 0.55);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 8px rgba(59, 178, 115, 0);
   }
 }

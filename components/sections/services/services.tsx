@@ -8,8 +8,9 @@ import { pad2 } from "@/lib/utils"
 import styles from "./services.module.scss"
 
 /**
- * Services as Parody "Digital Agency" rows: number, title, description and a
- * thumbnail that opens on hover (always shown on phones), then the counters.
+ * Services as three tall capability modules: footage (or the CAD still) on
+ * top that wakes on hover, then the copy and spec tags; then the counters as
+ * a telemetry row.
  */
 export function Services() {
   return (
@@ -17,14 +18,22 @@ export function Services() {
       <div className="container">
         <SectionHeading
           id="services-title"
+          code="Capabilities"
           title="What we make for you"
           intro="One workshop for the whole job: design and drafting, multi-operation machining, assembly and inspection."
         />
 
-        <ol className={styles.rows}>
+        <ol className={styles.cards} data-reveal-group>
           {services.map((service, i) => (
-            <li key={service.id} className={styles.row} data-reveal="up">
-              <span className={`mono ${styles.index}`}>{pad2(i + 1)}</span>
+            <li key={service.id} className={styles.card}>
+              <div className={styles.media} data-render={"video" in service && service.video ? undefined : "cad"}>
+                {"video" in service && service.video ? (
+                  <SiteVideo name={service.video} className={styles.mediaFill} />
+                ) : (
+                  <SiteImage name={service.image} sizes="(min-width: 992px) 30vw, 100vw" className={styles.mediaFill} />
+                )}
+                <span className={`mono ${styles.index}`}>S-{pad2(i + 1)}</span>
+              </div>
               <div className={styles.body}>
                 <h3 className={styles.title}>{service.title}</h3>
                 <p className={styles.text}>{service.text}</p>
@@ -33,13 +42,6 @@ export function Services() {
                     <li key={point}>{point}</li>
                   ))}
                 </ul>
-              </div>
-              <div className={styles.thumb}>
-                {"video" in service && service.video ? (
-                  <SiteVideo name={service.video} className={styles.thumbVideo} />
-                ) : (
-                  <SiteImage name={service.image} sizes="(min-width: 992px) 22vw, 100vw" />
-                )}
               </div>
             </li>
           ))}

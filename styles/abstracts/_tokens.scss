@@ -1,50 +1,71 @@
-// Design tokens ("Shop floor"): colours taken from what is physically in
-// Airwing's photos — machined aluminium, graphite castings, the logo's
-// indigo, and BFW's red-orange machine doors. Sass values for build-time
-// maths; runtime CSS custom properties are emitted in base/_root.scss.
+// Design tokens ("Mission grade"): a near-black launch-hall canvas, hull
+// greys for raised surfaces, platinum text, and one ignition orange that ties
+// BFW's machine doors to a rocket plume. Sass values for build-time maths;
+// runtime CSS custom properties are emitted in base/_root.scss.
 
-// Light canvas
-$canvas: #e8eaed; // machined aluminium (cool, never cream)
-$canvas-raised: #f4f5f7; // cards on the canvas
-$ink: #16181c; // graphite text
-$steel: #7c838e; // secondary text, hairlines
-$steel-dark: #4f555e; // secondary text with AA contrast on canvas
-$line: rgba(22, 24, 28, 0.12);
-$line-strong: rgba(22, 24, 28, 0.28);
+// Dark canvas (default)
+$void: #050608; // page
+$space: #090b10; // alternate bands
+$hull: #0f1218; // cards and panels
+$hull-raised: #161a22; // hovered / nested panels
+$text: #eceff4; // platinum
+$text-muted: #a3aab6; // secondary text (AA on every dark surface)
+$text-dim: #6f7684; // large or decorative text only
+$line: rgba(236, 239, 244, 0.08);
+$line-strong: rgba(236, 239, 244, 0.16);
+$line-bright: rgba(236, 239, 244, 0.3);
 
-// Graphite bands (dark sections)
-$graphite: #16181c;
-$graphite-raised: #202329;
-$on-graphite: #e8eaed;
-$on-graphite-muted: #9aa0a9;
-$line-dark: rgba(232, 234, 237, 0.12);
-$line-dark-strong: rgba(232, 234, 237, 0.28);
+// Clean-room band (quality): the one light section
+$paper: #eef0f3;
+$paper-raised: #ffffff;
+$paper-ink: #0b0d12;
+$paper-muted: #4b5361;
+$paper-line: rgba(11, 13, 18, 0.1);
+$paper-line-strong: rgba(11, 13, 18, 0.22);
 
-// Brand moments only (zoom card, menu layer, mega-panel card)
+// Ignition: CTAs, key tolerances, live indicators
+$ignition: #ff5b1f;
+$ignition-hot: #ff7d4a;
+$ignition-glow: rgba(255, 91, 31, 0.35);
+$on-ignition: #0a0a0c; // dark text on orange keeps AA
+
+// Plasma: HUD readouts and blueprint lines only
+$plasma: #9fd6ff;
+$plasma-dim: rgba(159, 214, 255, 0.16);
+
+// Logo indigo: brand moments only (menu layer, monograms)
 $indigo: #2e3192;
-$indigo-deep: #23256f;
+$indigo-deep: #1b1d5c;
 
-// Signal: CTAs and key tolerances only
-$signal: #e4572e;
-$signal-hover: #cf4720;
-$on-signal: #ffffff;
+// Certified mark only
+$ok: #3bb273;
 
-// Logo green: tiny "certified" marks only
-$ok: #2a9d4b;
+// Indian tricolour (flag code shades): the About statement's scroll fill only.
+// The green clears 3:1 on $void at the statement's display size.
+$saffron: #ff9933;
+$india-white: #ffffff;
+$india-green: #138808;
 
-$font-display: var(--font-bebas), "Arial Narrow", sans-serif;
-$font-body: var(--font-inter), system-ui, sans-serif;
-$font-mono: var(--font-plex-mono), ui-monospace, monospace;
+// Brushed-metal headline fill (platinum to titanium)
+$metal: linear-gradient(180deg, #ffffff 0%, #d9dde4 45%, #8d95a2 100%);
+$metal-ink: linear-gradient(180deg, #0b0d12 0%, #2a303b 100%);
 
-$radius-sm: 6px;
-$radius-md: 14px;
-$radius-lg: 24px;
+$font-display: var(--font-archivo), "Arial", sans-serif;
+$font-body: var(--font-geist), system-ui, sans-serif;
+$font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+$radius-xs: 4px;
+$radius-sm: 8px;
+$radius-md: 16px;
+$radius-lg: 28px;
 $radius-pill: 999px;
 
 $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 $ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+$ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
 $z-content: 1;
+$z-grain: 40;
 $z-header: 50;
 $z-menu: 80;
 $z-cursor: 90;

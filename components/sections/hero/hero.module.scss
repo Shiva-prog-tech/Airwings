@@ -7,11 +7,9 @@
   align-items: end;
   min-height: 100svh;
   overflow: hidden;
-  // Rounded bottom: the video panel ends in a soft curve over the canvas.
-
-  padding-top: calc(var(--header-h) + 2rem);
-  padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
-  @include graphite-band;
+  padding-top: calc(var(--header-h) + 3rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  background: $void;
 }
 
 .bg {
@@ -42,29 +40,157 @@
 // layer that a composited video could be drawn over.
 .video img,
 .video video {
-  filter: brightness(0.62) saturate(0.9);
+  filter: brightness(0.55) saturate(0.75) contrast(1.1);
 }
 
-// Text-legibility gradient, darker towards the bottom where the copy sits.
-// Inside the same transformed layer as the video (see hero.tsx).
+// Legibility: deep at the bottom where the copy sits, a cool vignette left.
 .scrim {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to top, rgba(22, 24, 28, 0.85) 0%, rgba(22, 24, 28, 0.35) 45%, rgba(22, 24, 28, 0.2) 100%),
-    linear-gradient(to right, rgba(22, 24, 28, 0.35), transparent 60%);
+    linear-gradient(to top, $void 0%, rgba(5, 6, 8, 0.82) 28%, rgba(5, 6, 8, 0.25) 62%, rgba(5, 6, 8, 0.55) 100%),
+    linear-gradient(to right, rgba(5, 6, 8, 0.7), transparent 65%);
+}
+
+// Blueprint grid, fading out towards the copy.
+.grid {
+  position: absolute;
+  inset: 0;
+  @include blueprint-grid(rgba(159, 214, 255, 0.06), 88px);
+  mask-image: radial-gradient(80% 70% at 70% 30%, #000 10%, transparent 75%);
+}
+
+// Ignition glow rising from below the fold.
+.glow {
+  position: absolute;
+  inset: auto -10% -40% 30%;
+  height: 70%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 91, 31, 0.22), transparent 70%);
+  filter: blur(20px);
+}
+
+// HUD
+.hud {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.frame {
+  position: absolute;
+  inset: calc(var(--header-h) + 0.75rem) var(--gutter) clamp(1rem, 2vw, 1.5rem);
+  @include corner-ticks($line-bright, 22px);
+}
+
+.ruler {
+  position: absolute;
+  top: calc(var(--header-h) + 3rem);
+  right: calc(var(--gutter) + 0.25rem);
+  bottom: 38%;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  @include up(lg) {
+    display: flex;
+  }
+
+  > span {
+    position: relative;
+    display: block;
+    width: 8px;
+    height: 1px;
+    background: $line-strong;
+
+    &[data-major] {
+      width: 18px;
+      background: $line-bright;
+    }
+  }
+
+  em {
+    position: absolute;
+    right: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: $font-mono;
+    font-size: 0.625rem;
+    font-style: normal;
+    letter-spacing: 0.08em;
+    color: $text-dim;
+  }
+}
+
+// Small reticle over the cutting zone.
+.crosshair {
+  position: absolute;
+  top: 34%;
+  left: 58%;
+  display: none;
+  width: 64px;
+  height: 64px;
+  border: 1px solid rgba(159, 214, 255, 0.35);
+  border-radius: 50%;
+
+  @include up(lg) {
+    display: block;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: rgba(159, 214, 255, 0.5);
+  }
+
+  &::before {
+    left: 50%;
+    top: -14px;
+    bottom: -14px;
+    width: 1px;
+  }
+
+  &::after {
+    top: 50%;
+    left: -14px;
+    right: -14px;
+    height: 1px;
+  }
 }
 
 .content {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: clamp(1.75rem, 3vw, 2.5rem);
+  gap: clamp(1.5rem, 2.6vw, 2.25rem);
+}
+
+.kicker {
+  @include readout;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: $text-muted;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $ignition;
+  box-shadow: 0 0 14px 3px $ignition-glow;
 }
 
 .title {
   display: grid;
   font-size: var(--fs-hero);
-  line-height: 0.84;
-  color: $on-graphite;
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  // Gradient text clips descenders on tight line-heights.
+  padding-bottom: 0.04em;
 }
 
 .mask {
@@ -74,39 +200,111 @@
 
   > span {
     display: block;
+    @include metal-text;
   }
 }
 
 .aside {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 1.5rem 2rem;
 }
 
-.lead {
-  color: $on-graphite-muted;
-  font-size: var(--fs-lead);
-  max-width: 44ch;
+.copy {
+  display: grid;
+  gap: 1.75rem;
 }
 
+.lead {
+  color: $text-muted;
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  max-width: 50ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.badge {
+  display: none;
+
+  @include up(lg) {
+    display: block;
+  }
+}
+
+// Telemetry strip
 .facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem 2rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid $line-dark-strong;
+  margin-top: 0.5rem;
+  border-top: 1px solid $line-strong;
 
   @include up(md) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  @include up(xl) {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.4fr);
+  }
+
+  > div {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem 1rem 0.25rem 0;
+
+    @include up(md) {
+      padding-inline: 1.25rem;
+      border-left: 1px solid $line;
+
+      &:first-child {
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+  }
+
   dt {
-    color: $on-graphite-muted;
-    font-size: 0.8rem;
+    display: flex;
+    gap: 0.6rem;
+    color: $text-muted;
+    font-size: 0.8125rem;
+
+    .mono {
+      color: $ignition;
+      font-size: 0.6875rem;
+      line-height: 1.9;
+    }
   }
 
   dd {
-    font-weight: 600;
+    font-size: clamp(1.05rem, 0.9rem + 0.5vw, 1.35rem);
+    font-weight: 500;
+    color: $text;
+  }
+}
+
+.facts > .location {
+  display: none;
+
+  @include up(xl) {
+    display: grid;
+    text-align: right;
+
+    dt {
+      justify-content: flex-end;
+    }
+
+    dd {
+      font-size: 0.875rem;
+      color: $text-muted;
+      font-family: $font-mono;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
   }
 }

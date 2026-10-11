@@ -5,34 +5,46 @@ import { about } from "@/content/home"
 import styles from "./about.module.scss"
 
 /**
- * About (after Parody "Digital Agency"): a centred statement that fills in as
- * it scrolls, flanked by two photos drifting at different speeds, then the
- * company story and the five commitments as an open/close list.
+ * About: an editorial statement that fills in as it scrolls, under faint
+ * orbit rings, flanked by two HUD-framed photos drifting at different speeds;
+ * then the company story and the five commitments as an open/close list.
  */
 export function About() {
   return (
     <section id="about" className={styles.about} aria-labelledby="about-title">
       <div className={`container ${styles.intro}`}>
         <div className={styles.sideLeft} data-speed="0.9">
-          <div className={styles.photo} data-mask>
-            <SiteImage name="about-engine" sizes="(min-width: 992px) 18vw, 40vw" />
-          </div>
+          <figure className={styles.figure}>
+            <div className={styles.photo} data-mask>
+              <SiteImage name="hal-helicopter" sizes="(min-width: 992px) 18vw, 40vw" />
+            </div>
+            <figcaption>
+              <span>Customer · HAL</span>
+              <span>Prachand LCH</span>
+            </figcaption>
+          </figure>
         </div>
 
         <div className={styles.center}>
-          <h2 id="about-title" className="sr-only">
+          <h2 id="about-title" className={styles.code}>
             About Airwing Technologies
           </h2>
-          <p className={styles.statement} data-text-fill>
+          <p className={styles.statement} data-text-fill="tricolour">
             {about.statement}
           </p>
           <RoundButton href="#services">Our capabilities</RoundButton>
         </div>
 
         <div className={styles.sideRight} data-speed="1.1">
-          <div className={styles.photo} data-mask>
-            <SiteImage name="qc-surface-table" sizes="(min-width: 992px) 16vw, 40vw" />
-          </div>
+          <figure className={styles.figure}>
+            <div className={styles.photo} data-mask>
+              <SiteImage name="qc-surface-table" sizes="(min-width: 992px) 16vw, 40vw" />
+            </div>
+            <figcaption>
+              <span>Quality room</span>
+              <span className="mono">0.006 mm</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
 

@@ -3,33 +3,71 @@
 .heading {
   display: grid;
   gap: 1.5rem;
-  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  margin-bottom: clamp(3rem, 6vw, 5.5rem);
 }
 
 .split {
   @include up(lg) {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     align-items: end;
     gap: 4rem;
   }
 }
 
+// HUD label: a lit tick, the index and the section name.
+.code {
+  @include readout;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.4rem;
+  color: $text-muted;
+
+  &::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $ignition;
+    box-shadow: 0 0 12px 2px $ignition-glow;
+  }
+
+  &::after {
+    content: "";
+    width: 48px;
+    height: 1px;
+    background: $line-bright;
+  }
+}
+
 .title {
+  @include metal-text;
   font-size: var(--fs-h2);
+  // Gradient text clips descenders on tight line-heights.
+  padding-bottom: 0.06em;
 }
 
 .intro {
-  color: $steel-dark;
+  color: $text-muted;
   font-size: var(--fs-lead);
-  max-width: 52ch;
+  line-height: 1.55;
+  max-width: 50ch;
 }
 
-.graphite {
+.paper {
+  .code {
+    color: $paper-muted;
+
+    &::after {
+      background: $paper-line-strong;
+    }
+  }
+
   .title {
-    color: $on-graphite;
+    @include metal-text($metal-ink);
   }
 
   .intro {
-    color: $on-graphite-muted;
+    color: $paper-muted;
   }
 }

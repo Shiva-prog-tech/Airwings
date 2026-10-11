@@ -6,6 +6,7 @@ import { Contact } from "@/components/sections/contact/contact"
 import { Customers } from "@/components/sections/customers/customers"
 import { GiantWords } from "@/components/sections/giant-words/giant-words"
 import { Hero } from "@/components/sections/hero/hero"
+import { Industries } from "@/components/sections/industries/industries"
 import { Infrastructure } from "@/components/sections/infrastructure/infrastructure"
 import { Machinery } from "@/components/sections/machinery/machinery"
 import { Process } from "@/components/sections/process/process"
@@ -17,9 +18,11 @@ import { Tooling } from "@/components/sections/tooling/tooling"
 import { SmoothScroll } from "@/lib/motion/smooth-scroll"
 
 /**
- * The landing page, after Parody "Digital Agency" (Home 5) with the Full
- * Screen Slicer for projects. The header sits outside #smooth-wrapper so it
- * stays fixed while ScrollSmoother transforms the content.
+ * The landing page ("Mission grade"): cinematic hero, company story,
+ * capabilities, the sectors served over ignition footage, then the facility,
+ * flight hardware slicer, machines, clean-room quality band, process, team
+ * and the quote form. The header sits outside #smooth-wrapper so it stays
+ * fixed while ScrollSmoother transforms the content.
  */
 export default function HomePage() {
   return (
@@ -33,6 +36,7 @@ export default function HomePage() {
             <About />
             <Customers />
             <Services />
+            <Industries />
             <GiantWords />
             <Infrastructure />
             <Projects />

@@ -4,11 +4,6 @@ export const imageWidths = [640,1080,1600,2400] as const
 export const logoSize = {"width":391,"height":300} as const
 
 export const imageData = {
-  "hero-precision": {
-    "width": 1200,
-    "height": 800,
-    "blurDataURL": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwAQCdASoQAAsAA4BaJQBOgCGzIuwf3oAA/s4F6w1SXsFhhTSreuT9ry5xLP1DfchBobT/kSBIV5i5JKQw5ou9zHgYfL/PngLzPG54jIqh38shqWQAAA=="
-  },
   "hero-engineering": {
     "width": 1728,
     "height": 1152,
@@ -24,21 +19,6 @@ export const imageData = {
     "height": 626,
     "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAwAgCdASoQAAsAA4BaJZQAD46xf/4JRQJeAAD+8zf/5E42rruW4uRkB1Dh+q22bO2QgdWJ0FgeGDVica0EARKZQUe769jfYHvvFuOE2CTLG62ZznBFOER0063AScgA"
   },
-  "about-engine": {
-    "width": 1200,
-    "height": 667,
-    "blurDataURL": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAQCdASoQAAkAA4BaJQBOgCPaTh2enkAA+8TANkXhI1QM38pNbhA/1h2z2B4uwAcTTtG4Q1o4MP5rkTj1FCrLJFH80TE9fEty1bnaRBAAAA=="
-  },
-  "about-aircraft": {
-    "width": 1000,
-    "height": 668,
-    "blurDataURL": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAABQAgCdASoQAAsAA4BaJbACdAYvD2lYlHrJm2AA/mAtf8Rec/FxSCtlMy+n2KChG2Z5drP5QRU7M14Ixp4O4wOngklMJNx+ZNqkOgBX5iQp/Wh7J1yhX3L5N9sn9nkAAAA="
-  },
-  "about-hangar": {
-    "width": 1000,
-    "height": 1334,
-    "blurDataURL": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwAwCdASoQABUAPu1iqU2ppaOiMAgBMB2JQBOgBH7BRowSj24dpS2AAPZ0487YK/za1v5Tzn/1Ht4bJW9z8y3Y22Kw7hI05w23Me0TBcVVZCQ4JgEgjVk5/mF0ubaqaaWsWEv6FMVYLkssBZ25IaOkfMAAAA=="
-  },
   "infrastructure": {
     "width": 2058,
     "height": 1004,
@@ -53,11 +33,6 @@ export const imageData = {
     "width": 2028,
     "height": 1374,
     "blurDataURL": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAQAgCdASoQAAsAA4BaJZQC7AED/pG5qOAAAP7s7b+RLmlThTC0tMUxIBzxHp7uZDw86Paa1WOWSO4v1HW8yXXfiI6Dz1j1AgAAAA=="
-  },
-  "cmm-machine": {
-    "width": 1000,
-    "height": 560,
-    "blurDataURL": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADwAQCdASoQAAkAA4BaJYwCdAEXvQ2bL+gA/gllQ2SVnL+KsvCLPHG7LfY5is7j2+58RHs5u9N9sCcp7N2b+ZgtZ5Yp73ZO9LQfDEAA"
   },
   "machine-bmv50": {
     "width": 1000,
@@ -208,5 +183,35 @@ export const imageData = {
     "width": 1000,
     "height": 204,
     "blurDataURL": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAACwAQCdASoQAAMAA4BaJaQAAudJ/KIAAP7YLe8l2djPk1UiUEGin7m45RvWLgAAAAA="
+  },
+  "hal-tejas": {
+    "width": 2400,
+    "height": 1600,
+    "blurDataURL": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACwAQCdASoQAAsAA4BaJYwAAllwh2nYAP7e31kaIo6qis158gc0su0dF5eLbmJffQmnXXEW1IZxyJLMpmRkomQcaxQfpYAA"
+  },
+  "hal-tejas-wide": {
+    "width": 2400,
+    "height": 1037,
+    "blurDataURL": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoQAAcAA4BaJYgCdAC7EAQcAAD7mQvfoRDkzk3qtC2bpPivfBaK18WzAxEuAAAA"
+  },
+  "skyroot-vikram": {
+    "width": 2400,
+    "height": 3600,
+    "blurDataURL": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADwAwCdASoQABgAPu1iqU2ppaOiMAgBMB2JZwDKAGjS1HBJD8IPyWDQAP79vUak5OQFMH5CfmhH/aFACJTvmkWZm8mGVTxYOIH7lYPJekiSpYzkqrzFgz7O3W35ZUO83YyFD6r5uavCuILBCPH15hHYYmFBMinN4ba7awKZG5ZQV71qncEYhfr6Ey8ayC7xv1GAAA=="
+  },
+  "skyroot-vikram-s": {
+    "width": 2400,
+    "height": 3600,
+    "blurDataURL": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADQAwCdASoQABgAPu1iqk2ppaQiMAgBMB2JZwABHuoKbQVYmWyQTgAA/g2Cswp01OPJo5p07iuW1rfo8/jFXb3uQnYTvq0EhH/S3duyQcO+6XpHG4zcsghDgAAAAA=="
+  },
+  "lt-defence": {
+    "width": 2200,
+    "height": 1349,
+    "blurDataURL": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAAAQAgCdASoQAAoAA4BaJYwCdAD0Z83VRXgAAP68FpBM5MkHeVSI03DIEa12q5/RIHCE4M9xiChb4yty8cRo3qlo5WNUq1S/Fq2Y2pzUicAAAA=="
+  },
+  "hal-helicopter": {
+    "width": 2400,
+    "height": 1600,
+    "blurDataURL": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAQAgCdASoQAAsAA4BaJYgCdAEenple5xHAAPyPLoXUmDPjNpS/2/AAfkmWvzAN8lVvL2UaV4IaZgcnThBaxeAA"
   }
 } as const

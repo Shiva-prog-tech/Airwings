@@ -1,13 +1,28 @@
 @use "abstracts" as *;
 
 .round {
-  @include round-button(140px);
+  position: relative;
+  display: grid;
+  place-items: center;
   flex: none;
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  transition:
+    background-color 0.4s $ease-out,
+    color 0.4s $ease-out,
+    border-color 0.4s $ease-out,
+    transform 0.6s $ease-out;
 
   > span {
     display: grid;
     justify-items: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     max-width: 10ch;
   }
 
@@ -23,42 +38,63 @@
 }
 
 .icon {
-  font-size: 1.1rem;
-  transition: transform 0.45s $ease-out;
+  font-size: 1.15rem;
+  transition: transform 0.5s $ease-out;
 }
 
 .outline {
   border: 1px solid $line-strong;
-  color: $ink;
+  color: $text;
+
+  // Orbit dot
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, $ignition 0 4%, transparent 4% 100%);
+    mask: radial-gradient(circle, transparent calc(50% - 1px), #000 calc(50% - 1px));
+    animation: orbit 6s linear infinite;
+
+    @include reduced-motion {
+      animation: none;
+    }
+  }
 
   @include fine-pointer {
     &:hover {
-      background: $ink;
-      border-color: $ink;
-      color: $canvas;
+      background: $text;
+      border-color: $text;
+      color: $void;
     }
   }
 }
 
 .solid {
-  background: $signal;
-  color: $on-signal;
+  background: $ignition;
+  color: $on-ignition;
 
   @include fine-pointer {
     &:hover {
-      background: $signal-hover;
+      background: $ignition-hot;
     }
   }
 }
 
 .onGraphite {
-  border: 1px solid $line-dark-strong;
-  color: $on-graphite;
+  border: 1px solid $line-bright;
+  color: $text;
 
   @include fine-pointer {
     &:hover {
-      background: $on-graphite;
-      color: $graphite;
+      background: $text;
+      color: $void;
     }
+  }
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
   }
 }

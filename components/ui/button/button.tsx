@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 
 import styles from "./button.module.scss"
 
-type Variant = "primary" | "ghost" | "onGraphite"
+type Variant = "primary" | "ghost" | "ink"
 
 /** Pill link. `#anchor` hrefs smooth-scroll in the page; others are plain links. */
 export function Button({
@@ -30,7 +30,11 @@ export function Button({
         <span>{children}</span>
         <span aria-hidden>{children}</span>
       </span>
-      {icon ? <Icon name={icon} /> : null}
+      {icon ? (
+        <span className={styles.chip} aria-hidden>
+          <Icon name={icon} />
+        </span>
+      ) : null}
     </>
   )
   const classes = cn(styles.button, styles[variant], className)

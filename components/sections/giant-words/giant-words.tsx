@@ -2,13 +2,15 @@
 
 import { useRef } from "react"
 
+import { SiteImage } from "@/components/ui/site-image/site-image"
 import { giantWords } from "@/content/home"
 import { gsap, prefersReducedMotion, useGSAP } from "@/lib/motion/gsap"
 
 import styles from "./giant-words.module.scss"
 
 /**
- * Poster-scale type band (Parody "Digital Agency"): two lines slide in
+ * Poster-scale type band over a darkened HAL Tejas (a customer's
+ * aircraft, credited in the footer): two lines slide in
  * opposite directions as the band scrolls through. Decorative.
  */
 export function GiantWords() {
@@ -27,6 +29,9 @@ export function GiantWords() {
 
   return (
     <div ref={rootRef} className={styles.band} aria-hidden>
+      <div className={styles.horizon}>
+        <SiteImage name="hal-tejas-wide" sizes="100vw" decorative speed={0.85} />
+      </div>
       {giantWords.map((word, i) => (
         <span key={word} className={i === 0 ? styles.solid : styles.outline} data-word={i}>
           {word}

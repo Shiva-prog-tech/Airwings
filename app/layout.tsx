@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Bebas_Neue, IBM_Plex_Mono, Inter } from "next/font/google"
+import { Archivo, Geist, Geist_Mono } from "next/font/google"
 
 import "@/styles/globals.scss"
 
@@ -9,14 +9,10 @@ import { site } from "@/content/site"
 import { MotionRoot } from "@/lib/motion/motion-root"
 import { organizationJsonLd } from "@/lib/seo"
 
-const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas" })
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
-  preload: false,
-})
+// Archivo's width axis gives the expanded display cut (font-stretch: 125%).
+const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-archivo" })
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" })
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", preload: false })
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -37,7 +33,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#e8eaed",
+  themeColor: "#050608",
 }
 
 // Runs before first paint: turns on the pre-animation states
@@ -49,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html
       lang="en-IN"
-      className={[bebas.variable, inter.variable, plexMono.variable].join(" ")}
+      className={[archivo.variable, geist.variable, geistMono.variable].join(" ")}
       // The bootstrap script adds a class before hydration.
       suppressHydrationWarning
     >

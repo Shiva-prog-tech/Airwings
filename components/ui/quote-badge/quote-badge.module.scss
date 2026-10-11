@@ -5,10 +5,10 @@
   display: grid;
   place-items: center;
   flex: none;
-  width: clamp(132px, 12vw, 168px);
+  width: clamp(128px, 11vw, 160px);
   aspect-ratio: 1;
   border-radius: 50%;
-  color: $on-graphite;
+  color: $text;
 }
 
 // The text ring turns slowly; it stops for reduced motion.
@@ -17,7 +17,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  animation: badge-spin 18s linear infinite;
+  animation: badge-spin 22s linear infinite;
 
   @include reduced-motion {
     animation: none;
@@ -27,24 +27,26 @@
 .ringText {
   fill: currentColor;
   font-family: $font-mono;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-// Solid centre: grows and turns its arrow on hover.
+// Solid centre with a soft ignition glow: grows and turns its arrow on hover.
 .disc {
   display: grid;
   place-items: center;
   width: 46%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: $signal;
-  color: $on-signal;
+  background: $ignition;
+  color: $on-ignition;
   font-size: 1.5rem;
+  box-shadow: 0 0 40px -6px $ignition-glow;
   transition:
     transform 0.5s $ease-out,
-    background-color 0.3s ease;
+    background-color 0.3s ease,
+    box-shadow 0.5s $ease-out;
 
   svg {
     transition: transform 0.5s $ease-out;
@@ -53,7 +55,8 @@
   @include fine-pointer {
     .badge:hover & {
       transform: scale(1.12);
-      background: $signal-hover;
+      background: $ignition-hot;
+      box-shadow: 0 0 60px 0 $ignition-glow;
 
       svg {
         transform: rotate(45deg);

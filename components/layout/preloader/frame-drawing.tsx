@@ -87,7 +87,7 @@ export function FrameDrawing() {
         ))}
         <path d={PART} fill="url(#awt-alu)" fillRule="evenodd" />
         {holes.map((h) => (
-          <circle key={`${h.cx}-${h.cy}`} cx={h.cx} cy={h.cy} r="5" fill="#16181c" />
+          <circle key={`${h.cx}-${h.cy}`} cx={h.cx} cy={h.cy} r="5" fill="#050608" />
         ))}
       </g>
 
@@ -156,7 +156,7 @@ export function FrameDrawing() {
         </text>
         <path d={`M${X0 + 70} ${Y0 + H} V${Y0 + H + 14}`} />
         <path d={`M${X0 + 64} ${Y0 + H + 14} H${X0 + 76} L${X0 + 70} ${Y0 + H + 24} Z`} fill="currentColor" />
-        <rect x={X0 + 61} y={Y0 + H + 26} width="18" height="18" fill="#16181c" />
+        <rect x={X0 + 61} y={Y0 + H + 26} width="18" height="18" fill="#050608" />
         <text x={X0 + 70} y={Y0 + H + 39} textAnchor="middle" fill="currentColor" stroke="none" fontSize="11">
           B
         </text>
@@ -166,7 +166,7 @@ export function FrameDrawing() {
       <g data-fade stroke="currentColor" strokeWidth="0.85">
         <path d={`M${holes[0].cx + 4} ${holes[0].cy - 4} L${holes[0].cx + 40} ${Y0 - 14} H${holes[0].cx + 60}`} />
         <g transform={`translate(${holes[0].cx + 60} ${Y0 - 27})`}>
-          <rect width="150" height="26" fill="#16181c" />
+          <rect width="150" height="26" fill="#050608" />
           <path d="M26 0 V26 M96 0 V26 M123 0 V26" />
           <circle cx="13" cy="13" r="6" />
           <path d="M13 4 V22 M4 13 H22" />
@@ -186,7 +186,7 @@ export function FrameDrawing() {
       <g data-fade stroke="currentColor" strokeWidth="0.85">
         <path d={`M${X0 + W} ${Y0 + 200} L${X0 + W + 58} ${Y0 + 236} H${X0 + W + 64}`} />
         <g transform={`translate(${X0 + W + 64} ${Y0 + 223})`}>
-          <rect width="96" height="26" fill="#16181c" />
+          <rect width="96" height="26" fill="#050608" />
           <path d="M26 0 V26 M69 0 V26" />
           <path d="M6 18 A7 7 0 0 1 20 18 Z" />
           <text x="47.5" y="17.5" textAnchor="middle" fill="currentColor" stroke="none" fontSize="11">

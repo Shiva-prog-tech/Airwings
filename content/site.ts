@@ -31,6 +31,22 @@ export const site = {
   brochure: "/brochure.pdf",
 } as const
 
+/**
+ * Skyroot Aerospace's official recording of Vikram-I (Mission Aagaman,
+ * 18 Jul 2026), embedded from YouTube behind the footer (not re-hosted).
+ * The loop plays the last seconds of the countdown through the climb out.
+ */
+export const launchFilm = {
+  id: "2KKZbSX9SgI",
+  start: 6636,
+  end: 6700,
+  title: "Skyroot Aerospace: Vikram-I, Mission Aagaman, India's first private orbital launch",
+  label: "Skyroot Vikram-I · Mission Aagaman · 18 Jul 2026",
+  url: "https://www.youtube.com/watch?v=2KKZbSX9SgI&t=6636s",
+  credit: "Footage: Skyroot Aerospace (official YouTube)",
+} as const
+
+
 export type NavItem = { label: string; href: `#${string}` }
 
 export const nav: NavItem[] = [

@@ -12,33 +12,94 @@
   border: 0;
 }
 
-@mixin focus-ring($color: $signal) {
+@mixin focus-ring($color: $ignition) {
   &:focus-visible {
     outline: 2px solid $color;
     outline-offset: 3px;
   }
 }
 
-// Section on a graphite band: flips text and hairlines.
-@mixin graphite-band {
-  background: $graphite;
-  color: $on-graphite;
+// Expanded technical display face (Archivo, wdth 125).
+@mixin display($weight: 600) {
+  font-family: $font-display;
+  font-weight: $weight;
+  font-stretch: 125%;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 0.94;
 }
 
-// Round "explore"-style button (Parody Home 5): text inside a circle.
-@mixin round-button($size: 132px) {
-  display: grid;
-  place-items: center;
-  width: $size;
-  height: $size;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 0.85rem;
-  font-weight: 500;
-  line-height: 1.25;
-  transition:
-    background-color 0.35s $ease-out,
-    color 0.35s $ease-out,
-    border-color 0.35s $ease-out,
-    transform 0.5s $ease-out;
+// Brushed-metal fill for large headlines. SplitText lines are transformed
+// children, which a parent's text clip can't reach, so each line repeats it.
+@mixin metal-text($fill: $metal) {
+  background: $fill;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  :where(div, span) {
+    background: $fill;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+// Small mono readout label (HUD / spec sheet).
+@mixin readout {
+  font-family: $font-mono;
+  font-size: var(--fs-mono);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+// Fine blueprint grid behind a band.
+@mixin blueprint-grid($color: $line, $size: 64px) {
+  background-image:
+    linear-gradient($color 1px, transparent 1px),
+    linear-gradient(90deg, $color 1px, transparent 1px);
+  background-size: $size $size;
+}
+
+// Panel with a hairline and a faint top sheen.
+@mixin hull-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 40%),
+    $hull;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+}
+
+// Four L-shaped corner ticks (HUD frame). Needs position: relative.
+@mixin corner-ticks($color: $line-bright, $size: 14px, $inset: 0) {
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: $size;
+    height: $size;
+    pointer-events: none;
+    border-color: $color;
+    border-style: solid;
+  }
+
+  &::before {
+    top: $inset;
+    left: $inset;
+    border-width: 1px 0 0 1px;
+  }
+
+  &::after {
+    right: $inset;
+    bottom: $inset;
+    border-width: 0 1px 1px 0;
+  }
+}
+
+// CAD renders (light grey background, green or yellow body) become an x-ray
+// "scan" on dark; real photos keep their colour.
+// Contrast pushes the inverted grey backdrop to black so `screen` drops it.
+@mixin blueprint-scan {
+  filter: grayscale(1) invert(1) contrast(1.7) brightness(0.95);
+  mix-blend-mode: screen;
 }

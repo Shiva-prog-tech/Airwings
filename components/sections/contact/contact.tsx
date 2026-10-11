@@ -12,15 +12,22 @@ export function Contact() {
       <div className="container">
         <SectionHeading
           id="contact-title"
-          title="Request a quote"
+          code="Request for quote"
+          title="Send us your drawing"
           intro="Send your drawing and requirements. For urgent work, call a partner directly."
         />
 
         <div className={styles.layout}>
-          <RfqForm />
+          <div className={styles.formPanel}>
+            <p className={styles.panelHead} aria-hidden>
+              <span>RFQ · Airwing Technologies</span>
+              <span>Accepting new jobs</span>
+            </p>
+            <RfqForm />
+          </div>
 
           <aside className={styles.details}>
-            <address className={styles.address}>
+            <address className={`${styles.card} ${styles.address}`}>
               <span className={styles.detailLabel}>
                 <Icon name="pin" /> Workshop
               </span>
@@ -34,7 +41,7 @@ export function Contact() {
               </a>
             </address>
 
-            <div className={styles.direct}>
+            <div className={`${styles.card} ${styles.direct}`}>
               <span className={styles.detailLabel}>
                 <Icon name="phone" /> Call
               </span>

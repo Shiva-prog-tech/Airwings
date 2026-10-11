@@ -1,0 +1,253 @@
+@use "abstracts" as *;
+
+// Autoplay dwell per partner; the tab's progress line runs for this long.
+$dwell: 7s;
+
+.carousel {
+  // Slide width and how far the flanking slides sit from the centre.
+  --card-w: min(80vw, 340px);
+  --shift: 62%;
+  --tilt: 18deg;
+  --depth: -160px;
+
+  position: relative;
+  display: grid;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+
+  @include up(md) {
+    --card-w: 360px;
+    --shift: 74%;
+    --tilt: 24deg;
+    --depth: -200px;
+  }
+
+  @include up(xl) {
+    --card-w: 380px;
+    --shift: 86%;
+    --depth: -220px;
+  }
+}
+
+// Clips the flanking badges at the page edge and fades them out there.
+.viewport {
+  position: relative;
+  overflow-x: clip;
+  // Room for the floor glow and the active badge's shadow.
+  padding-block: 1.5rem 3rem;
+  margin-inline: calc(var(--gutter) * -1);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+
+  // Spotlight from above and a tricolour glow pooled on the floor.
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
+  // Fades out inside its own box: the viewport's mask would cut a hard edge.
+  &::before {
+    top: 0;
+    width: min(900px, 120%);
+    height: 70%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(236, 239, 244, 0.06), transparent 100%);
+  }
+
+  // Tricolour pooled on the floor: saffron left, white centre, green right.
+  &::after {
+    bottom: 0;
+    width: min(820px, 110%);
+    height: 130px;
+    background:
+      radial-gradient(30% 50% at 30% 50%, rgba(255, 153, 51, 0.38), transparent 70%),
+      radial-gradient(22% 40% at 50% 50%, rgba(255, 255, 255, 0.12), transparent 70%),
+      radial-gradient(30% 50% at 70% 50%, rgba(43, 178, 76, 0.3), transparent 70%);
+    filter: blur(20px);
+    opacity: 0.75;
+  }
+}
+
+// Every slide shares one grid cell, so the stage is as tall as the tallest
+// badge and the transforms below do all the placing.
+.stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
+  // No preserve-3d here: the flanking slides sit behind the stage's own
+  // plane, so it would swallow their clicks. z-index orders the slides.
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.slide {
+  position: relative;
+  grid-area: 1 / 1;
+  justify-self: center;
+  display: grid;
+  width: var(--card-w);
+  transition:
+    transform 1s $ease-expo,
+    opacity 0.8s ease;
+
+  // Dark scrim over the flanking badges; lifts as a badge comes to centre.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: $radius-lg;
+    background: linear-gradient(180deg, rgba(5, 6, 8, 0.45), rgba(5, 6, 8, 0.8));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+  }
+
+  &[data-pos="0"] {
+    z-index: 3;
+    transform: translate3d(0, 0, 0);
+
+    .card {
+      box-shadow:
+        0 60px 120px -50px rgba(0, 0, 0, 0.95),
+        -30px 40px 90px -60px rgba(255, 153, 51, 0.45),
+        30px 40px 90px -60px rgba(43, 178, 76, 0.4);
+    }
+  }
+
+  &[data-pos="1"],
+  &[data-pos="-1"] {
+    z-index: 2;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &[data-pos="1"] {
+    transform: translateX(var(--shift)) translateZ(var(--depth)) rotateY(calc(var(--tilt) * -1));
+  }
+
+  &[data-pos="-1"] {
+    transform: translateX(calc(var(--shift) * -1)) translateZ(var(--depth)) rotateY(var(--tilt));
+  }
+
+  &[data-pos="far"] {
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(calc(var(--depth) * 2.6)) scale(0.85);
+  }
+}
+
+.card {
+  display: grid;
+  // The card's own pointer tilt (partner-card.tsx) needs a perspective here.
+  perspective: 1400px;
+  border-radius: $radius-lg;
+  transition: box-shadow 0.8s ease;
+}
+
+// Click target over a flanking badge: brings it to the centre.
+.peek {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  transition: box-shadow 0.4s ease;
+
+  @include fine-pointer {
+    &:hover {
+      box-shadow: inset 0 0 0 1px rgba(255, 91, 31, 0.45);
+    }
+  }
+}
+
+// --- Dots: the active one stretches into a pill that fills as the timer ----
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+// 24px hit area around an 8px dot.
+.dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: $radius-pill;
+  transition: width 0.6s $ease-expo;
+  @include focus-ring;
+
+  &::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: $radius-pill;
+    background: $line-bright;
+    transition:
+      width 0.6s $ease-expo,
+      background-color 0.4s ease;
+  }
+
+  @include fine-pointer {
+    &:hover::before {
+      background: $text-muted;
+    }
+  }
+
+  &[aria-current="true"] {
+    width: 52px;
+
+    &::before {
+      width: 40px;
+      background: $line-strong;
+    }
+  }
+}
+
+.fill {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 40px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: $radius-pill;
+  background: linear-gradient(90deg, $saffron 0%, $saffron 30%, $india-white 42%, $india-white 58%, #2bb24c 70%);
+  box-shadow: 0 0 12px rgba(255, 153, 51, 0.35);
+
+  &[data-auto] {
+    animation: dwell $dwell linear both;
+  }
+
+  &[data-paused] {
+    animation-play-state: paused;
+  }
+}
+
+// Revealed with a clip rather than scaled, so the pill keeps round ends.
+@keyframes dwell {
+  from {
+    clip-path: inset(0 100% 0 0 round $radius-pill);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round $radius-pill);
+  }
+}
+
+@include reduced-motion {
+  .slide,
+  .slide::after,
+  .card {
+    transition-duration: 0.01s;
+  }
+}
